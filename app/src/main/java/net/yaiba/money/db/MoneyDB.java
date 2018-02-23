@@ -41,6 +41,21 @@ public class MoneyDB extends SQLiteOpenHelper {
 
     }
 
+    public Cursor getCategoryList(String orderBy) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+//        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, orderBy);
+//        return cursor;
+        Cursor cursor = db.query(true,
+                TABLE_NAME_CATEGORY,
+                null,
+                null, null, null, null, orderBy, null);
+        return cursor;
+
+    }
+
+
+
 //    public long getAllCount(String orderBy){
 //        SQLiteDatabase db = this.getReadableDatabase();
 //        Cursor cursor = db.rawQuery("select count(*) from " + TABLE_NAME , null);

@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name="net.yaiba.money.MainActivity"  android:label="@string/app_name" ></activity>
+        <activity android:name="net.yaiba.money.CategoryActivity"  android:label="设置类别" ></activity>
     </application>
 
 </manifest>

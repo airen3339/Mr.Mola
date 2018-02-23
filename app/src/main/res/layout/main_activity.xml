@@ -16,48 +16,64 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="200dp"
+        android:layout_height="170dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:padding="2dp">
 
         <TextView
             android:layout_width="155sp"
             android:layout_height="wrap_content"
             android:text="本月支出"
-            android:textSize="15sp"
-            android:gravity="center"
-            android:textStyle="bold" />
+            android:textSize="15sp" />
         <TextView
             android:layout_width="155sp"
             android:layout_height="wrap_content"
             android:text="8888.98"
-            android:textSize="15sp"
-            android:gravity="center"
-            android:textStyle="bold" />
+            android:textSize="28sp" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
+            android:layout_marginTop="15dp"
             android:padding="2dp">
             <TextView
-                android:layout_width="55sp"
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="年度支出"
+                android:textSize="14sp"/>
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="101345.67"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="70sp"
                 android:layout_height="wrap_content"
                 android:text="本月收入"
-                android:textSize="12sp"
-                android:gravity="center"/>
+                android:textSize="14sp"
+                android:layout_marginLeft="30dp"/>
             <TextView
-                android:layout_width="55sp"
+                android:layout_width="70sp"
                 android:layout_height="wrap_content"
-                android:text="8888.98"
-                android:textSize="12sp"
-                android:gravity="center" />
+                android:text="12345.00"
+                android:textSize="14sp" />
         </LinearLayout>
+
+
+
+
+
+
         <Button
             android:id="@+id/go_add"
-            android:layout_width="320dp"
+            android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:textSize="17dp"
             android:background="@drawable/btn_nor_down_green"
+            android:layout_marginRight="20dp"
             android:text="记一笔" />
 
     </LinearLayout>
@@ -81,58 +97,58 @@
             android:orientation="vertical">
 
             <!--标题-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:orientation="horizontal">-->
 
-                <TextView
-                    android:layout_width="155sp"
-                    android:layout_height="wrap_content"
-                    android:text="名称"
-                    android:textSize="15sp"
-                    android:gravity="center"
-                    android:textStyle="bold" />
+                <!--<TextView-->
+                    <!--android:layout_width="155sp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="名称"-->
+                    <!--android:textSize="15sp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textStyle="bold" />-->
 
-                <TextView
-                    android:layout_width="50sp"
-                    android:layout_height="wrap_content"
-                    android:text="剩余"
-                    android:textSize="15sp"
-                    android:gravity="center"
-                    android:textStyle="bold" />
+                <!--<TextView-->
+                    <!--android:layout_width="50sp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="剩余"-->
+                    <!--android:textSize="15sp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textStyle="bold" />-->
 
-                <TextView
-                    android:layout_width="70sp"
-                    android:layout_height="wrap_content"
-                    android:text="到期日"
-                    android:textSize="15sp"
-                    android:gravity="center"
-                    android:textStyle="bold" />
+                <!--<TextView-->
+                    <!--android:layout_width="70sp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="到期日"-->
+                    <!--android:textSize="15sp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textStyle="bold" />-->
 
-                <TextView
-                    android:id="@+id/hp"
-                    android:clickable="true"
-                    android:layout_width="45sp"
-                    android:layout_height="wrap_content"
-                    android:text="HP"
-                    android:textSize="15sp"
-                    android:gravity="center"
-                    android:textStyle="bold" />
+                <!--<TextView-->
+                    <!--android:id="@+id/hp"-->
+                    <!--android:clickable="true"-->
+                    <!--android:layout_width="45sp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="HP"-->
+                    <!--android:textSize="15sp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textStyle="bold" />-->
 
-                <!-- 默认不显示       ♥HP从高到低     ♡ HP从低到高    -->
-                <TextView
-                    android:id="@+id/hp_tag"
-                    android:layout_width="20sp"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textSize="8sp"
-                    android:gravity="center"
-                    android:textColor="@color/alert_01"
-                    android:textStyle="bold" />
+                <!--&lt;!&ndash; 默认不显示       ♥HP从高到低     ♡ HP从低到高    &ndash;&gt;-->
+                <!--<TextView-->
+                    <!--android:id="@+id/hp_tag"-->
+                    <!--android:layout_width="20sp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text=""-->
+                    <!--android:textSize="8sp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textColor="@color/alert_01"-->
+                    <!--android:textStyle="bold" />-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
             <ListView
                 android:id="@+id/recordslist"

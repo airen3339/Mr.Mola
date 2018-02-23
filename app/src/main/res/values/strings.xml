@@ -1,20 +1,6 @@
 <resources>
     <string name="app_name">Mr.Money</string>
 
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-
-
     <string name="login_title">财务多样性记录手册</string>
     <string name="input_login_password">请输入登陆密码</string>
     <string name="set_login_old_password">当前密码</string>
@@ -24,6 +10,45 @@
     <string name="set_login_password2">再次输入登陆密码</string>
     <string name="set_login_password_discription">出于安全考虑，本软件凭密码使用，请牢记！</string>
     <string name="get_local_version_error">取得本地版本时出错</string>
+
+
+    <string name="record_list_search">查找&#8230;</string>
+
+    <string name="add_a_record">添加一条记录</string>
+    <string name="edit_a_record">正在编辑</string>
+    <string name="detail_a_record">记录详情</string>
+    <string name="data_management">备份与恢复</string>
+    <string name="login_p_change">修改登录密码</string>
+
+    <string name="menu_inport_export">备份与恢复</string>
+    <string name="menu_useEncode">使用加密</string>
+    <string name="menu_change_login_password">修改登录密码</string>
+    <string name="menu_whatupdate">更新说明</string>
+    <string name="menu_checkupdate">检查更新</string>
+    <string name="menu_support">技术支持</string>
+    <string name="menu_about">关于Timiup</string>
+
+    <string name="update_already_latest">已经是最新版本</string>
+    <string name="update_new_seg1">发现新版本，版本号：</string>
+    <string name="update_new_seg2">\n正在下载更新</string>
+    <string name="update_new_seg3">\n正在下载更新</string>
+    <string name="update_error">更新出错</string>
+
+    <string name="data_bakup">数据备份</string>
+    <string name="data_bakup_description">以文件形式存储在您的设备中</string>
+    <string name="data_bakup_description_dir">/timiup/</string>
+    <string name="data_recover">数据恢复</string>
+    <string name="data_recover_description">程序会读取指定目录中的备份文件</string>
+    <string name="menu_warming_have_unencode_file">警告：检测到目录中包含未加密的备份文件\n为了安全起见请备份后删除</string>
+
+    <string name="what_updated">
+        点击“HP”可以排序\n
+    </string>
+    <string name="partners">\@石头大风吹</string>
+    <string name="about_app">
+        一个记账软件，开销、收入流水。
+        \n\n问题反馈可访问以下地址
+        \nYaiba.net</string>
 
     <string name="version_unknown">未知版本</string>
 
