@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">money</string>
+    <string name="app_name">Mr.Money</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -13,4 +13,18 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+
+    <string name="login_title">财务多样性记录手册</string>
+    <string name="input_login_password">请输入登陆密码</string>
+    <string name="set_login_old_password">当前密码</string>
+    <string name="set_login_new_password">新密码</string>
+    <string name="set_login_new_password2">再次确认</string>
+    <string name="set_login_password">请设置登陆密码</string>
+    <string name="set_login_password2">再次输入登陆密码</string>
+    <string name="set_login_password_discription">出于安全考虑，本软件凭密码使用，请牢记！</string>
+    <string name="get_local_version_error">取得本地版本时出错</string>
+
+    <string name="version_unknown">未知版本</string>
+
 </resources>
