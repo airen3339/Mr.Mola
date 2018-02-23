@@ -6,7 +6,6 @@ import java.util.TimerTask;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,12 +18,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.yaiba.money.tool.DES;
-import net.yaiba.money.tool.CustomUtils;
+import net.yaiba.money.utils.DES;
+import net.yaiba.money.utils.Custom;
 
 import net.yaiba.money.db.LoginDB;
-
-import java.io.IOException;
 
 public class LoginActivity extends Activity {
 
@@ -100,7 +97,7 @@ public class LoginActivity extends Activity {
 
         //设置首页版本
         TextView textView = (TextView) findViewById(R.id.version_id);
-        textView.setText(CustomUtils.getVersion(this));
+        textView.setText(Custom.getVersion(this));
 
     }
 

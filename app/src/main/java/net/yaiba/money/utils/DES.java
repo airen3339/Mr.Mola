@@ -1,6 +1,8 @@
-package net.yaiba.money.tool;
+package net.yaiba.money.utils;
 
 import android.annotation.SuppressLint;
+
+import net.yaiba.money.utils.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;

@@ -1,4 +1,4 @@
-package net.yaiba.money.tool;
+package net.yaiba.money.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
