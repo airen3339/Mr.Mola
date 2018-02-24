@@ -1,9 +1,11 @@
 package net.yaiba.money.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import static net.yaiba.money.db.BaseConfig.*;
 
@@ -52,6 +54,93 @@ public class MoneyDB extends SQLiteOpenHelper {
                 null, null, null, null, orderBy, null);
         return cursor;
 
+    }
+
+    public Cursor getCategoryPList(String orderBy) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true,
+                TABLE_NAME_CATEGORY,
+                null,
+                PID+"=0", null, null, null, orderBy, null);
+        return cursor;
+
+    }
+
+    public Cursor getCategoryCList(String pid, String orderBy) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true,
+                TABLE_NAME_CATEGORY,
+                null,
+                PID+"="+pid, null, null, null, orderBy, null);
+        return cursor;
+
+    }
+
+    public long insertCategoryP (String p_name){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(PID, "0");
+        cv.put(CATEGORY_NAME, p_name);
+        cv.put(CATEGORY_FAVORITE, "0");
+        cv.put(CATEGORY_RANK, "0");
+
+
+        long row = db.insert(TABLE_NAME_CATEGORY, null, cv);
+        Log.v("v_insertDB",p_name+"//"+row);
+        return row;
+    }
+
+    public long insertCategoryC (String p_id,String c_name){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(PID, p_id);
+        cv.put(CATEGORY_NAME, c_name);
+        cv.put(CATEGORY_FAVORITE, "0");
+        cv.put(CATEGORY_RANK, "0");
+
+
+        long row = db.insert(TABLE_NAME_CATEGORY, null, cv);
+        Log.v("v_insertDB",p_id + ""+ c_name+"//"+row);
+        return row;
+    }
+
+    public void editCategoryName (String id, String value) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String where = CATEGORY_ID + " = ?";
+        String[] whereValue = { id };
+        ContentValues cv = new ContentValues();
+        cv.put(CATEGORY_NAME, value);
+        db.update(TABLE_NAME_CATEGORY, cv, where, whereValue);
+    }
+
+    public void delCategoryName (String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String where = CATEGORY_ID + " = ?";
+        String[] whereValue = { id };
+        db.delete(TABLE_NAME_CATEGORY, where, whereValue);
+    }
+
+
+    public boolean isHaveChildCategory(String id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_NAME_CATEGORY, new String[] {CATEGORY_ID, PID, CATEGORY_NAME}, PID + "=" + id+"", null, null, null, null, null);
+        if(cursor.getCount() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isHaveValidRecord(String id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_NAME_RECORD, new String[] {RECORD_ID}, RECORD_CATEGORY_ID + "=" + id+"", null, null, null, null, null);
+        if(cursor.getCount() != 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
