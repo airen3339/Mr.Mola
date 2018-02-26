@@ -133,7 +133,7 @@ public class MoneyDB extends SQLiteOpenHelper {
         }
     }
 
-    public boolean isHaveValidRecord(String id){
+    public boolean isHaveValidRecordByCategory(String id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(true, TABLE_NAME_RECORD, new String[] {RECORD_ID}, RECORD_CATEGORY_ID + "=" + id+"", null, null, null, null, null);
         if(cursor.getCount() != 0) {
@@ -143,6 +143,99 @@ public class MoneyDB extends SQLiteOpenHelper {
         }
     }
 
+    public Cursor getPayTypeList(String orderBy) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true,
+                TABLE_NAME_PAY,
+                null,
+                null, null, null, null, orderBy, null);
+        return cursor;
+
+    }
+
+    public long insertPayType (String pay_name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(PAY_NAME, pay_name);
+        cv.put(PAY_FAVORITE, "0");
+        cv.put(PAY_RANK, "0");
+        long row = db.insert(TABLE_NAME_PAY, null, cv);
+        Log.v("v_insertDB",PAY_NAME+"//"+row);
+        return row;
+    }
+
+    public void editPayType (String id, String value) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String where = PAY_ID + " = ?";
+        String[] whereValue = { id };
+        ContentValues cv = new ContentValues();
+        cv.put(PAY_NAME, value);
+        db.update(TABLE_NAME_PAY, cv, where, whereValue);
+    }
+
+    public void delPayType (String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String where = PAY_ID + " = ?";
+        String[] whereValue = { id };
+        db.delete(TABLE_NAME_PAY, where, whereValue);
+    }
+
+    public boolean isHaveValidRecordByPayType(String id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_NAME_RECORD, new String[] {RECORD_ID}, RECORD_PAY_ID + "=" + id+"", null, null, null, null, null);
+        if(cursor.getCount() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Cursor getMemberNameList(String orderBy) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true,
+                TABLE_NAME_MEMBER,
+                null,
+                null, null, null, null, orderBy, null);
+        return cursor;
+
+    }
+
+    public long insertMember (String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(MEMBER_NAME, name);
+        cv.put(MEMBER_FAVORITE, "0");
+        cv.put(MEMBER_RANK, "0");
+        long row = db.insert(TABLE_NAME_MEMBER, null, cv);
+        Log.v("v_insertDB",MEMBER_NAME+"//"+row);
+        return row;
+    }
+
+    public void editMember (String id, String value) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String where = MEMBER_ID + " = ?";
+        String[] whereValue = { id };
+        ContentValues cv = new ContentValues();
+        cv.put(MEMBER_NAME, value);
+        db.update(TABLE_NAME_MEMBER, cv, where, whereValue);
+    }
+
+    public void delMember (String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String where = MEMBER_ID + " = ?";
+        String[] whereValue = { id };
+        db.delete(TABLE_NAME_MEMBER, where, whereValue);
+    }
+
+    public boolean isHaveValidRecordByMemberName(String id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_NAME_RECORD, new String[] {RECORD_ID}, RECORD_MEMBER_ID + "=" + id+"", null, null, null, null, null);
+        if(cursor.getCount() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
 //    public long getAllCount(String orderBy){

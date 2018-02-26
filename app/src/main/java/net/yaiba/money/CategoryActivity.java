@@ -281,7 +281,7 @@ public class CategoryActivity extends Activity {
 						public void onClick(DialogInterface dialog, int whichButton) {
 							Spinner cateS = (Spinner)findViewById(R.id.category_child);
 							String id = ((SpinnerData)cateS.getSelectedItem()).getValue();
-							if(!MoneyDB.isHaveValidRecord(id)){
+							if(!MoneyDB.isHaveValidRecordByCategory(id)){
 								delCategoryName(id);
 								Toast.makeText(getApplicationContext(), "删除成功" , Toast.LENGTH_LONG).show();
 								setUpViews();

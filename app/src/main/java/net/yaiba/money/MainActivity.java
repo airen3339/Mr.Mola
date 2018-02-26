@@ -64,6 +64,8 @@ public class MainActivity extends Activity {
 	private TextView FloatLetter;
 	private ListView RecordList;
 
+    private Intent mainIntent;
+
 	 
 	private int RECORD_ID = 0;
 	//private UpdateTask updateTask;
@@ -169,18 +171,17 @@ public class MainActivity extends Activity {
 //                finish();
 //                break;
             case MENU_CATEGORY_CONFIG://设置类别信息
-                Intent mainIntent = new Intent(MainActivity.this, CategoryActivity.class);
+                mainIntent = new Intent(MainActivity.this, CategoryActivity.class);
                 startActivity(mainIntent);
                 setResult(RESULT_OK, mainIntent);
                 finish();
                 break;
             case MENU_PAY_CONFIG://设置付款方式
-//                Intent mainIntent = new Intent(MainActivity.this, DataManagementActivity.class);
-//                mainIntent.putExtra("INT", RECORD_ID);
-//                startActivity(mainIntent);
-//                setResult(RESULT_OK, mainIntent);
-//                finish();
-//                break;
+                mainIntent = new Intent(MainActivity.this, PayActivity.class);
+                startActivity(mainIntent);
+                setResult(RESULT_OK, mainIntent);
+                finish();
+                break;
             case MENU_MEMBER_CONFIG://设置成员
 //                Intent mainIntent = new Intent(MainActivity.this, DataManagementActivity.class);
 //                mainIntent.putExtra("INT", RECORD_ID);
