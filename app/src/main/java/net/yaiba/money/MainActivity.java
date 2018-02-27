@@ -21,20 +21,24 @@ import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import net.yaiba.money.data.SpinnerData;
 import net.yaiba.money.db.MoneyDB;
 import net.yaiba.money.utils.UpdateTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -56,13 +60,9 @@ public class MainActivity extends Activity {
 	private MoneyDB MoneyDB;
 	private Cursor mCursor;
 	
-	private EditText SiteName;
-	private EditText UserName;
-	private EditText PasswordValue;
-	private EditText Remark;
-	private EditText SearchInput;
 	private TextView FloatLetter;
 	private ListView RecordList;
+    private Button bn_record_add;
 
     private Intent mainIntent;
 
@@ -78,11 +78,57 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
+        MoneyDB = new MoneyDB(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 
+        bn_record_add = (Button)findViewById(R.id.record_add);
+
+        setUpViews();
 
 	}
+
+    public void setUpViews(){
+
+        mCursor  = MoneyDB.getRecordForMainList("id desc","0,8");
+        RecordList = (ListView)findViewById(R.id.recordslist);
+        ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
+
+        for(mCursor.moveToFirst();!mCursor.isAfterLast();mCursor.moveToNext()) {
+            /*String resNo = "["+mCursor.getString(resNoColumn)+"]"; */
+            String id = mCursor.getString(mCursor.getColumnIndex("id"));
+            String category_name = mCursor.getString(mCursor.getColumnIndex("category_name"));
+            String category_id = mCursor.getString(mCursor.getColumnIndex("category_id"));
+            String pid = mCursor.getString(mCursor.getColumnIndex("pid"));// !=a 时，收入，，=a时，支出
+            String pay_id = mCursor.getString(mCursor.getColumnIndex("pay_id"));
+            String pay_name = mCursor.getString(mCursor.getColumnIndex("pay_name"));
+            String member_id = mCursor.getString(mCursor.getColumnIndex("member_id"));
+            String member_name = mCursor.getString(mCursor.getColumnIndex("member_name"));
+            String amounts = mCursor.getString(mCursor.getColumnIndex("amounts"));
+            String remark = mCursor.getString(mCursor.getColumnIndex("remark"));
+            String create_time = mCursor.getString(mCursor.getColumnIndex("create_time"));
+
+
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("id", id);
+            map.put("category_child_name", category_name);
+            map.put("create_time",create_time );
+            map.put("remark", remark);
+            map.put("amounts", "￥"+ amounts);
+
+            listItem.add(map);
+        }
+
+        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,R.layout.main_record_list_items,
+                new String[] {"member_name","category_child_name","create_time","remark","amounts"},
+                new int[] {R.id.member_name, R.id.category_child_name, R.id.create_time, R.id.remark, R.id.amounts}
+        );
+        RecordList.setAdapter(listItemAdapter);
+
+
+
+
+    }
 	
 	private static Boolean isExit = false;
     private static Boolean hasTask = false;
@@ -183,12 +229,11 @@ public class MainActivity extends Activity {
                 finish();
                 break;
             case MENU_MEMBER_CONFIG://设置成员
-//                Intent mainIntent = new Intent(MainActivity.this, DataManagementActivity.class);
-//                mainIntent.putExtra("INT", RECORD_ID);
-//                startActivity(mainIntent);
-//                setResult(RESULT_OK, mainIntent);
-//                finish();
-//                break;
+                mainIntent = new Intent(MainActivity.this, MemberActivity.class);
+                startActivity(mainIntent);
+                setResult(RESULT_OK, mainIntent);
+                finish();
+                break;
 
         }
         return true;

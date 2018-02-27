@@ -16,15 +16,15 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="140dp"
+            android:layout_height="fill_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:padding="2dp">
             <TextView
                 android:layout_width="200sp"
                 android:layout_height="wrap_content"
-                android:text="分类信息设置"
-                android:textSize="18sp" />
+                android:text="支出分类设置"
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -38,7 +38,7 @@
                     android:text="大类"
                     android:textSize="18sp" />
                 <Spinner
-                    android:id="@+id/category_parent"
+                    android:id="@+id/category_parent_spinner"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
                     android:textSize="14sp"  />
@@ -84,7 +84,7 @@
                     android:text="小类"
                     android:textSize="18sp" />
                 <Spinner
-                    android:id="@+id/category_child"
+                    android:id="@+id/category_child_spinner"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
                     android:textSize="14sp"  />
@@ -118,41 +118,61 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="200sp"
+                android:layout_height="wrap_content"
+                android:text="收入分类设置"
+                android:textSize="20sp"
+                android:paddingTop="30dp"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:padding="2dp">
+                <TextView
+                    android:layout_width="40sp"
+                    android:layout_height="wrap_content"
+                    android:text="大类"
+                    android:textSize="18sp" />
+                <Spinner
+                    android:id="@+id/category_income_spinner"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:textSize="14sp"  />
+
+                <Button
+                    android:id="@+id/category_income_add"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="17dp"
+                    android:background="@drawable/btn_nor_down_green"
+                    android:layout_marginLeft="5dp"
+                    android:text="添加" />
+
+                <Button
+                    android:id="@+id/category_income_edit"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="17dp"
+                    android:background="@drawable/btn_nor_down_green"
+                    android:layout_marginLeft="5dp"
+                    android:text="修改" />
+
+                <Button
+                    android:id="@+id/category_income_del"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="17dp"
+                    android:background="@drawable/btn_nor_down_green"
+                    android:layout_marginLeft="5dp"
+                    android:text="删除" />
+
+            </LinearLayout>
+
+
     </LinearLayout>
 
-
-
-
-
-<!--需要考虑是否需要这个功能，-->
-
-    <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="300dp">-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_marginLeft="8dp"-->
-            <!--android:layout_marginRight="8dp"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="70sp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="新近添加"-->
-                <!--android:layout_marginLeft="12dp"-->
-                <!--android:textSize="14sp" />-->
-
-            <!--<ListView-->
-                <!--android:id="@+id/categoryList"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:paddingBottom="10dp" />-->
-
-        <!--</LinearLayout>-->
-    <!--</FrameLayout>-->
 
 
 </LinearLayout>

@@ -30,17 +30,34 @@ public class MoneyDB extends SQLiteOpenHelper {
 
     }
 
-    public Cursor getRecordForMainList(String orderBy) {
+    public Cursor getRecordForMainList(String orderBy, String limit) {
         SQLiteDatabase db = this.getReadableDatabase();
-
-//        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, orderBy);
-//        return cursor;
-        Cursor cursor = db.query(true,
-                TABLE_NAME_RECORD,
-                new String[] {RECORD_ID, RECORD_CATEGORY_ID, RECORD_PAY_ID, RECORD_MEMBER_ID,AMOUNTS, REMARK, RECORD_CREATE_TIME},
-                null , null, null, null, orderBy, null);
+        String sql = "select "+
+                TABLE_NAME_RECORD+"."+RECORD_ID +" as "+RECORD_ID +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_CATEGORY_ID +" as "+RECORD_CATEGORY_ID +" , "+
+                TABLE_NAME_CATEGORY+"."+CATEGORY_NAME +" as "+CATEGORY_NAME +" , "+
+                TABLE_NAME_CATEGORY+"."+PID +" as "+PID +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_PAY_ID +" as "+RECORD_PAY_ID +" , "+
+                TABLE_NAME_PAY+"."+PAY_NAME +" as "+PAY_NAME +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_MEMBER_ID +" as "+RECORD_MEMBER_ID +" , "+
+                TABLE_NAME_MEMBER+"."+MEMBER_NAME +" as "+MEMBER_NAME +" , "+
+                TABLE_NAME_RECORD+"."+AMOUNTS +" as "+AMOUNTS +" , "+
+                TABLE_NAME_RECORD+"."+REMARK +" as "+REMARK +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_CREATE_TIME +" as "+RECORD_CREATE_TIME +"  "+
+                " from " +
+                TABLE_NAME_RECORD +"," +
+                TABLE_NAME_CATEGORY +"," +
+                TABLE_NAME_PAY +"," +
+                TABLE_NAME_MEMBER  +
+                " where " +
+                TABLE_NAME_RECORD+"."+RECORD_CATEGORY_ID +" = "+TABLE_NAME_CATEGORY+"."+CATEGORY_ID + " and " +
+                TABLE_NAME_RECORD+"."+RECORD_PAY_ID +" = "+TABLE_NAME_PAY+"."+PAY_ID + " and " +
+                TABLE_NAME_RECORD+"."+RECORD_MEMBER_ID +" = "+TABLE_NAME_MEMBER+"."+MEMBER_ID +
+                " order by " + orderBy +
+                " limit " + limit + " ";
+        Cursor cursor = db.rawQuery(sql, null);
+        Log.v("v_sql",sql);
         return cursor;
-
     }
 
     public Cursor getCategoryList(String orderBy) {
@@ -61,7 +78,7 @@ public class MoneyDB extends SQLiteOpenHelper {
         Cursor cursor = db.query(true,
                 TABLE_NAME_CATEGORY,
                 null,
-                PID+"=0", null, null, null, orderBy, null);
+                PID+"=0 and "+CATEGORY_TYPE+ "= 0" , null, null, null, orderBy, null);
         return cursor;
 
     }
@@ -71,7 +88,17 @@ public class MoneyDB extends SQLiteOpenHelper {
         Cursor cursor = db.query(true,
                 TABLE_NAME_CATEGORY,
                 null,
-                PID+"="+pid, null, null, null, orderBy, null);
+                PID+"="+pid+"", null, null, null, orderBy, null);
+        return cursor;
+
+    }
+
+    public Cursor getCategoryIncomeList(String orderBy) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true,
+                TABLE_NAME_CATEGORY,
+                null,
+                PID+"=0 and "+CATEGORY_TYPE+ "= 1" , null, null, null, orderBy, null);
         return cursor;
 
     }
@@ -84,7 +111,7 @@ public class MoneyDB extends SQLiteOpenHelper {
         cv.put(CATEGORY_NAME, p_name);
         cv.put(CATEGORY_FAVORITE, "0");
         cv.put(CATEGORY_RANK, "0");
-
+        cv.put(CATEGORY_TYPE, "0");
 
         long row = db.insert(TABLE_NAME_CATEGORY, null, cv);
         Log.v("v_insertDB",p_name+"//"+row);
@@ -99,10 +126,27 @@ public class MoneyDB extends SQLiteOpenHelper {
         cv.put(CATEGORY_NAME, c_name);
         cv.put(CATEGORY_FAVORITE, "0");
         cv.put(CATEGORY_RANK, "0");
+        cv.put(CATEGORY_TYPE, "0");
 
 
         long row = db.insert(TABLE_NAME_CATEGORY, null, cv);
         Log.v("v_insertDB",p_id + ""+ c_name+"//"+row);
+        return row;
+    }
+
+    public long insertCategoryIncome (String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(PID, "0");
+        cv.put(CATEGORY_NAME, name);
+        cv.put(CATEGORY_FAVORITE, "0");
+        cv.put(CATEGORY_RANK, "0");
+        cv.put(CATEGORY_TYPE, "1");
+
+
+        long row = db.insert(TABLE_NAME_CATEGORY, null, cv);
+        Log.v("v_insertDB",name+"//"+row);
         return row;
     }
 
@@ -125,7 +169,7 @@ public class MoneyDB extends SQLiteOpenHelper {
 
     public boolean isHaveChildCategory(String id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(true, TABLE_NAME_CATEGORY, new String[] {CATEGORY_ID, PID, CATEGORY_NAME}, PID + "=" + id+"", null, null, null, null, null);
+        Cursor cursor = db.query(true, TABLE_NAME_CATEGORY, new String[] {CATEGORY_ID, PID, CATEGORY_NAME}, PID + "=" + id+" ", null, null, null, null, null);
         if(cursor.getCount() != 0) {
             return true;
         } else {
@@ -134,6 +178,16 @@ public class MoneyDB extends SQLiteOpenHelper {
     }
 
     public boolean isHaveValidRecordByCategory(String id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_NAME_RECORD, new String[] {RECORD_ID}, RECORD_CATEGORY_ID + "=" + id+"", null, null, null, null, null);
+        if(cursor.getCount() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isHaveValidRecordByIncomeCategory(String id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(true, TABLE_NAME_RECORD, new String[] {RECORD_ID}, RECORD_CATEGORY_ID + "=" + id+"", null, null, null, null, null);
         if(cursor.getCount() != 0) {

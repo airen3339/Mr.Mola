@@ -35,6 +35,7 @@ public class BaseConfig {
     public final static String CATEGORY_NAME = "category_name";
     public final static String CATEGORY_FAVORITE = "favorite";
     public final static String CATEGORY_RANK = "rank";
+    public final static String CATEGORY_TYPE = "type";//cost 0,income 1
 
     //pay_master
     public final static String TABLE_NAME_PAY = "pay_master";
@@ -46,7 +47,7 @@ public class BaseConfig {
     //member_master
     public final static String TABLE_NAME_MEMBER = "member_master";
     public final static String MEMBER_ID = "id";
-    public final static String MEMBER_NAME = "pay_name";
+    public final static String MEMBER_NAME = "member_name";
     public final static String MEMBER_FAVORITE = "favorite";
     public final static String MEMBER_RANK = "rank";
 }

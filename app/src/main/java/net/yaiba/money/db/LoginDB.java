@@ -38,9 +38,9 @@ public class LoginDB extends SQLiteOpenHelper{
 		String sql_record_master = "CREATE TABLE "
 				+ TABLE_NAME_RECORD
 				+ " (" + RECORD_ID + " INTEGER primary key autoincrement, "
-				+ RECORD_CATEGORY_ID + " NVARCHAR(20), "
-				+ RECORD_PAY_ID +" NVARCHAR(10), "
-				+ RECORD_MEMBER_ID +" NVARCHAR(10), "
+				+ RECORD_CATEGORY_ID + " INTEGER, "
+				+ RECORD_PAY_ID +" INTEGER, "
+				+ RECORD_MEMBER_ID +" INTEGER, "
 				+ AMOUNTS +" NVARCHAR(50), "
 				+ REMARK +" TEXT NULL, "
 				+ RECORD_CREATE_TIME +" NVARCHAR(100) "
@@ -54,7 +54,8 @@ public class LoginDB extends SQLiteOpenHelper{
 				+ PID + " INTEGER , "
 				+ CATEGORY_NAME +" NVARCHAR(100), "
 				+ CATEGORY_FAVORITE +" NVARCHAR(10) default '0', "
-				+ CATEGORY_RANK +" NVARCHAR(10) "
+				+ CATEGORY_RANK +" NVARCHAR(10), "
+				+ CATEGORY_TYPE +" INTEGER "
 				+");";
 		db.execSQL(sql_category_master);
 
