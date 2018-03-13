@@ -35,12 +35,14 @@ public class LoginDB extends SQLiteOpenHelper{
 		db.execSQL(sql_login_master);
 
 		//DB:record_master
+		//RECORD_TYPE 支出-0，收入-1
 		String sql_record_master = "CREATE TABLE "
 				+ TABLE_NAME_RECORD
 				+ " (" + RECORD_ID + " INTEGER primary key autoincrement, "
 				+ RECORD_CATEGORY_ID + " INTEGER, "
 				+ RECORD_PAY_ID +" INTEGER, "
 				+ RECORD_MEMBER_ID +" INTEGER, "
+				+ RECORD_TYPE +" INTEGER, "
 				+ AMOUNTS +" NVARCHAR(50), "
 				+ REMARK +" TEXT NULL, "
 				+ RECORD_CREATE_TIME +" NVARCHAR(100) "
@@ -48,6 +50,8 @@ public class LoginDB extends SQLiteOpenHelper{
 		db.execSQL(sql_record_master);
 
 		//DB:category_master
+		//PID 父类-0，子类-父类id
+		//CATEGORY_TYPE 支出-0，收入-1
 		String sql_category_master = "CREATE TABLE "
 				+ TABLE_NAME_CATEGORY
 				+ " (" + CATEGORY_ID + " INTEGER primary key autoincrement, "
@@ -78,6 +82,14 @@ public class LoginDB extends SQLiteOpenHelper{
 				+ MEMBER_RANK +" NVARCHAR(10) "
 				+");";
 		db.execSQL(sql_member_master);
+
+		String sql_init = "INSERT INTO "
+				+TABLE_NAME_MEMBER
+				+ " ( "+ MEMBER_NAME + ")"
+				+ "VALUES ("
+				+ "'自己'"
+				+");";
+		db.execSQL(sql_init);
 
 
 	}

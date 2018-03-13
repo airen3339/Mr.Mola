@@ -8,19 +8,37 @@
     android:paddingRight="10dip">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
         <LinearLayout
-            android:layout_width="260sp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-            <TextView
-                android:text="小分类名"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize="17sp"
-                android:id="@+id/category_child_name"  />
+                android:orientation="horizontal" >
+                <TextView
+                    android:text="小分类名"
+                    android:layout_height="wrap_content"
+                    android:layout_width="80dp"
+                    android:paddingLeft="5dp"
+                    android:textSize="17sp"
+                    android:background="@color/alert_02"
+                    android:id="@+id/category_child_name"
+                    android:maxLines="1"/>
+                <TextView
+                    android:text="￥88888.88"
+                    android:layout_height="wrap_content"
+                    android:layout_width="270dp"
+                    android:paddingRight="20dp"
+                    android:gravity="right"
+                    android:layout_marginRight="20dp"
+                    android:textSize="20sp"
+                    android:id="@+id/amounts"/>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,8 +46,8 @@
                 <TextView
                     android:text="02-05 13:18"
                     android:layout_height="wrap_content"
-                    android:layout_width="80sp"
-                    android:textSize="14sp"
+                    android:layout_width="70sp"
+                    android:textSize="12sp"
                     android:textColor="@color/gray"
                     android:id="@+id/create_time"  />
                 <TextView
@@ -38,19 +56,16 @@
                     android:layout_width="wrap_content"
                     android:textSize="14sp"
                     android:textColor="@color/gray"
-                    android:id="@+id/remark"  />
+                    android:id="@+id/remark"
+                    android:maxLines="1"/>
+                <TextView
+                    android:layout_height="1dp"
+                    android:layout_width="1dp"
+                    android:textSize="1sp"
+                    android:id="@+id/type_id"/>
             </LinearLayout>
 
         </LinearLayout>
-        <TextView
-            android:text="￥88888.88"
-            android:layout_height="wrap_content"
-            android:layout_width="110dp"
-            android:paddingTop="5dp"
-            android:gravity="center_horizontal"
-            android:layout_gravity="right"
-            android:textSize="20sp"
-            android:textColor="@color/red"
-            android:id="@+id/amounts"  />
+
     </LinearLayout>
 </RelativeLayout>

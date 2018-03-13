@@ -27,6 +27,7 @@
         <activity android:name="net.yaiba.money.CategoryActivity"  android:label="类别设置" ></activity>
         <activity android:name="net.yaiba.money.PayActivity"  android:label="支付方式设置" ></activity>
         <activity android:name="net.yaiba.money.MemberActivity"  android:label="成员名称设置" ></activity>
+        <activity android:name="net.yaiba.money.RecordActivity"  android:label="记一笔" ></activity>
     </application>
 
 </manifest>

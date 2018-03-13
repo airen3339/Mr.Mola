@@ -76,7 +76,9 @@ public class CategoryActivity extends Activity {
 						String input = inputCategoryName.getText().toString();
 						if (input.equals("")) {
 							Toast.makeText(getApplicationContext(), "分类名不能为空！", Toast.LENGTH_LONG).show();
-						}  else {
+						} else if (MoneyDB.isCategoryPExist(input)){
+							Toast.makeText(getApplicationContext(), "分类名已经存在！", Toast.LENGTH_LONG).show();
+						} else {
 							addCategoryParent(input);
 							Toast.makeText(getApplicationContext(), "收入大分类添加完成：" + input, Toast.LENGTH_LONG).show();
 							setUpViews();
@@ -109,7 +111,9 @@ public class CategoryActivity extends Activity {
 							String id = ((SpinnerData)cateS.getSelectedItem()).getValue();
 							if (input.equals("")) {
 								Toast.makeText(getApplicationContext(), "分类名不能为空！", Toast.LENGTH_LONG).show();
-							}  else {
+							} else if (MoneyDB.isCategoryPExist(input)){
+								Toast.makeText(getApplicationContext(), "分类名已经存在！", Toast.LENGTH_LONG).show();
+							} else {
 								editCategoryName(id,input);
 								Toast.makeText(getApplicationContext(), "支出大分类名称修改完成：" + input, Toast.LENGTH_LONG).show();
 								setUpViews();
@@ -177,7 +181,9 @@ public class CategoryActivity extends Activity {
 							String pid = ((SpinnerData)cateS.getSelectedItem()).getValue();
 							if (input.equals("")) {
 								Toast.makeText(getApplicationContext(), "分类名不能为空！", Toast.LENGTH_LONG).show();
-							}  else {
+							} else if (MoneyDB.isCategoryCExist(input,pid)) {
+								Toast.makeText(getApplicationContext(), "分类名已经存在！", Toast.LENGTH_LONG).show();
+							} else {
 								addCategoryChild(pid, input);
 								Toast.makeText(getApplicationContext(), "支出小分类添加完成：" + input, Toast.LENGTH_LONG).show();
 								setUpViews();
@@ -209,11 +215,14 @@ public class CategoryActivity extends Activity {
 					builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int whichButton) {
 							String input = inputCategoryName.getText().toString();
-							//Spinner cateS = (Spinner)findViewById(R.id.category_child);
+							Spinner cateS = (Spinner)findViewById(R.id.category_parent_spinner);
+							String pid = ((SpinnerData)cateS.getSelectedItem()).getValue();
 							String id = ((SpinnerData)category_child_spinner.getSelectedItem()).getValue();
 							if (input.equals("")) {
 								Toast.makeText(getApplicationContext(), "分类名不能为空！", Toast.LENGTH_LONG).show();
-							}  else {
+							} else if (MoneyDB.isCategoryCExist(input,pid)) {
+								Toast.makeText(getApplicationContext(), "分类名已经存在！", Toast.LENGTH_LONG).show();
+							} else {
 								editCategoryName(id,input);
 								Toast.makeText(getApplicationContext(), "支出小分类名称修改完成：" + input, Toast.LENGTH_LONG).show();
 								setUpViews();
@@ -313,7 +322,9 @@ public class CategoryActivity extends Activity {
 						String input = inputCategoryName.getText().toString();
 						if (input.equals("")) {
 							Toast.makeText(getApplicationContext(), "支出分类名不能为空！", Toast.LENGTH_LONG).show();
-						}  else {
+						} else if (MoneyDB.isCategoryIncomeExist(input)){
+							Toast.makeText(getApplicationContext(), "支出分类名已经存在！", Toast.LENGTH_LONG).show();
+						} else {
 							addCategoryIncome(input);
 							Toast.makeText(getApplicationContext(), "收入分类添加完成：" + input, Toast.LENGTH_LONG).show();
 							setUpViews();
@@ -346,7 +357,9 @@ public class CategoryActivity extends Activity {
 							String id = ((SpinnerData)category_income_spinner.getSelectedItem()).getValue();
 							if (input.equals("")) {
 								Toast.makeText(getApplicationContext(), "收入分类名不能为空！", Toast.LENGTH_LONG).show();
-							}  else {
+							} else if (MoneyDB.isCategoryIncomeExist(input)){
+								Toast.makeText(getApplicationContext(), "收入分类名不能为空！", Toast.LENGTH_LONG).show();
+							} else {
 								editCategoryName(id,input);
 								Toast.makeText(getApplicationContext(), "收入分类名称修改完成：" + input, Toast.LENGTH_LONG).show();
 								setUpViews();

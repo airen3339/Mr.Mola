@@ -61,7 +61,9 @@ public class MemberActivity extends Activity {
 						String input = inputMenberName.getText().toString();
 						if (input.equals("")) {
 							Toast.makeText(getApplicationContext(), "成员名不能为空！", Toast.LENGTH_LONG).show();
-						}  else {
+						} else if (MoneyDB.isMenberExist(input)){
+							Toast.makeText(getApplicationContext(), "成员名已经存在！", Toast.LENGTH_LONG).show();
+						}else {
 							addMemberName(input);
 							Toast.makeText(getApplicationContext(), "成员添加完成：" + input, Toast.LENGTH_LONG).show();
 							setUpViews();
@@ -92,7 +94,9 @@ public class MemberActivity extends Activity {
 							String id = ((SpinnerData)memberS.getSelectedItem()).getValue();
 							if (input.equals("")) {
 								Toast.makeText(getApplicationContext(), "成员名不能为空！", Toast.LENGTH_LONG).show();
-							}  else {
+							} else if (MoneyDB.isMenberExist(input)){
+								Toast.makeText(getApplicationContext(), "成员名已经存在！", Toast.LENGTH_LONG).show();
+							} else {
 								editMemberName(id,input);
 								Toast.makeText(getApplicationContext(), "成员名称修改完成：" + input, Toast.LENGTH_LONG).show();
 								setUpViews();

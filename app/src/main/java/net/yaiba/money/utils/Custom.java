@@ -233,6 +233,13 @@ public class Custom {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return  df.format(day);
     }
+
+    //获取当天日期，含时间
+    public static String getNowDateWithTimes2(){
+        Date day=new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+        return  df.format(day);
+    }
     //获取当天日期
     public static String getNowDate(){
         Date day=new Date();
@@ -467,6 +474,13 @@ public class Custom {
                 break;
         }
         return  b;
+    }
+
+    public static String transDate2Date2(String d){
+    //form 2018-02-03 16:40
+    //to 02-03 16:40
+        String[] aa= d.split("-");
+        return aa[1]+"-"+aa[2];
     }
 
 }

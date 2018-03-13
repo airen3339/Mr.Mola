@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -62,7 +63,9 @@ public class PayActivity extends Activity {
 						String input = inputPayName.getText().toString();
 						if (input.equals("")) {
 							Toast.makeText(getApplicationContext(), "支付方式名不能为空！", Toast.LENGTH_LONG).show();
-						}  else {
+						} else if (MoneyDB.isPayTypeExist(input)){
+							Toast.makeText(getApplicationContext(), "支付方式已经存在！", Toast.LENGTH_LONG).show();
+						} else {
 							addPayType(input);
 							Toast.makeText(getApplicationContext(), "支付方式添加完成：" + input, Toast.LENGTH_LONG).show();
 							setUpViews();
@@ -93,7 +96,9 @@ public class PayActivity extends Activity {
 							String id = ((SpinnerData)payS.getSelectedItem()).getValue();
 							if (input.equals("")) {
 								Toast.makeText(getApplicationContext(), "支付方式名不能为空！", Toast.LENGTH_LONG).show();
-							}  else {
+							} else if (MoneyDB.isPayTypeExist(input)){
+								Toast.makeText(getApplicationContext(), "支付方式已经存在！", Toast.LENGTH_LONG).show();
+							} else {
 								editPayType(id,input);
 								Toast.makeText(getApplicationContext(), "支付方式名称修改完成：" + input, Toast.LENGTH_LONG).show();
 								setUpViews();
@@ -210,6 +215,7 @@ public class PayActivity extends Activity {
 		Log.v("v_record_del",id);
 		MoneyDB.delPayType(id);
 	}
+
 
 
 }

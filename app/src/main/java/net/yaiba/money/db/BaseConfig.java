@@ -24,6 +24,7 @@ public class BaseConfig {
     public final static String RECORD_CATEGORY_ID = "category_id";
     public final static String RECORD_PAY_ID = "pay_id";
     public final static String RECORD_MEMBER_ID = "member_id";
+    public final static String RECORD_TYPE = "type_id";//支出 0,收入1
     public final static String AMOUNTS = "amounts";
     public final static String REMARK = "remark";
     public final static String RECORD_CREATE_TIME = "create_time";
@@ -35,7 +36,7 @@ public class BaseConfig {
     public final static String CATEGORY_NAME = "category_name";
     public final static String CATEGORY_FAVORITE = "favorite";
     public final static String CATEGORY_RANK = "rank";
-    public final static String CATEGORY_TYPE = "type";//cost 0,income 1
+    public final static String CATEGORY_TYPE = "type";//cost支出 0,income收入1
 
     //pay_master
     public final static String TABLE_NAME_PAY = "pay_master";

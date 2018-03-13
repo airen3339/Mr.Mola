@@ -38,6 +38,7 @@ public class MoneyDB extends SQLiteOpenHelper {
                 TABLE_NAME_CATEGORY+"."+CATEGORY_NAME +" as "+CATEGORY_NAME +" , "+
                 TABLE_NAME_CATEGORY+"."+PID +" as "+PID +" , "+
                 TABLE_NAME_RECORD+"."+RECORD_PAY_ID +" as "+RECORD_PAY_ID +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_TYPE +" as "+RECORD_TYPE +" , "+
                 TABLE_NAME_PAY+"."+PAY_NAME +" as "+PAY_NAME +" , "+
                 TABLE_NAME_RECORD+"."+RECORD_MEMBER_ID +" as "+RECORD_MEMBER_ID +" , "+
                 TABLE_NAME_MEMBER+"."+MEMBER_NAME +" as "+MEMBER_NAME +" , "+
@@ -78,7 +79,7 @@ public class MoneyDB extends SQLiteOpenHelper {
         Cursor cursor = db.query(true,
                 TABLE_NAME_CATEGORY,
                 null,
-                PID+"=0 and "+CATEGORY_TYPE+ "= 0" , null, null, null, orderBy, null);
+                PID+"='0' and "+CATEGORY_TYPE+ "= '0'" , null, null, null, orderBy, null);
         return cursor;
 
     }
@@ -88,7 +89,7 @@ public class MoneyDB extends SQLiteOpenHelper {
         Cursor cursor = db.query(true,
                 TABLE_NAME_CATEGORY,
                 null,
-                PID+"="+pid+"", null, null, null, orderBy, null);
+                PID+"='"+pid+"'", null, null, null, orderBy, null);
         return cursor;
 
     }
@@ -98,7 +99,7 @@ public class MoneyDB extends SQLiteOpenHelper {
         Cursor cursor = db.query(true,
                 TABLE_NAME_CATEGORY,
                 null,
-                PID+"=0 and "+CATEGORY_TYPE+ "= 1" , null, null, null, orderBy, null);
+                PID+"='0' and "+CATEGORY_TYPE+ "= '1'" , null, null, null, orderBy, null);
         return cursor;
 
     }
@@ -169,7 +170,7 @@ public class MoneyDB extends SQLiteOpenHelper {
 
     public boolean isHaveChildCategory(String id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(true, TABLE_NAME_CATEGORY, new String[] {CATEGORY_ID, PID, CATEGORY_NAME}, PID + "=" + id+" ", null, null, null, null, null);
+        Cursor cursor = db.query(true, TABLE_NAME_CATEGORY, new String[] {CATEGORY_ID, PID, CATEGORY_NAME}, PID + "='" + id+"' ", null, null, null, null, null);
         if(cursor.getCount() != 0) {
             return true;
         } else {
@@ -291,264 +292,86 @@ public class MoneyDB extends SQLiteOpenHelper {
         }
     }
 
+    public boolean isMenberExist(String input){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_NAME_MEMBER, new String[] {MEMBER_ID}, MEMBER_NAME + "='" + input+"'", null, null, null, null, null);
+        if(cursor.getCount() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-//    public long getAllCount(String orderBy){
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.rawQuery("select count(*) from " + TABLE_NAME , null);
-//        if (cursor.moveToNext()) {
-//            return cursor.getLong(0);
-//        }
-//        return 0;
-//    }
-//
-//    public Cursor getLimit90(String orderBy) {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.query(true,TABLE_NAME, null, null, null, null, null, orderBy,"0,90");
-//        return cursor;
-//    }
-//
-//    public Cursor getDay30(String orderBy) {
-//
-//        String start_date = Custom.getDateToString(Custom.getFrontDay(new Date(),30));
-//        String end_date = Custom.getDateToString(new Date());
-//
-//        String sql_buy_date = "( "+BUY_DATE+">='" +start_date +"' and " + BUY_DATE + "<='" + end_date +"' )";
-//        Log.v("debug",sql_buy_date);
-//        String where = "";
-//        where = sql_buy_date;
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.query(true,TABLE_NAME, null, where , null, null, null, orderBy, null);
-//        return cursor;
-//    }
-//
-//    public Cursor getAllForBakup(String orderBy) {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, orderBy);
-//        return cursor;
-//    }
-//
-//
-//    public Cursor getRecordInfo(long rowId) {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.query(true, TABLE_NAME, new String[] {RECORD_ID, GOOD_NAME, PRODUCT_DATE, END_DATE, BUY_DATE, STATUS, REMARK, HP}, RECORD_ID + "=" + rowId, null, null, null, null, null);
-//        if(cursor != null) {
-//            cursor.moveToFirst();
-//        }
-//        return cursor;
-//    }
-//
-//    public Cursor getStartUsageDay() {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.query(true, TABLE_NAME, new String[] {BUY_DATE}, null, null, null, null, BUY_DATE+" asc", "0,1");
-//        if(cursor != null) {
-//            cursor.moveToFirst();
-//        }
-//        return cursor;
-//    }
-//
-//    //
-//    public Cursor getForSearch(String good_name, String buy_date, String status) {
-//        String where = "";
-//        String sql_goodname ="";
-//        if (!good_name.isEmpty()){
-//            sql_goodname = "("+GOOD_NAME + " LIKE '%" + good_name + "%' or "  + REMARK + " LIKE '%" + good_name + "%' " + ")";
-//        }
-//
-//        String createtime =  "";
-//
-//        String orderby = "buy_date desc";
-//
-//        String start_date = "";
-//        String end_date = "";
-//
-//        if(buy_date.isEmpty()){
-//            buy_date = "全部";
-//        }
-//
-//        switch(buy_date) {
-//            case "本周":
-//                start_date = Custom.getDateToString(Custom.getBeginDayOfWeek());
-//                end_date = Custom.getDateToString(Custom.getEndDayOfWeek());
-//                break;
-//            case "本月":
-//                start_date = Custom.getDateToString(Custom.getBeginDayOfMonth());
-//                end_date = Custom.getDateToString(Custom.getEndDayOfMonth());
-//                break;
-//            case "三个月内":
-//                start_date = Custom.getDateToString(Custom.getBeginDayOfThreeMonth());
-//                end_date = Custom.getDateToString(Custom.getEndDayOfMonth());
-//                break;
-//            case "六个月内":
-//                start_date = Custom.getDateToString(Custom.getBeginDayOfSixMonth());
-//                end_date = Custom.getDateToString(Custom.getEndDayOfMonth());
-//                break;
-//            case "本年":
-//                start_date = Custom.getDateToString(Custom.getBeginDayOfYear());
-//                end_date = Custom.getDateToString(Custom.getEndDayOfYear());
-//                break;
-//            case "三年内":
-//                start_date = Custom.getDateToString(Custom.getBeginDayOfThreeYear());
-//                end_date = Custom.getDateToString(Custom.getEndDayOfYear());
-//                break;
-//            case "全部":
-//                start_date = "1900-01-01";
-//                end_date = "9909-12-31";
-//                break;
-//            default: break;
-//        }
-//
-//        String sql_buy_date = "( "+BUY_DATE+">='" +start_date +"' and " + BUY_DATE + "<='" + end_date +"' )";
-//
-//        if(!good_name.isEmpty()){
-//            where = sql_goodname + " and "+sql_buy_date;
-//        } else{
-//            where = sql_buy_date;
-//        }
-//
-//
-//
-//        if(!status.isEmpty()){
-//            String sql_status = "( "+STATUS+ " = '"+ status +"' )";
-//            where =  where +" and "+sql_status;
-//        }
-//
-//        Log.v("debug",where);
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.query(true,
-//                TABLE_NAME,
-//                new String[] {RECORD_ID, GOOD_NAME, PRODUCT_DATE, END_DATE,BUY_DATE, STATUS, REMARK, HP},
-//                where , null, null, null, orderby, null);
-//        return cursor;
-//    }
-//
-//
-//    public Cursor getForSearchName(String good_name_or_remark) {
-//        String where = "";
-//        String sql_namemark ="";
-//        if (!good_name_or_remark.isEmpty()){
-//            where = "("+GOOD_NAME + " LIKE '%" + good_name_or_remark + "%' or "  + REMARK + " LIKE '%" + good_name_or_remark + "%' " + ")";
-//        } else {
-//            where = "1=1";
-//        }
-//
-//        String orderby = "id asc";
-//
-//        Log.v("debug",where);
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.query(true,
-//                TABLE_NAME,
-//                new String[] {RECORD_ID, GOOD_NAME, PRODUCT_DATE, END_DATE,BUY_DATE, STATUS, REMARK, HP},
-//                where , null, null, null, orderby, null);
-//        return cursor;
-//    }
-//
-//    public long getForSearchCount(String good_name_or_remark) {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.rawQuery("select count(*) from " + TABLE_NAME + " where " + GOOD_NAME + " LIKE '%" + good_name_or_remark + "%' or "  + REMARK + " LIKE '%" + good_name_or_remark + "%' ", null);
-//        if (cursor.moveToNext()) {
-//            return cursor.getLong(0);
-//        }
-//        return 0;
-//    }
-//
-//    public Cursor getAllGoodName() {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.query(false,TABLE_NAME, new String[] {GOOD_NAME}, null, null, null, null, null ,null);
-//        return cursor;
-//    }
-//
-//    public Cursor getForSort(String good_name_or_remark) {
-//        String where = "";
-//        String sql_namemark ="";
-//
-//        where = "("+GOOD_NAME + " LIKE '%" + good_name_or_remark + "%' or "  + REMARK + " LIKE '%" + good_name_or_remark + "%' " + ")";
-//
-//        String where_2 = "(     (   DATEDIFF ("+ END_DATE + " , DATE_FORMAT(CURDATE(), 'yyyy-MM-dd')   )/    ( DATEDIFF ( "+ END_DATE + " , "+ PRODUCT_DATE + ")   )  * 100      )";
-//        Log.v("v_debug",where_2);
-//        String orderby = "id asc";
-//
-//        Log.v("debug",where);
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.query(true,
-//                TABLE_NAME,
-//                new String[] {RECORD_ID, GOOD_NAME, PRODUCT_DATE, END_DATE,BUY_DATE, STATUS, REMARK, HP},
-//                where , null, null, null, orderby, null);
-//        return cursor;
-//    }
-//
-//
-//    public long insert(String good_name, String product_date, String end_date, String buy_date, String status, String remark){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//
-//        ContentValues cv = new ContentValues();
-//        cv.put(GOOD_NAME, good_name);
-//        cv.put(PRODUCT_DATE, product_date);
-//        cv.put(END_DATE, end_date);
-//        cv.put(BUY_DATE, buy_date);
-//
-//        cv.put(STATUS, status);
-//        if(remark.equals(null)){
-//            remark = "";
-//        }
-//        cv.put(REMARK, remark);
-//
-//        long row = db.insert(TABLE_NAME, null, cv);
-//        Log.v("v_insertDB",good_name +"/"+product_date+"/"+end_date+"/"+ buy_date+"/"+ status);
-//        return row;
-//    }
-//
-//    public void delete(int id){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        String where = RECORD_ID + " = ?";
-//        String[] whereValue ={ Integer.toString(id) };
-//        db.delete(TABLE_NAME, where, whereValue);
-//    }
-//
-//    public void deleteAll(){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        db.delete(TABLE_NAME, null, null);
-//
-//        //set ai=0
-//        String where = "name = ?";
-//        String[] whereValue = { TABLE_NAME };
-//        ContentValues cv = new ContentValues();
-//        cv.put("seq", 0);
-//        db.update("sqlite_sequence", cv, where, whereValue);
-//    }
-//
-//    public void update(int id, String good_name, String product_date, String end_date, String buy_date, String status, String remark){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        String where = RECORD_ID + " = ?";
-//        String[] whereValue = { Integer.toString(id) };
-//        ContentValues cv = new ContentValues();
-//        cv.put(GOOD_NAME, good_name);
-//        if(product_date.equals(null)){
-//            product_date = "";
-//        }
-//
-//        cv.put(PRODUCT_DATE, product_date);
-//        cv.put(END_DATE, end_date);
-//        cv.put(BUY_DATE, buy_date);
-//
-//        cv.put(STATUS, status);
-//        if(remark.equals(null)){
-//            remark = "";
-//        }
-//        cv.put(REMARK, remark);
-//        db.update(TABLE_NAME, cv, where, whereValue);
-//    }
-//
-//    public void update_status(int id, String status){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        String where = RECORD_ID + " = ?";
-//        String[] whereValue = { Integer.toString(id) };
-//        ContentValues cv = new ContentValues();
-//        cv.put(STATUS, status);
-//        db.update(TABLE_NAME, cv, where, whereValue);
-//    }
+    public boolean isPayTypeExist(String input){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_NAME_PAY, new String[] {PAY_ID}, PAY_NAME + "='" + input+"'", null, null, null, null, null);
+        if(cursor.getCount() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isCategoryPExist(String input){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_NAME_CATEGORY, new String[] {CATEGORY_ID}, CATEGORY_NAME + "='" + input+"' and "+ PID+"='0' and "+CATEGORY_TYPE+ "= '0'" , null, null, null, null, null);
+        if(cursor.getCount() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isCategoryCExist(String input ,String pid){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_NAME_CATEGORY, new String[] {CATEGORY_ID}, CATEGORY_NAME + "='" + input+"' and "+ PID+"='"+pid+"'", null, null, null, null, null);
+        if(cursor.getCount() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isCategoryIncomeExist(String input){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_NAME_CATEGORY, new String[] {CATEGORY_ID}, CATEGORY_NAME + "='" + input+"' and " + PID+"='0' and "+CATEGORY_TYPE+ "= '1'", null, null, null, null, null);
+        if(cursor.getCount() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public String memberName2Id (String input){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_NAME_MEMBER, new String[] {MEMBER_ID}, MEMBER_NAME + "='" + input+"'", null, null, null, null, null);
+        if (cursor.moveToNext()) {
+            return cursor.getString(0);
+        } else {
+            return "-1";
+        }
+
+    }
+
+
+    public long insertRecord (String recordType, String amount, String categoryId, String payType_id, String member_id, String remark, String recordTime){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(RECORD_CATEGORY_ID, categoryId);
+        cv.put(RECORD_PAY_ID, payType_id);
+        cv.put(RECORD_MEMBER_ID, member_id);
+        cv.put(RECORD_TYPE, recordType);
+        cv.put(AMOUNTS, amount);
+        cv.put(REMARK, remark);
+        cv.put(RECORD_CREATE_TIME, recordTime);
+
+
+
+        long row = db.insert(TABLE_NAME_RECORD, null, cv);
+        Log.v("v_insertDB",TABLE_NAME_RECORD+"/row/"+row+"/categoryId/"+categoryId+"/payType_id/"+payType_id+"/member_id/"+member_id+"/recordType/"+recordType+"/amount/"+amount+"/remark/"+remark+"/recordTime/"+recordTime);
+        return row;
+    }
 
 
 

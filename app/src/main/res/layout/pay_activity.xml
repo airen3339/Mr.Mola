@@ -96,6 +96,7 @@
                 android:id="@+id/pay_type_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
                 android:paddingBottom="10dp" />
 
         </LinearLayout>

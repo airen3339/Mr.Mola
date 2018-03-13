@@ -8,9 +8,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -34,6 +38,7 @@ import android.widget.Toast;
 
 import net.yaiba.money.data.SpinnerData;
 import net.yaiba.money.db.MoneyDB;
+import net.yaiba.money.utils.SpecialAdapter;
 import net.yaiba.money.utils.UpdateTask;
 
 import java.util.ArrayList;
@@ -43,6 +48,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static net.yaiba.money.utils.Custom.getAppVersion;
+import static net.yaiba.money.utils.Custom.transDate2Date2;
 
 
 public class MainActivity extends Activity {
@@ -82,9 +88,20 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 
-        bn_record_add = (Button)findViewById(R.id.record_add);
-
         setUpViews();
+
+        bn_record_add = (Button)findViewById(R.id.record_add);
+        bn_record_add.setOnClickListener(new View.OnClickListener(){
+            public void  onClick(View v)
+            {
+                mainIntent = new Intent(MainActivity.this,RecordActivity.class);
+                startActivity(mainIntent);
+                setResult(RESULT_OK, mainIntent);
+                finish();
+            }
+        });
+
+
 
 	}
 
@@ -100,6 +117,7 @@ public class MainActivity extends Activity {
             String category_name = mCursor.getString(mCursor.getColumnIndex("category_name"));
             String category_id = mCursor.getString(mCursor.getColumnIndex("category_id"));
             String pid = mCursor.getString(mCursor.getColumnIndex("pid"));// !=a 时，收入，，=a时，支出
+            String type_id = mCursor.getString(mCursor.getColumnIndex("type_id"));//支出 0,收入1
             String pay_id = mCursor.getString(mCursor.getColumnIndex("pay_id"));
             String pay_name = mCursor.getString(mCursor.getColumnIndex("pay_name"));
             String member_id = mCursor.getString(mCursor.getColumnIndex("member_id"));
@@ -112,16 +130,18 @@ public class MainActivity extends Activity {
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("id", id);
             map.put("category_child_name", category_name);
-            map.put("create_time",create_time );
+            map.put("create_time",transDate2Date2(create_time) );
+            map.put("type_id",type_id );
             map.put("remark", remark);
             map.put("amounts", "￥"+ amounts);
 
             listItem.add(map);
+            Log.v("v_mainlist",id+"/"+category_name+"/"+create_time+"/"+remark+"/"+amounts+"/"+type_id);
         }
 
-        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,R.layout.main_record_list_items,
-                new String[] {"member_name","category_child_name","create_time","remark","amounts"},
-                new int[] {R.id.member_name, R.id.category_child_name, R.id.create_time, R.id.remark, R.id.amounts}
+        SpecialAdapter listItemAdapter = new SpecialAdapter(this,listItem,R.layout.main_record_list_items,
+                new String[] {"category_child_name","create_time","remark","amounts","type_id"},
+                new int[] {R.id.category_child_name, R.id.create_time, R.id.remark, R.id.amounts, R.id.type_id}
         );
         RecordList.setAdapter(listItemAdapter);
 
@@ -247,6 +267,7 @@ public class MainActivity extends Activity {
         builder.setPositiveButton("确定", null);
         builder.create().show();
     }
+
 
 		
 }
