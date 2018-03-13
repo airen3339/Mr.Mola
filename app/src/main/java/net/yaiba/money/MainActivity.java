@@ -65,8 +65,11 @@ public class MainActivity extends Activity {
 
 	private MoneyDB MoneyDB;
 	private Cursor mCursor;
-	
-	private TextView FloatLetter;
+	private Long costThisMonth;
+	private Long costBeforeMonth;
+	private Long income;
+
+    private TextView cost_this_month_text,cost_before_month_text,income_this_month_text;
 	private ListView RecordList;
     private Button bn_record_add;
 
@@ -87,6 +90,10 @@ public class MainActivity extends Activity {
         MoneyDB = new MoneyDB(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
+
+        cost_this_month_text = (TextView)findViewById(R.id.cost_this_month);
+        cost_before_month_text = (TextView)findViewById(R.id.cost_before_month);
+        income_this_month_text = (TextView)findViewById(R.id.income_this_month);
 
         setUpViews();
 
@@ -147,6 +154,9 @@ public class MainActivity extends Activity {
 
 
 
+        cost_this_month_text.setText(MoneyDB.getCostThisMonth()+"");
+        cost_before_month_text.setText(MoneyDB.getCostBeforeMonth()+"");
+        income_this_month_text.setText(MoneyDB.getIncomeThisMonth()+"");
 
     }
 	

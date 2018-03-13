@@ -155,7 +155,20 @@ public class Custom {
         calendar.set(getNowYear(), getNowMonth() - 1, day);
         return getDayEndTime(calendar.getTime());
     }
-
+    //获取前月的开始时间
+    public static Date getBeginDayOfBeforeMonth() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(getNowYear(), getNowMonth() - 2, 1);
+        return getDayStartTime(calendar.getTime());
+    }
+    //获取前月的结束时间
+    public static Date getEndDayOfBeforeMonth() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(getNowYear(), getNowMonth() - 2, 1);
+        int day = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        calendar.set(getNowYear(), getNowMonth() - 2, day);
+        return getDayEndTime(calendar.getTime());
+    }
     //获取三个月内的第一天开始时间
     public static Date getBeginDayOfThreeMonth() {
         Calendar calendar = Calendar.getInstance();

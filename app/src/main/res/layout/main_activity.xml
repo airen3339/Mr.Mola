@@ -27,7 +27,7 @@
             android:text="本月支出"
             android:textSize="15sp" />
         <TextView
-            android:layout_width="155sp"
+            android:layout_width="300sp"
             android:layout_height="wrap_content"
             android:text="8888.98"
             android:textSize="28sp"
@@ -38,27 +38,26 @@
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:layout_marginTop="15dp"
-            android:padding="2dp">
+            android:padding="0dp">
             <TextView
-                android:layout_width="70sp"
+                android:layout_width="65sp"
                 android:layout_height="wrap_content"
-                android:text="年度支出"
+                android:text="上月支出"
                 android:textSize="14sp"/>
             <TextView
-                android:layout_width="70sp"
+                android:layout_width="110sp"
                 android:layout_height="wrap_content"
-                android:text="101345.67"
+                android:text="2530.67"
                 android:textSize="14sp"
-                android:id="@+id/cost_this_year"/>
+                android:id="@+id/cost_before_month"/>
 
             <TextView
-                android:layout_width="70sp"
+                android:layout_width="65sp"
                 android:layout_height="wrap_content"
                 android:text="本月收入"
-                android:textSize="14sp"
-                android:layout_marginLeft="30dp"/>
+                android:textSize="14sp"/>
             <TextView
-                android:layout_width="70sp"
+                android:layout_width="110sp"
                 android:layout_height="wrap_content"
                 android:text="12345.00"
                 android:textSize="14sp"

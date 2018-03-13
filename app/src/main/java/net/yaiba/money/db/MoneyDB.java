@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import net.yaiba.money.utils.Custom;
+
 import static net.yaiba.money.db.BaseConfig.*;
 
 
@@ -373,7 +375,46 @@ public class MoneyDB extends SQLiteOpenHelper {
         return row;
     }
 
+    public double getCostThisMonth(){
 
+        String start_date = Custom.getDateToString(Custom.getBeginDayOfMonth())+" 00:00";
+        String end_date = Custom.getDateToString(Custom.getEndDayOfMonth())+" 23:59";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select total("+AMOUNTS+")  as amounts from " + TABLE_NAME_RECORD +" where ( "+RECORD_CREATE_TIME+">='" +start_date +"' and " + RECORD_CREATE_TIME + "<='" + end_date +"' ) and "+RECORD_TYPE +" = '0'", null);
+        Log.v("v_getBeginDayOfMonth",start_date);
+        Log.v("v_getEndDayOfMonth",end_date);
+        if (cursor.moveToNext()) {
+            return cursor.getFloat(0);
+        }
+        return 0.0;
+    }
 
+    public double getCostBeforeMonth(){
+
+        String start_date = Custom.getDateToString(Custom.getBeginDayOfBeforeMonth())+" 00:00";
+        String end_date = Custom.getDateToString(Custom.getEndDayOfBeforeMonth())+" 23:59";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select total("+AMOUNTS+")  as amounts from " + TABLE_NAME_RECORD +" where ( "+RECORD_CREATE_TIME+">='" +start_date +"' and " + RECORD_CREATE_TIME + "<='" + end_date +"' ) and "+RECORD_TYPE +" = '0'", null);
+        Log.v("v_getBeginDayOfBeforeM",start_date);
+        Log.v("v_getEndDayOfBeforeM",end_date);
+        if (cursor.moveToNext()) {
+            return cursor.getFloat(0);
+        }
+        return 0.0;
+    }
+
+    public double getIncomeThisMonth(){
+
+        String start_date = Custom.getDateToString(Custom.getBeginDayOfMonth())+" 00:00";
+        String end_date = Custom.getDateToString(Custom.getEndDayOfMonth())+" 23:59";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select total("+AMOUNTS+")  as amounts from " + TABLE_NAME_RECORD +" where ( "+RECORD_CREATE_TIME+">='" +start_date +"' and " + RECORD_CREATE_TIME + "<='" + end_date +"' ) and "+RECORD_TYPE +" = '1'", null);
+        Log.v("v_getBeginDayOfBeforeM",start_date);
+        Log.v("v_getEndDayOfBeforeM",end_date);
+        if (cursor.moveToNext()) {
+            return cursor.getFloat(0);
+        }
+        return 0.0;
+    }
 
 }
