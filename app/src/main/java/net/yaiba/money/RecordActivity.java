@@ -133,7 +133,7 @@ public class RecordActivity extends Activity {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 				Spinner cateS = (Spinner)findViewById(R.id.category_parent_spinner);
-				Cursor categoryCListCursor = MoneyDB.getCategoryCList(((SpinnerData)cateS.getSelectedItem()).getValue(),"id desc");
+				Cursor categoryCListCursor = MoneyDB.getCategoryCList(((SpinnerData)cateS.getSelectedItem()).getValue(),"id asc");
 				category_child_spinner = (Spinner) findViewById(R.id.category_child_spinner);
 				List<SpinnerData> categoryCListItem = new ArrayList<SpinnerData>();
 
@@ -181,7 +181,7 @@ public class RecordActivity extends Activity {
 				builder.setTitle("成员选择");
 
 
-				Cursor menberNameListCursor  = MoneyDB.getMemberNameList("id desc");
+				Cursor menberNameListCursor  = MoneyDB.getMemberNameList("id asc");
 
 				final ArrayList<String>  strArray = new ArrayList<String> ();
 				for(menberNameListCursor.moveToFirst();!menberNameListCursor.isAfterLast();menberNameListCursor.moveToNext()) {
@@ -290,7 +290,7 @@ public class RecordActivity extends Activity {
 
 	public void setCategoryCostSpinnerDate(){
 		// 支出，大分类下拉列表，初期化
-		Cursor categoryPListCursor  = MoneyDB.getCategoryPList("id desc");
+		Cursor categoryPListCursor  = MoneyDB.getCategoryPList("id asc");
 		List<SpinnerData> categoryPListItem = new ArrayList<SpinnerData>();
 
 		for(categoryPListCursor.moveToFirst();!categoryPListCursor.isAfterLast();categoryPListCursor.moveToNext()) {
@@ -313,7 +313,7 @@ public class RecordActivity extends Activity {
 			String SpinnerFirstid = categoryPListCursor.getString(categoryPListCursor.getColumnIndex("id"));
 			Log.v("v_SpinnerFirstid",SpinnerFirstid);
 
-			Cursor categoryCListCursor = MoneyDB.getCategoryCList(SpinnerFirstid,"id desc");
+			Cursor categoryCListCursor = MoneyDB.getCategoryCList(SpinnerFirstid,"id asc");
 			List<SpinnerData> categoryCListItem = new ArrayList<SpinnerData>();
 			for(categoryCListCursor.moveToFirst();!categoryCListCursor.isAfterLast();categoryCListCursor.moveToNext()) {
 				String id = categoryCListCursor.getString(categoryCListCursor.getColumnIndex("id"));
@@ -331,7 +331,7 @@ public class RecordActivity extends Activity {
 
 	public void setCategoryIncomeSpinnerDate(){
 		// 收入，分类下拉列表，初期化
-		Cursor categoryIncomeListCursor  = MoneyDB.getCategoryIncomeList("id desc");
+		Cursor categoryIncomeListCursor  = MoneyDB.getCategoryIncomeList("id asc");
 		List<SpinnerData> categoryIncomeListItem = new ArrayList<SpinnerData>();
 
 		for(categoryIncomeListCursor.moveToFirst();!categoryIncomeListCursor.isAfterLast();categoryIncomeListCursor.moveToNext()) {
@@ -348,7 +348,7 @@ public class RecordActivity extends Activity {
 	}
 
 	public void setPayTypeSpinnerDate(){
-		Cursor payTypeListCursor  = MoneyDB.getPayTypeList("id desc");
+		Cursor payTypeListCursor  = MoneyDB.getPayTypeList("id asc");
 		List<SpinnerData> payTypeListItem = new ArrayList<SpinnerData>();
 
 		for(payTypeListCursor.moveToFirst();!payTypeListCursor.isAfterLast();payTypeListCursor.moveToNext()) {

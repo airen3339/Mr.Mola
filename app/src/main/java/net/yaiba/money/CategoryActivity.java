@@ -279,7 +279,7 @@ public class CategoryActivity extends Activity {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 				Spinner cateS = (Spinner)findViewById(R.id.category_parent_spinner);
-				Cursor categoryCListCursor = MoneyDB.getCategoryCList(((SpinnerData)cateS.getSelectedItem()).getValue(),"id desc");
+				Cursor categoryCListCursor = MoneyDB.getCategoryCList(((SpinnerData)cateS.getSelectedItem()).getValue(),"id asc");
 				category_child_spinner = (Spinner) findViewById(R.id.category_child_spinner);
 				List<SpinnerData> categoryCListItem = new ArrayList<SpinnerData>();
 
@@ -435,7 +435,7 @@ public class CategoryActivity extends Activity {
 		category_income_spinner = (Spinner) findViewById(R.id.category_income_spinner);
 
 		// 支出，大分类下拉列表，初期化
-		Cursor categoryPListCursor  = MoneyDB.getCategoryPList("id desc");
+		Cursor categoryPListCursor  = MoneyDB.getCategoryPList("id asc");
 		List<SpinnerData> categoryPListItem = new ArrayList<SpinnerData>();
 
 		for(categoryPListCursor.moveToFirst();!categoryPListCursor.isAfterLast();categoryPListCursor.moveToNext()) {
@@ -473,7 +473,7 @@ public class CategoryActivity extends Activity {
 			String SpinnerFirstid = categoryPListCursor.getString(categoryPListCursor.getColumnIndex("id"));
 			Log.v("v_SpinnerFirstid",SpinnerFirstid);
 
-			Cursor categoryCListCursor = MoneyDB.getCategoryCList(SpinnerFirstid,"id desc");
+			Cursor categoryCListCursor = MoneyDB.getCategoryCList(SpinnerFirstid,"id asc");
 			List<SpinnerData> categoryCListItem = new ArrayList<SpinnerData>();
 
 			for(categoryCListCursor.moveToFirst();!categoryCListCursor.isAfterLast();categoryCListCursor.moveToNext()) {
@@ -496,7 +496,7 @@ public class CategoryActivity extends Activity {
 
 
 		// 收入，分类下拉列表，初期化
-		Cursor categoryIncomeListCursor  = MoneyDB.getCategoryIncomeList("id desc");
+		Cursor categoryIncomeListCursor  = MoneyDB.getCategoryIncomeList("id asc");
 		List<SpinnerData> categoryIncomeListItem = new ArrayList<SpinnerData>();
 
 		for(categoryIncomeListCursor.moveToFirst();!categoryIncomeListCursor.isAfterLast();categoryIncomeListCursor.moveToNext()) {

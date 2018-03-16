@@ -165,7 +165,7 @@ public class PayActivity extends Activity {
 		bn_pay_type_edit = (Button)findViewById(R.id.pay_type_edit);
 		bn_pay_type_del = (Button)findViewById(R.id.pay_type_del);
 
-		Cursor payTypeListCursor  = MoneyDB.getPayTypeList("id desc");
+		Cursor payTypeListCursor  = MoneyDB.getPayTypeList("id asc");
 		pay_type_spinner = (Spinner) findViewById(R.id.pay_type);
 		List<SpinnerData> payTypeListItem = new ArrayList<SpinnerData>();
 

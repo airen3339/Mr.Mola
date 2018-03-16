@@ -179,6 +179,20 @@ public class MoneyDB extends SQLiteOpenHelper {
             return false;
         }
     }
+    public String getCategoryCID (String Cname){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true,
+                TABLE_NAME_CATEGORY,
+                null,
+                CATEGORY_NAME+"='"+Cname+"'", null, null, null, null, null);
+        if (cursor.moveToNext()) {
+            return cursor.getString(0);
+        } else {
+            return "137";
+        }
+
+    }
 
     public boolean isHaveValidRecordByCategory(String id){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -245,6 +259,21 @@ public class MoneyDB extends SQLiteOpenHelper {
         } else {
             return false;
         }
+    }
+
+    public String getPayID (String name){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true,
+                TABLE_NAME_PAY,
+                null,
+                PAY_NAME+"='"+name+"'", null, null, null, null, null);
+        if (cursor.moveToNext()) {
+            return cursor.getString(0);
+        } else {
+            return "0";
+        }
+
     }
 
     public Cursor getMemberNameList(String orderBy) {
@@ -350,7 +379,7 @@ public class MoneyDB extends SQLiteOpenHelper {
         if (cursor.moveToNext()) {
             return cursor.getString(0);
         } else {
-            return "-1";
+            return "0";
         }
 
     }
@@ -415,6 +444,56 @@ public class MoneyDB extends SQLiteOpenHelper {
             return cursor.getFloat(0);
         }
         return 0.0;
+    }
+
+
+    public long getAllCount(String orderBy){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select count(*) from " + TABLE_NAME_RECORD , null);
+        if (cursor.moveToNext()) {
+            return cursor.getLong(0);
+        }
+        return 0;
+    }
+
+    public Cursor getAllForBakup(String orderBy) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME_RECORD, null, null, null, null, null, orderBy);
+        return cursor;
+    }
+
+
+    public void deleteAll(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME_RECORD, null, null);
+
+        //set ai=0
+        String where = "name = ?";
+        String[] whereValue = { TABLE_NAME_RECORD };
+        ContentValues cv = new ContentValues();
+        cv.put("seq", 0);
+        db.update("sqlite_sequence", cv, where, whereValue);
+    }
+
+    public long insert(String category_id, String pay_id, String member_id, String type_id, String amounts, String remark, String create_time){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(RECORD_CATEGORY_ID, category_id);
+        cv.put(RECORD_PAY_ID, pay_id);
+        cv.put(RECORD_MEMBER_ID, member_id);
+        cv.put(RECORD_TYPE, type_id);
+        cv.put(AMOUNTS, amounts);
+
+        if(remark.equals(null)){
+            remark = "";
+        }
+        cv.put(REMARK, remark);
+        cv.put(RECORD_CREATE_TIME, create_time);
+
+        long row = db.insert(TABLE_NAME_RECORD, null, cv);
+        Log.v("v_insertDB",category_id +"/"+pay_id+"/"+member_id+"/"+ type_id+"/"+ amounts+"/"+ remark+"/"+ create_time);
+        return row;
     }
 
 }

@@ -36,10 +36,9 @@
 
     <string name="data_bakup">数据备份</string>
     <string name="data_bakup_description">以文件形式存储在您的设备中</string>
-    <string name="data_bakup_description_dir">/timiup/</string>
+    <string name="data_bakup_description_dir">/money/</string>
     <string name="data_recover">数据恢复</string>
     <string name="data_recover_description">程序会读取指定目录中的备份文件</string>
-    <string name="menu_warming_have_unencode_file">警告：检测到目录中包含未加密的备份文件\n为了安全起见请备份后删除</string>
 
     <string name="what_updated">
         点击“HP”可以排序\n

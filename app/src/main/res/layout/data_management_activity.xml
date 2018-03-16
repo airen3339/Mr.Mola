@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+                                        android:orientation="vertical" 
+                                        android:layout_width="fill_parent" 
+                                        android:layout_height="fill_parent">
+
+	<!--backup区域开始-->
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="125dp"
+		android:layout_marginLeft="2dp"
+		android:layout_marginRight="2dp"
+		android:layout_marginTop="10dp"
+		android:weightSum="1">
+
+		<!--左右布局，依次是文字、右按钮开始-->
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="110dp"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="2dp"
+			android:layout_marginTop="10dp"
+			android:weightSum="1">
+
+
+
+			<!--上下布局，左侧文字开始-->
+			<LinearLayout android:orientation="vertical"
+					android:layout_width="275dp"
+					android:layout_height="100dp"
+					android:layout_marginLeft="5dp"
+					android:layout_marginRight="0dp"
+					android:weightSum="1">
+
+				<TextView	android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/data_bakup"
+                    android:textSize="22sp"
+                    android:textStyle="normal|bold"
+					android:id="@+id/textView" />
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="18sp"
+					android:text="@string/data_bakup_description" />
+
+				<TextView	android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/data_bakup_description_dir"
+					android:textStyle="normal|italic"
+					android:textColor="@color/gray" />
+
+				<TextView android:id="@+id/redordCount"
+					android:layout_width="180dp"
+					android:layout_height="wrap_content"
+					android:textSize="14sp"
+					android:layout_marginTop="4dp"
+					android:textColor="@color/gray"
+					android:text="可备份记录数：x"/>
+				</LinearLayout>
+			<!--上下布局，右侧文字结束-->
+
+			<Button android:id="@+id/data_bakup"
+				android:layout_marginTop="10dp"
+				android:layout_width="wrap_content"
+				android:layout_height="80dp"
+				android:layout_marginLeft="0dp"
+				android:textSize="24sp"
+				android:background="@drawable/btn_nor_down_green"
+				android:text="备份"/>
+
+		</LinearLayout>
+		<!--左右布局，依次是按钮、右侧文字结束-->
+
+		<!--backup区域最下面的横线-->
+		<View android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:background="@color/darkgrey" />
+
+	</LinearLayout>
+	<!--backup区域结束-->
+
+
+
+	<!--recover区域开始-->
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="125dp"
+		android:layout_marginLeft="2dp"
+		android:layout_marginRight="2dp"
+		android:layout_marginTop="10dp"
+		android:weightSum="1">
+
+		<!--左右布局，依次是按钮、右侧文字开始-->
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="110dp"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="2dp"
+			android:layout_marginTop="10dp"
+			android:weightSum="1">
+
+
+
+			<!--上下布局，右侧文字开始-->
+			<LinearLayout android:orientation="vertical"
+				android:layout_width="275dp"
+				android:layout_height="90dp"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="0dp"
+				android:weightSum="1">
+
+				<TextView	android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/data_recover"
+					android:textSize="22sp"
+					android:textStyle="normal|bold" />
+
+				<TextView	android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="18sp"
+					android:text="@string/data_recover_description" />
+
+				<TextView	android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/data_bakup_description_dir"
+					android:textStyle="normal|italic"
+					android:textColor="@color/gray" />
+			</LinearLayout>
+			<!--上下布局，右侧文字结束-->
+
+			<Button android:id="@+id/data_recover"
+				android:layout_marginTop="10dp"
+				android:layout_width="wrap_content"
+				android:layout_height="80dp"
+				android:layout_marginLeft="0dp"
+				android:textSize="24sp"
+				android:background="@drawable/btn_nor_down_green"
+				android:text="恢复" />
+
+
+		</LinearLayout>
+		<!--左右布局，依次是按钮、右侧文字结束-->
+
+		<!--recover区域最下面的横线-->
+		<View android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:background="@color/darkgrey" />
+
+	</LinearLayout>
+	<!--recover区域结束-->
+
+
+
+
+
+
+	<!--wacai数据导入区域开始-->
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="135dp"
+		android:layout_marginLeft="2dp"
+		android:layout_marginRight="2dp"
+		android:layout_marginTop="10dp"
+		android:weightSum="1">
+
+		<!--左右布局，依次是按钮、右侧文字开始-->
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="120dp"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="2dp"
+			android:layout_marginTop="10dp"
+			android:weightSum="1">
+
+
+
+			<!--上下布局，右侧文字开始-->
+			<LinearLayout android:orientation="vertical"
+				android:layout_width="275dp"
+				android:layout_height="130dp"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="0dp"
+				android:weightSum="1">
+
+				<TextView	android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="从wacai导入"
+					android:textSize="22sp"
+					android:textStyle="normal|bold" />
+
+				<TextView	android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="18sp"
+					android:text="选择wacai导出的xls文件，将其导入到Mr.Money数据库。" />
+
+				<TextView	android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="完全相同的数据会被覆盖。"
+					android:textStyle="normal|italic"
+					android:textColor="@color/gray" />
+			</LinearLayout>
+			<!--上下布局，右侧文字结束-->
+
+			<Button android:id="@+id/data_from_wacai"
+				android:layout_marginTop="10dp"
+				android:layout_width="wrap_content"
+				android:layout_height="80dp"
+				android:layout_marginLeft="0dp"
+				android:textSize="24sp"
+				android:background="@drawable/btn_nor_down_green"
+				android:text="导入" />
+
+
+		</LinearLayout>
+		<!--左右布局，依次是按钮、右侧文字结束-->
+
+		<!--wacai数据导入区域最下面的横线-->
+		<View android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:background="@color/darkgrey" />
+
+	</LinearLayout>
+	<!--wacai数据导入区域结束-->
+
+
+</LinearLayout>
+  

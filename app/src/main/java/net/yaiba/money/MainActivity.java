@@ -236,16 +236,13 @@ public class MainActivity extends Activity {
             case MENU_CHECK_UPDATE://检查更新
                 updateTask = new UpdateTask(MainActivity.this,true);
                 updateTask.update();
-
-//                showAboutDialog(title,msg);
                 break;
             case MENU_IMPORT_EXPOERT://备份与恢复
-//                Intent mainIntent = new Intent(MainActivity.this, DataManagementActivity.class);
-//                mainIntent.putExtra("INT", RECORD_ID);
-//                startActivity(mainIntent);
-//                setResult(RESULT_OK, mainIntent);
-//                finish();
-//                break;
+                Intent mainIntent = new Intent(MainActivity.this, DataManagementActivity.class);
+                startActivity(mainIntent);
+                setResult(RESULT_OK, mainIntent);
+                finish();
+                break;
             case MENU_CATEGORY_CONFIG://设置类别信息
                 mainIntent = new Intent(MainActivity.this, CategoryActivity.class);
                 startActivity(mainIntent);

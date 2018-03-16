@@ -163,7 +163,7 @@ public class MemberActivity extends Activity {
 		bn_member_name_edit = (Button)findViewById(R.id.member_name_edit);
 		bn_member_name_del = (Button)findViewById(R.id.member_name_del);
 
-		Cursor menberNameListCursor  = MoneyDB.getMemberNameList("id desc");
+		Cursor menberNameListCursor  = MoneyDB.getMemberNameList("id asc");
 		member_spinner = (Spinner) findViewById(R.id.member_name);
 		List<SpinnerData> memberNameListItem = new ArrayList<SpinnerData>();
 
