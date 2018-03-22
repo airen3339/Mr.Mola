@@ -36,7 +36,7 @@
 
     <string name="data_bakup">数据备份</string>
     <string name="data_bakup_description">以文件形式存储在您的设备中</string>
-    <string name="data_bakup_description_dir">/money/</string>
+    <string name="data_bakup_description_dir">/yaiba.net/money/</string>
     <string name="data_recover">数据恢复</string>
     <string name="data_recover_description">程序会读取指定目录中的备份文件</string>
 

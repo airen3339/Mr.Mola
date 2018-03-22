@@ -2,7 +2,6 @@ package net.yaiba.money;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,20 +27,14 @@ import net.yaiba.money.data.SpinnerData;
 import net.yaiba.money.db.MoneyDB;
 import net.yaiba.money.utils.DateTimePickDialog;
 
-import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
-import static java.sql.Types.NULL;
 import static net.yaiba.money.utils.Custom.getNowDateWithTimes2;
 
 
-public class RecordActivity extends Activity {
+public class RecordAddActivity extends Activity {
 	private MoneyDB MoneyDB;
 	private Cursor mCursor;
 	private ListView RecordList;
@@ -98,7 +90,7 @@ public class RecordActivity extends Activity {
 			public void  onClick(View v)
 			{
 				if(addRecord()){
-					Intent mainIntent = new Intent(RecordActivity.this,MainActivity.class);
+					Intent mainIntent = new Intent(RecordAddActivity.this,MainActivity.class);
 					startActivity(mainIntent);
 					overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
 					setResult(RESULT_OK, mainIntent);
@@ -146,7 +138,7 @@ public class RecordActivity extends Activity {
 					SpinnerData c = new SpinnerData(cid, category_name);
 					categoryCListItem.add(c);
 				}
-				ArrayAdapter<SpinnerData> AdapterCateC = new ArrayAdapter<SpinnerData>(RecordActivity.this, android.R.layout.simple_spinner_item, categoryCListItem);
+				ArrayAdapter<SpinnerData> AdapterCateC = new ArrayAdapter<SpinnerData>(RecordAddActivity.this, android.R.layout.simple_spinner_item, categoryCListItem);
 				AdapterCateC.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 				category_child_spinner.setAdapter(AdapterCateC);
 
@@ -165,7 +157,7 @@ public class RecordActivity extends Activity {
 		create_time_text.setText(initDateTime);
 		create_time_text.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				DateTimePickDialog dateTimePicKDialog = new DateTimePickDialog(	RecordActivity.this, initDateTime);
+				DateTimePickDialog dateTimePicKDialog = new DateTimePickDialog(	RecordAddActivity.this, initDateTime);
 				dateTimePicKDialog.dateTimePicKDialog(create_time_text);
 
 			}
@@ -177,7 +169,7 @@ public class RecordActivity extends Activity {
 			@SuppressWarnings("deprecation")
 			public void onClick(View v) {
 
-				AlertDialog.Builder builder = new AlertDialog.Builder(RecordActivity.this);
+				AlertDialog.Builder builder = new AlertDialog.Builder(RecordAddActivity.this);
 				builder.setTitle("成员选择");
 
 
@@ -270,7 +262,7 @@ public class RecordActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) 	{
 		if(keyCode == KeyEvent.KEYCODE_BACK){
-			Intent mainIntent = new Intent(RecordActivity.this,MainActivity.class);
+			Intent mainIntent = new Intent(RecordAddActivity.this,MainActivity.class);
 			startActivity(mainIntent);
 			overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
 			setResult(RESULT_OK, mainIntent);
@@ -397,7 +389,7 @@ public class RecordActivity extends Activity {
 		String remark = "";
 		String recordTime = "";
 
-		RadioButton rb = (RadioButton)RecordActivity.this.findViewById(radiogroup.getCheckedRadioButtonId());
+		RadioButton rb = (RadioButton)RecordAddActivity.this.findViewById(radiogroup.getCheckedRadioButtonId());
 		if("支出".equals(rb.getText().toString())){
 			recordType = "0";//支出
 			if(category_parent_spinner.getAdapter().getCount() != 0){

@@ -93,60 +93,6 @@
             android:layout_marginRight="8dp"
             android:orientation="vertical">
 
-            <!--标题-->
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentTop="true"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="155sp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="名称"-->
-                    <!--android:textSize="15sp"-->
-                    <!--android:gravity="center"-->
-                    <!--android:textStyle="bold" />-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="50sp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="剩余"-->
-                    <!--android:textSize="15sp"-->
-                    <!--android:gravity="center"-->
-                    <!--android:textStyle="bold" />-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="70sp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="到期日"-->
-                    <!--android:textSize="15sp"-->
-                    <!--android:gravity="center"-->
-                    <!--android:textStyle="bold" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/hp"-->
-                    <!--android:clickable="true"-->
-                    <!--android:layout_width="45sp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="HP"-->
-                    <!--android:textSize="15sp"-->
-                    <!--android:gravity="center"-->
-                    <!--android:textStyle="bold" />-->
-
-                <!--&lt;!&ndash; 默认不显示       ♥HP从高到低     ♡ HP从低到高    &ndash;&gt;-->
-                <!--<TextView-->
-                    <!--android:id="@+id/hp_tag"-->
-                    <!--android:layout_width="20sp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text=""-->
-                    <!--android:textSize="8sp"-->
-                    <!--android:gravity="center"-->
-                    <!--android:textColor="@color/alert_01"-->
-                    <!--android:textStyle="bold" />-->
-
-            <!--</LinearLayout>-->
-
             <ListView
                 android:id="@+id/recordslist"
                 android:layout_width="match_parent"
@@ -155,6 +101,16 @@
 
         </LinearLayout>
     </FrameLayout>
-
+    <TextView
+        android:id="@+id/more_info"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:padding="2dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/item_background"
+        android:gravity="center"
+        android:text="更 多 信 息"
+        android:textSize="12sp"/>
 
 </LinearLayout>

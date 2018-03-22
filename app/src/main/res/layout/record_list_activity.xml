@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <!-- 为了不让edittext组件获得焦点 -->
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/searchInput"
+            android:layout_width="210dp"
+            android:layout_height="50dp"
+            android:hint="@string/record_list_search" />
+
+        <Button
+            android:id="@+id/filters"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:text="+" />
+
+        <Button
+            android:id="@+id/go_add"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:textSize="17dp"
+            android:text="添加记录" />
+    </LinearLayout>
+
+
+    <!--扩展部分，上下布局 visible  invisible/gone-->
+
+    <LinearLayout
+        android:id="@+id/filters_option"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:background="@color/khaki"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="筛选您要显示的信息"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:textStyle="normal|italic" />
+
+        <!--第一排三个复选按钮，水平布局-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical|center"
+            android:weightSum="1">
+
+            <Spinner
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/filter_create_time"
+                android:entries="@array/filter_create_time" />
+
+            <Spinner
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/filter_eat_time"
+                android:entries="@array/filter_create_time" />
+
+            <Button
+                android:id="@+id/filter_now"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="筛选"
+                android:textSize="17dp" />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="8dp"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/recordslist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp" />
+
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

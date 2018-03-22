@@ -46,7 +46,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
+import jxl.CellType;
+import jxl.DateCell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -57,7 +60,7 @@ public class DataManagementActivity extends Activity {
 	private int RECORD_ID = 0;
 	private int selectBakupFileIndex = 0;
 	private String[] bakFileArray ;
-	private String FILE_DIR_NAME = "money";
+	private String FILE_DIR_NAME = "yaiba.net//money";
 	private String fileNameSuff = ".xml";
 
 	private TextView TotalCount;
@@ -474,8 +477,27 @@ public class DataManagementActivity extends Activity {
 							for (int i = 1; i < Rows; ++i) {
 								ArrayList<String>  strArray = new ArrayList<String> ();
 								for (int j = 0; j < Cols; ++j) {
-									// getCell(Col,Row)获得单元格的值
-									strArray.add(sheet.getCell(j,i).getContents());
+
+
+
+									if(sheet.getCell(j,i).getType() == CellType.DATE){
+										String cellcon="";
+										DateCell dc = (DateCell)sheet.getCell(j,i);
+										Date date = dc.getDate();
+
+										TimeZone zone = TimeZone.getTimeZone("GMT");
+
+										SimpleDateFormat ds = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+										ds.setTimeZone(zone);
+										cellcon = ds.format(date);
+										strArray.add(cellcon);
+										Log.v("v_xls","是DATE");
+									} else {
+										// getCell(Col,Row)获得单元格的值
+										strArray.add(sheet.getCell(j,i).getContents());
+										Log.v("v_xls","不是DATE");
+									}
+
 									Log.v("v_xls_contents",sheet.getCell(j,i).getContents());
 								}
 //todo
@@ -487,13 +509,13 @@ public class DataManagementActivity extends Activity {
 								String remark = strArray.get(10);
 								String create_time = strArray.get(7);
 
+
 								String category_p_name = strArray.get(0);
 								String category_c_name = strArray.get(1);
 								String category_id = MoneyDB.getCategoryCID(category_c_name);//没有分类的数据为-1
 								String pay_name = strArray.get(2);
 								String pay_id = MoneyDB.getPayID(pay_name);
-								String[] member_name_amounts = strArray.get(9).split(":");
-								String member_id = MoneyDB.memberName2Id(member_name_amounts[0]);
+								String member_id = strArray.get(9);
 
 								if(remark.equals(null)){
 									remark="";
@@ -501,6 +523,15 @@ public class DataManagementActivity extends Activity {
 
 								//行数据不为空时，登录数据库
 								if(!pay_name.isEmpty() && !amounts.isEmpty() && !create_time.isEmpty() && !strArray.get(9).isEmpty() ){
+
+									Log.v("v_xls_split",strArray.get(7));
+									Log.v("v_xls_split",strArray.get(7).split(":")[0]);
+									String[] crtimes = strArray.get(7).split(":");
+									create_time = crtimes[0]+":"+crtimes[1];
+
+									String[] member_name_amounts = strArray.get(9).split(":");
+									member_id = MoneyDB.memberName2Id(member_name_amounts[0]);
+
 									MoneyDB.insert(category_id, pay_id,member_id, type_id, amounts, remark,create_time);
 									Log.v("v_xls_insert",category_id+"//"+pay_id+"//"+member_id+"//"+type_id+"//"+ amounts+"//"+ remark+"//"+create_time);
 								}

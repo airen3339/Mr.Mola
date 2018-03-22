@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--eat_time:'breakfast',  'before_lunch',  'lunch',  'before_dinner',  'dinner',  'midnight_snack'-->
+    <string-array name="filter_record_type">
+        <item>所有</item>
+        <item>支出</item>
+        <item>收入</item>
+    </string-array>
+
+    <string-array name="filter_create_time">
+        <item>全部</item>
+        <item>今日</item>
+        <item>昨日</item>
+        <item>本周</item>
+        <item>上周</item>
+        <item>本月</item>
+        <item>上月</item>
+        <item>本季</item>
+        <item>上季</item>
+        <item>六个月内</item>
+        <item>本年</item>
+        <item>去年</item>
+        <item>近7天</item>
+        <item>近30天</item>
+    </string-array>
+
+
+</resources>

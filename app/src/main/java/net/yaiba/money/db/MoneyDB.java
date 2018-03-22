@@ -32,7 +32,7 @@ public class MoneyDB extends SQLiteOpenHelper {
 
     }
 
-    public Cursor getRecordForMainList(String orderBy, String limit) {
+    public Cursor getRecordForList(String orderBy, String limit) {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "select "+
                 TABLE_NAME_RECORD+"."+RECORD_ID +" as "+RECORD_ID +" , "+
@@ -56,8 +56,10 @@ public class MoneyDB extends SQLiteOpenHelper {
                 TABLE_NAME_RECORD+"."+RECORD_CATEGORY_ID +" = "+TABLE_NAME_CATEGORY+"."+CATEGORY_ID + " and " +
                 TABLE_NAME_RECORD+"."+RECORD_PAY_ID +" = "+TABLE_NAME_PAY+"."+PAY_ID + " and " +
                 TABLE_NAME_RECORD+"."+RECORD_MEMBER_ID +" = "+TABLE_NAME_MEMBER+"."+MEMBER_ID +
-                " order by " + orderBy +
-                " limit " + limit + " ";
+                " order by " + orderBy + " ";
+        if (!limit.isEmpty()){
+            sql = sql + " limit "+ limit;
+        }
         Cursor cursor = db.rawQuery(sql, null);
         Log.v("v_sql",sql);
         return cursor;

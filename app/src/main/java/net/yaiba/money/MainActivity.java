@@ -2,48 +2,27 @@ package net.yaiba.money;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnCreateContextMenuListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import net.yaiba.money.data.SpinnerData;
 import net.yaiba.money.db.MoneyDB;
 import net.yaiba.money.utils.SpecialAdapter;
 import net.yaiba.money.utils.UpdateTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -69,7 +48,7 @@ public class MainActivity extends Activity {
 	private Long costBeforeMonth;
 	private Long income;
 
-    private TextView cost_this_month_text,cost_before_month_text,income_this_month_text;
+    private TextView cost_this_month_text,cost_before_month_text,income_this_month_text,Text_more_info;
 	private ListView RecordList;
     private Button bn_record_add;
 
@@ -94,6 +73,7 @@ public class MainActivity extends Activity {
         cost_this_month_text = (TextView)findViewById(R.id.cost_this_month);
         cost_before_month_text = (TextView)findViewById(R.id.cost_before_month);
         income_this_month_text = (TextView)findViewById(R.id.income_this_month);
+        Text_more_info = (TextView)findViewById(R.id.more_info);
 
         setUpViews();
 
@@ -101,7 +81,18 @@ public class MainActivity extends Activity {
         bn_record_add.setOnClickListener(new View.OnClickListener(){
             public void  onClick(View v)
             {
-                mainIntent = new Intent(MainActivity.this,RecordActivity.class);
+                mainIntent = new Intent(MainActivity.this,RecordAddActivity.class);
+                startActivity(mainIntent);
+                setResult(RESULT_OK, mainIntent);
+                finish();
+            }
+        });
+
+        Text_more_info = (TextView)findViewById(R.id.more_info);
+        Text_more_info.setOnClickListener(new View.OnClickListener(){
+            public void  onClick(View v)
+            {
+                mainIntent = new Intent(MainActivity.this,RecordListActivity.class);
                 startActivity(mainIntent);
                 setResult(RESULT_OK, mainIntent);
                 finish();
@@ -109,12 +100,28 @@ public class MainActivity extends Activity {
         });
 
 
+//        RecordList.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                if (firstVisibleItem == 0) {
+//                    Toast.makeText(MainActivity.this, "##### 滚动到顶部 #####", Toast.LENGTH_SHORT).show();
+//                } else if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
+//                    Toast.makeText(MainActivity.this, "##### 滚动到底部 #####", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//                //do nothing
+//            }
+//        });
 
-	}
+
+    }
 
     public void setUpViews(){
 
-        mCursor  = MoneyDB.getRecordForMainList("id desc","0,8");
+        mCursor  = MoneyDB.getRecordForList("create_time desc","0,8");
         RecordList = (ListView)findViewById(R.id.recordslist);
         ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
 
