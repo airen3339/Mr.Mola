@@ -60,7 +60,7 @@ public class DataManagementActivity extends Activity {
 	private int RECORD_ID = 0;
 	private int selectBakupFileIndex = 0;
 	private String[] bakFileArray ;
-	private String FILE_DIR_NAME = "yaiba.net//money";
+	private String FILE_DIR_NAME = "yaiba.net//Mr.Money";
 	private String fileNameSuff = ".xml";
 
 	private TextView TotalCount;

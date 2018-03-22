@@ -26,7 +26,7 @@
     <string name="menu_whatupdate">更新说明</string>
     <string name="menu_checkupdate">检查更新</string>
     <string name="menu_support">技术支持</string>
-    <string name="menu_about">关于Timiup</string>
+    <string name="menu_about">关于Mr.Money</string>
 
     <string name="update_already_latest">已经是最新版本</string>
     <string name="update_new_seg1">发现新版本，版本号：</string>
@@ -36,12 +36,12 @@
 
     <string name="data_bakup">数据备份</string>
     <string name="data_bakup_description">以文件形式存储在您的设备中</string>
-    <string name="data_bakup_description_dir">/yaiba.net/money/</string>
+    <string name="data_bakup_description_dir">/yaiba.net/Mr.Money/</string>
     <string name="data_recover">数据恢复</string>
     <string name="data_recover_description">程序会读取指定目录中的备份文件</string>
 
     <string name="what_updated">
-        点击“HP”可以排序\n
+        持续更新中\n
     </string>
     <string name="partners">\@石头大风吹</string>
     <string name="about_app">

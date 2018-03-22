@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="net.yaiba.money.MainActivity"  android:label="@string/app_name" ></activity>
+        <activity android:name="net.yaiba.money.MainActivity"  android:label="财务多样性管理手册" ></activity>
         <activity android:name="net.yaiba.money.DataManagementActivity"  android:label="数据管理" ></activity>
         <activity android:name="net.yaiba.money.CategoryActivity"  android:label="类别设置" ></activity>
         <activity android:name="net.yaiba.money.PayActivity"  android:label="支付方式设置" ></activity>
