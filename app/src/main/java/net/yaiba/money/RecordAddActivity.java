@@ -12,6 +12,8 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -70,6 +72,9 @@ public class RecordAddActivity extends Activity {
 		radio2=(RadioButton)findViewById(R.id.radiobutton2);
 
 		amounts_text=(EditText)findViewById(R.id.amounts_text);
+		amounts_text.requestFocus();
+		RecordAddActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
 		setPoint(amounts_text);
 
 		category_parent_spinner = (Spinner) findViewById(R.id.category_parent_spinner);
@@ -118,6 +123,7 @@ public class RecordAddActivity extends Activity {
 					}
 				}
         });
+
 
 		//对于切换大类下拉列表，设置监听器，动态更新小分类下拉列表
 		category_parent_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

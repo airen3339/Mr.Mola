@@ -415,7 +415,7 @@ public class MoneyDB extends SQLiteOpenHelper {
         Log.v("v_getBeginDayOfMonth",start_date);
         Log.v("v_getEndDayOfMonth",end_date);
         if (cursor.moveToNext()) {
-            return cursor.getFloat(0);
+            return cursor.getDouble(0);
         }
         return 0.0;
     }
@@ -429,7 +429,7 @@ public class MoneyDB extends SQLiteOpenHelper {
         Log.v("v_getBeginDayOfBeforeM",start_date);
         Log.v("v_getEndDayOfBeforeM",end_date);
         if (cursor.moveToNext()) {
-            return cursor.getFloat(0);
+            return cursor.getDouble(0);
         }
         return 0.0;
     }
@@ -443,7 +443,7 @@ public class MoneyDB extends SQLiteOpenHelper {
         Log.v("v_getBeginDayOfBeforeM",start_date);
         Log.v("v_getEndDayOfBeforeM",end_date);
         if (cursor.moveToNext()) {
-            return cursor.getFloat(0);
+            return cursor.getDouble(0);
         }
         return 0.0;
     }

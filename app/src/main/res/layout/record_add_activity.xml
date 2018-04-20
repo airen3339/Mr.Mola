@@ -4,13 +4,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <!-- 为了不让edittext组件获得焦点 -->
-    <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_width="0px"
-        android:layout_height="0px"/>
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -20,7 +13,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:padding="2dp">
@@ -30,17 +23,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginLeft="30dp"
                 android:layout_x="3px"  >
                 <RadioButton
                     android:id="@+id/radiobutton1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:textSize="20dp"
                     android:text="支出"
                     android:checked="true"/>
                 <RadioButton
                     android:id="@+id/radiobutton2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_height="wrap_content"
+                    android:textSize="20dp"
                     android:text="收入"   />
             </RadioGroup>
 
@@ -48,13 +45,18 @@
 
         <EditText
             android:id="@+id/amounts_text"
-            android:layout_width="200sp"
+            android:layout_width="fill_parent"
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="right"
             android:text="0.00"
-            android:textSize="30sp"
+            android:textSize="40sp"
             android:inputType="numberDecimal"
-            android:textColor="@color/red"/>
+            android:textColor="@color/red"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -69,18 +71,14 @@
                 android:layout_height="wrap_content"
                 android:text="分类"
                 android:textSize="14sp"/>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp">
                 <Spinner
                     android:id="@+id/category_parent_spinner"
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
                     android:layout_height="40dp"
                     android:textSize="14sp"  />
                 <Spinner
                     android:id="@+id/category_child_spinner"
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
                     android:layout_height="40dp"
                     android:textSize="14sp"  />
                 <Spinner
@@ -89,7 +87,6 @@
                     android:layout_height="40dp"
                     android:visibility="gone"
                     android:textSize="14sp"  />
-            </LinearLayout>
         </LinearLayout>
 
 
@@ -107,7 +104,7 @@
                 android:textSize="14sp"/>
             <Spinner
                 android:id="@+id/pay_type_spinner"
-                android:layout_width="100dp"
+                android:layout_width="240dp"
                 android:layout_height="40dp"
                 android:textSize="14sp"  />
         </LinearLayout>
@@ -117,6 +114,7 @@
             android:layout_width="fill_parent"
             android:layout_height="45dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:padding="2dp">
             <TextView
@@ -141,7 +139,7 @@
             android:padding="2dp">
             <TextView
                 android:id="@+id/create_time_text"
-                android:layout_width="wrap_content"
+                android:layout_width="220sp"
                 android:layout_height="30sp"
                 android:text="02-27 18:29"
                 android:gravity="center"
@@ -151,7 +149,7 @@
                 android:textSize="14sp"/>
             <TextView
                 android:id="@+id/member_name_text"
-                android:layout_width="wrap_content"
+                android:layout_width="70sp"
                 android:layout_height="30sp"
                 android:text="-"
                 android:gravity="center"
