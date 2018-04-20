@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--eat_time:'breakfast',  'before_lunch',  'lunch',  'before_dinner',  'dinner',  'midnight_snack'-->
     <string-array name="filter_record_type">
-        <item>所有</item>
+        <!--<item>所有</item>-->
         <item>支出</item>
         <item>收入</item>
     </string-array>

@@ -28,7 +28,7 @@
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:background="@drawable/btn_nor_down_grey"
-            android:text="筛选" />
+            android:text="高级" />
 
 
     </LinearLayout>
@@ -39,10 +39,11 @@
     <LinearLayout
         android:id="@+id/filters_option"
         android:layout_width="fill_parent"
-        android:layout_height="70dp"
+        android:layout_height="240dp"
         android:background="@color/khaki"
         android:orientation="vertical"
         android:visibility="gone"
+        android:paddingLeft="10dp"
         android:weightSum="1">
 
         <TextView
@@ -50,7 +51,6 @@
             android:layout_height="wrap_content"
             android:text="筛选您要显示的信息"
             android:paddingTop="10dp"
-            android:paddingLeft="10dp"
             android:textStyle="normal|italic" />
 
         <!--第一排三个复选按钮，水平布局-->
@@ -58,30 +58,123 @@
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical|center"
+            android:gravity="bottom|left"
             android:weightSum="1">
 
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="记录类型"
+                android:textSize="14sp"/>
+
+            <Spinner
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/filter_record_type"
+                android:entries="@array/filter_record_type" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="bottom|left"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="分类"
+                android:textSize="14sp"/>
+            <Spinner
+                android:id="@+id/category_parent_spinner"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:textSize="14sp"  />
+            <Spinner
+                android:id="@+id/category_child_spinner"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:textSize="14sp"  />
+            <Spinner
+                android:id="@+id/category_income_spinner"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:visibility="gone"
+                android:textSize="14sp"  />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="bottom|left"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="支付方式"
+                android:textSize="14sp"/>
+            <Spinner
+                android:id="@+id/pay_type_spinner"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:textSize="14sp"  />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="bottom|left"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="交易时间"
+                android:textSize="14sp"/>
             <Spinner
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/filter_create_time"
                 android:entries="@array/filter_create_time" />
 
-            <Spinner
-                android:layout_width="140dp"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="bottom|left"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="70sp"
                 android:layout_height="wrap_content"
-                android:id="@+id/filter_eat_time"
-                android:entries="@array/filter_create_time" />
+                android:text="成员"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/member_name_text"
+                android:layout_width="70sp"
+                android:layout_height="30sp"
+                android:text="-"
+                android:gravity="center"
+                android:background="@color/lightgray"
+                android:layout_marginLeft="20sp"
+                android:paddingRight="15dp"
+                android:paddingLeft="15dp"
+                android:textSize="14sp"/>
 
             <Button
                 android:id="@+id/filter_now"
                 android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="筛选"
+                android:layout_height="40dp"
+                android:text="刷新"
+                android:layout_marginLeft="80dp"
+                android:background="@drawable/btn_nor_down_green"
                 android:textSize="17dp" />
+
         </LinearLayout>
-
-
 
     </LinearLayout>
 
@@ -96,7 +189,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="0dp"
             android:layout_marginRight="8dp"
             android:orientation="vertical">
 
