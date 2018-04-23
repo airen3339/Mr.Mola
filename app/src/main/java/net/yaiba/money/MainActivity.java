@@ -3,6 +3,7 @@ package net.yaiba.money;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,11 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import net.yaiba.money.db.LoginDB;
 import net.yaiba.money.db.MoneyDB;
 import net.yaiba.money.utils.SpecialAdapter;
 import net.yaiba.money.utils.UpdateTask;
@@ -41,7 +44,9 @@ public class MainActivity extends Activity {
     private static final int MENU_CATEGORY_CONFIG = 6;
     private static final int MENU_PAY_CONFIG = 7;
     private static final int MENU_MEMBER_CONFIG = 8;
+    private static final int MENU_CHANGE_LOGIN_TYPE = 9;
 
+    private LoginDB LoginDB;
 	private MoneyDB MoneyDB;
 	private Cursor mCursor;
 	private Long costThisMonth;
@@ -202,14 +207,18 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.add(Menu.NONE, MENU_IMPORT_EXPOERT, 0, "数据管理");
-        menu.add(Menu.NONE, MENU_CHANGE_LOGIN_PASSWORD, 4, "登录密码修改");
-        menu.add(Menu.NONE, MENU_WHATUPDATE, 5, "更新日志");
-        menu.add(Menu.NONE, MENU_CHECK_UPDATE, 6, "检查更新");
-        menu.add(Menu.NONE, MENU_SUPPORT, 7, "技术支持");
-        menu.add(Menu.NONE, MENU_ABOUT, 8, "关于MR.Money");
         menu.add(Menu.NONE, MENU_CATEGORY_CONFIG, 1, "类别管理");
         menu.add(Menu.NONE, MENU_PAY_CONFIG, 2, "付款方式管理");
         menu.add(Menu.NONE, MENU_MEMBER_CONFIG, 3, "成员管理");
+
+        menu.add(Menu.NONE, MENU_CHANGE_LOGIN_PASSWORD, 4, "修改登录密码");
+        menu.add(Menu.NONE, MENU_CHANGE_LOGIN_TYPE, 5, "修改登录方式");
+
+        menu.add(Menu.NONE, MENU_WHATUPDATE, 6, "更新日志");
+        menu.add(Menu.NONE, MENU_CHECK_UPDATE, 7, "检查更新");
+        menu.add(Menu.NONE, MENU_SUPPORT, 8, "技术支持");
+        menu.add(Menu.NONE, MENU_ABOUT, 9, "关于MR.Money");
+
         return true;
     }
 
@@ -267,6 +276,54 @@ public class MainActivity extends Activity {
                 startActivity(mainIntent);
                 setResult(RESULT_OK, mainIntent);
                 finish();
+                break;
+
+            case MENU_CHANGE_LOGIN_TYPE://设置登录方式
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("设置登录方式");
+
+                String login_type_before = "";
+                String login_type_after = "";
+                String login_type_after_db = "";
+                LoginDB = new LoginDB(MainActivity.this);
+                if (LoginDB.isLoginUsePassword() < 0){
+                    login_type_before = "凭密码登录";
+                    login_type_after = "免密码登录";
+                } else {
+                    login_type_before = "免密码登录";
+                    login_type_after = "凭密码登录";
+                }
+
+                final TextView tv_after =new TextView(this);
+                tv_after.setText(" 将登录方式改为：“"+login_type_after+"”？");
+                tv_after.setTextSize(20);
+
+                builder.setView(tv_after);
+
+                builder.setPositiveButton("確定", new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String login_type_after_db = "";
+                        if (LoginDB.isLoginUsePassword() < 0){
+                            login_type_after_db = "none_password";
+                        } else {
+                            login_type_after_db = "normal";
+                        }
+                        LoginDB.updateLoginType(login_type_after_db);
+                        Toast.makeText(MainActivity.this, "修改完成" , Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.create().show();
                 break;
 
         }

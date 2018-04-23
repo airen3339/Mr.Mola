@@ -277,7 +277,7 @@ public class LoginDB extends SQLiteOpenHelper{
 				+");";
 		db.execSQL(sql_member_master);
 
-		String sql_init = "INSERT INTO "	+TABLE_NAME_MEMBER+ " ( "+ MEMBER_NAME + ")"	+ "VALUES ('自己'),('宝贝'),('配偶'),('孩子'),('父母'),('朋友'),('同事'),('其他');";
+		String sql_init = "INSERT INTO "	+TABLE_NAME_MEMBER+ " ( "+ MEMBER_NAME + ")"	+ "VALUES ('自己'),('宝贝'),('孩子'),('父母'),('朋友'),('同事'),('其他');";
 		db.execSQL(sql_init);
 
 
@@ -316,12 +316,41 @@ public class LoginDB extends SQLiteOpenHelper{
         	 cursor.moveToFirst();
         	 if(passwordstr.equals(cursor.getString(1))){
         		//path for 0.1.3
-        		 deleteOthers(db, cursor.getInt(0));
+        		 //deleteOthers(db, cursor.getInt(0));
         		 return cursor.getInt(0);
         	 }
          }
          return -1;
      }
+
+	public int isLoginUsePassword() {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(true, TABLE_NAME_LOGIN, new String[] {LOGIN_ID, LOGIN_TYPE}, LOGIN_TYPE + "='none_password'", null, null, null, null, null);
+		if(cursor.getCount()>0) {
+			cursor.moveToFirst();
+			return cursor.getInt(0);
+		}
+		return -1;
+	}
+
+
+
+	public void updateLoginType(String type){
+		SQLiteDatabase db = this.getWritableDatabase();
+		String wv = "";
+		if("normal".equals(type)){
+			wv = "none_password";
+		} else {
+			wv = "normal";
+		}
+		String where = LOGIN_TYPE + " = ?";
+		String[] whereValue = { wv };
+		ContentValues cv = new ContentValues();
+
+		cv.put(LOGIN_TYPE, type);
+		db.update(TABLE_NAME_LOGIN, cv, where, whereValue);
+	}
+
 	
 	public void insert(String password){
 		SQLiteDatabase db = this.getWritableDatabase();

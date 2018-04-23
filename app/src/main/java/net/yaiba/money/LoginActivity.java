@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -22,6 +23,8 @@ import net.yaiba.money.utils.DES;
 import net.yaiba.money.utils.Custom;
 
 import net.yaiba.money.db.LoginDB;
+
+import static net.yaiba.money.db.BaseConfig.LOGIN_TYPE;
 
 public class LoginActivity extends Activity {
 
@@ -43,6 +46,9 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         if(accountCursor.getCount()==0){
             setContentView(R.layout.login_init);
+            //设置首页版本
+            TextView textView = (TextView) findViewById(R.id.version_id);
+            textView.setText(Custom.getVersion(this));
 
             Button bn_reg = (Button)findViewById(R.id.reg);
             bn_reg.setOnClickListener(new OnClickListener(){
@@ -60,44 +66,70 @@ public class LoginActivity extends Activity {
 
         }else{
             setContentView(R.layout.login);
+            //设置首页版本
+            TextView textView = (TextView) findViewById(R.id.version_id);
+            textView.setText(Custom.getVersion(this));
 
             loginPassword = (EditText) findViewById(R.id.login_password);
-            loginPassword.addTextChangedListener(new TextWatcher() {
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if(loginPassword.getText().toString().length()!=0){
-                        try {
-                            if(LoginDB.isCurrentPassword(DES.encryptDES(loginPassword.getText().toString())) >= 0){
-                                Toast.makeText(LoginActivity.this, "欢迎回来" , Toast.LENGTH_SHORT).show();
-                                //Toast.makeText(MainActi.this, "Changed--"+ et1.getText().toString() , Toast.LENGTH_SHORT).show();
-                                Intent mainIntent = new Intent(LoginActivity.this,MainActivity.class);
-                                startActivity(mainIntent);
-                                setResult(RESULT_OK, mainIntent);
-                                finish();
+            //使用密码，凭密码登录
+            // LOGIN_TYPE + "='normal'"
+            if( LoginDB.isLoginUsePassword() < 0 ){
+                loginPassword.addTextChangedListener(new TextWatcher() {
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if(loginPassword.getText().toString().length()!=0){
+                            try {
+                                if(LoginDB.isCurrentPassword(DES.encryptDES(loginPassword.getText().toString())) >= 0){
+                                    Toast.makeText(LoginActivity.this, "欢迎回来" , Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(MainActi.this, "Changed--"+ et1.getText().toString() , Toast.LENGTH_SHORT).show();
+                                    Intent mainIntent = new Intent(LoginActivity.this,MainActivity.class);
+                                    startActivity(mainIntent);
+                                    setResult(RESULT_OK, mainIntent);
+                                    finish();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
                     }
-                }
 
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    //Toast.makeText(LoginActivity.this, "beforeTextChanged", Toast.LENGTH_SHORT).show();
-                }
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        //Toast.makeText(LoginActivity.this, "beforeTextChanged", Toast.LENGTH_SHORT).show();
+                    }
 
-                @Override
-                public void afterTextChanged(Editable s) {
-                    //Toast.makeText(LoginActivity.this, "afterTextChanged", Toast.LENGTH_SHORT).show();
-                }
-            });
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        //Toast.makeText(LoginActivity.this, "afterTextChanged", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                // 不使用密码，加载logo页面后直接登陆
+                // LOGIN_TYPE + "='none_password'"
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        /**
+                         * 延时执行的代码
+                         */
+                        Toast.makeText(LoginActivity.this, "欢迎回来" , Toast.LENGTH_SHORT).show();
+                        Intent mainIntent = new Intent(LoginActivity.this,MainActivity.class);
+                        startActivity(mainIntent);
+                        setResult(RESULT_OK, mainIntent);
+                        finish();
+                    }
+                },500);
+
+            }
+
+
 
         }
 
-        //设置首页版本
-        TextView textView = (TextView) findViewById(R.id.version_id);
-        textView.setText(Custom.getVersion(this));
+
 
     }
 
