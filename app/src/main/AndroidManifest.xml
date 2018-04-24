@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name="net.yaiba.money.data.ListViewData"
         android:allowBackup="true"
         android:icon="@drawable/login_logo"
         android:label="@string/app_name"
@@ -31,6 +32,7 @@
         <activity android:name="net.yaiba.money.RecordAddActivity"  android:label="记一笔" ></activity>
         <activity android:name="net.yaiba.money.RecordListActivity"  android:label="数据一览" ></activity>
         <activity android:name="net.yaiba.money.PasswordEditActivity"  android:label="修改密码" ></activity>
+        <activity android:name="net.yaiba.money.RecordDetailActivity"  android:label="数据详细信息" ></activity>
     </application>
 
 </manifest>

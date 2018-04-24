@@ -65,6 +65,39 @@ public class MoneyDB extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor getRecordInfo(long rowId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "select "+
+                TABLE_NAME_RECORD+"."+RECORD_ID +" as "+RECORD_ID +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_CATEGORY_ID +" as "+RECORD_CATEGORY_ID +" , "+
+                TABLE_NAME_CATEGORY+"."+CATEGORY_NAME +" as "+CATEGORY_NAME +" , "+
+                TABLE_NAME_CATEGORY+"."+PID +" as "+PID +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_PAY_ID +" as "+RECORD_PAY_ID +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_TYPE +" as "+RECORD_TYPE +" , "+
+                TABLE_NAME_PAY+"."+PAY_NAME +" as "+PAY_NAME +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_MEMBER_ID +" as "+RECORD_MEMBER_ID +" , "+
+                TABLE_NAME_MEMBER+"."+MEMBER_NAME +" as "+MEMBER_NAME +" , "+
+                TABLE_NAME_RECORD+"."+AMOUNTS +" as "+AMOUNTS +" , "+
+                TABLE_NAME_RECORD+"."+REMARK +" as "+REMARK +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_CREATE_TIME +" as "+RECORD_CREATE_TIME +"  "+
+                " from " +
+                TABLE_NAME_RECORD +"," +
+                TABLE_NAME_CATEGORY +"," +
+                TABLE_NAME_PAY +"," +
+                TABLE_NAME_MEMBER  +
+                " where " +
+                TABLE_NAME_RECORD+"."+RECORD_CATEGORY_ID +" = "+TABLE_NAME_CATEGORY+"."+CATEGORY_ID + " and " +
+                TABLE_NAME_RECORD+"."+RECORD_PAY_ID +" = "+TABLE_NAME_PAY+"."+PAY_ID + " and " +
+                TABLE_NAME_RECORD+"."+RECORD_MEMBER_ID +" = "+TABLE_NAME_MEMBER+"."+MEMBER_ID +" and " +
+                TABLE_NAME_RECORD+"."+RECORD_ID +" = "+rowId + " ";
+
+        Cursor cursor = db.rawQuery(sql, null);
+        if(cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
     public Cursor getCategoryList(String orderBy) {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -181,6 +214,22 @@ public class MoneyDB extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public String getCategoryPName (String pid){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true,
+                TABLE_NAME_CATEGORY,
+                new String[] {CATEGORY_NAME},
+                PID+"='0' and " + CATEGORY_ID+"='"+pid+"'", null, null, null, null, null);
+        if (cursor.moveToNext()) {
+            return cursor.getString(0);
+        } else {
+            return "";
+        }
+
+    }
+
     public String getCategoryCID (String Cname){
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -411,7 +460,7 @@ public class MoneyDB extends SQLiteOpenHelper {
         String start_date = Custom.getDateToString(Custom.getBeginDayOfMonth())+" 00:00";
         String end_date = Custom.getDateToString(Custom.getEndDayOfMonth())+" 23:59";
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select total("+AMOUNTS+")  as amounts from " + TABLE_NAME_RECORD +" where ( "+RECORD_CREATE_TIME+">='" +start_date +"' and " + RECORD_CREATE_TIME + "<='" + end_date +"' ) and "+RECORD_TYPE +" = '0'", null);
+        Cursor cursor = db.rawQuery("select cast((cast(total("+AMOUNTS+") as varchar(100))) as decimal) as amounts from " + TABLE_NAME_RECORD +" where ( "+RECORD_CREATE_TIME+">='" +start_date +"' and " + RECORD_CREATE_TIME + "<='" + end_date +"' ) and "+RECORD_TYPE +" = '0'", null);
         Log.v("v_getBeginDayOfMonth",start_date);
         Log.v("v_getEndDayOfMonth",end_date);
         if (cursor.moveToNext()) {
@@ -425,7 +474,7 @@ public class MoneyDB extends SQLiteOpenHelper {
         String start_date = Custom.getDateToString(Custom.getBeginDayOfBeforeMonth())+" 00:00";
         String end_date = Custom.getDateToString(Custom.getEndDayOfBeforeMonth())+" 23:59";
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select total("+AMOUNTS+")  as amounts from " + TABLE_NAME_RECORD +" where ( "+RECORD_CREATE_TIME+">='" +start_date +"' and " + RECORD_CREATE_TIME + "<='" + end_date +"' ) and "+RECORD_TYPE +" = '0'", null);
+        Cursor cursor = db.rawQuery("select cast((cast(total("+AMOUNTS+") as varchar(100))) as decimal) as amounts from " + TABLE_NAME_RECORD +" where ( "+RECORD_CREATE_TIME+">='" +start_date +"' and " + RECORD_CREATE_TIME + "<='" + end_date +"' ) and "+RECORD_TYPE +" = '0'", null);
         Log.v("v_getBeginDayOfBeforeM",start_date);
         Log.v("v_getEndDayOfBeforeM",end_date);
         if (cursor.moveToNext()) {
@@ -439,7 +488,7 @@ public class MoneyDB extends SQLiteOpenHelper {
         String start_date = Custom.getDateToString(Custom.getBeginDayOfMonth())+" 00:00";
         String end_date = Custom.getDateToString(Custom.getEndDayOfMonth())+" 23:59";
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select total("+AMOUNTS+")  as amounts from " + TABLE_NAME_RECORD +" where ( "+RECORD_CREATE_TIME+">='" +start_date +"' and " + RECORD_CREATE_TIME + "<='" + end_date +"' ) and "+RECORD_TYPE +" = '1'", null);
+        Cursor cursor = db.rawQuery("select cast((cast(total("+AMOUNTS+") as varchar(100))) as decimal) as amounts from " + TABLE_NAME_RECORD +" where ( "+RECORD_CREATE_TIME+">='" +start_date +"' and " + RECORD_CREATE_TIME + "<='" + end_date +"' ) and "+RECORD_TYPE +" = '1'", null);
         Log.v("v_getBeginDayOfBeforeM",start_date);
         Log.v("v_getEndDayOfBeforeM",end_date);
         if (cursor.moveToNext()) {
@@ -462,6 +511,13 @@ public class MoneyDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME_RECORD, null, null, null, null, null, orderBy);
         return cursor;
+    }
+
+    public void delete(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String where = RECORD_ID + " = ?";
+        String[] whereValue ={ Integer.toString(id) };
+        db.delete(TABLE_NAME_RECORD, where, whereValue);
     }
 
 

@@ -35,6 +35,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static net.yaiba.money.utils.Custom.getAppVersion;
+import static net.yaiba.money.utils.Custom.getSplitWord;
 import static net.yaiba.money.utils.Custom.transDate2Date2;
 
 
@@ -211,6 +212,7 @@ public class RecordListActivity extends Activity {
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("id", id);
             map.put("category_child_name", category_name);
+            map.put("pay_name", getSplitWord(pay_name,2) );
             map.put("create_time",transDate2Date2(create_time) );
             map.put("type_id",type_id );
             map.put("remark", remark);
@@ -221,8 +223,8 @@ public class RecordListActivity extends Activity {
         }
 
         SpecialAdapter listItemAdapter = new SpecialAdapter(this,listItem,R.layout.main_record_list_items,
-                new String[] {"category_child_name","create_time","remark","amounts","type_id"},
-                new int[] {R.id.category_child_name, R.id.create_time, R.id.remark, R.id.amounts, R.id.type_id}
+                new String[] {"category_child_name","pay_name","create_time","remark","amounts","type_id"},
+                new int[] {R.id.category_child_name, R.id.pay_name,R.id.create_time, R.id.remark, R.id.amounts, R.id.type_id}
         );
         RecordList.setAdapter(listItemAdapter);
 

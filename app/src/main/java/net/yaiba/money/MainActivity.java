@@ -3,6 +3,7 @@ package net.yaiba.money;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,6 +13,9 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import net.yaiba.money.data.ListViewData;
 import net.yaiba.money.db.LoginDB;
 import net.yaiba.money.db.MoneyDB;
 import net.yaiba.money.utils.SpecialAdapter;
@@ -30,10 +35,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static net.yaiba.money.utils.Custom.getAppVersion;
+import static net.yaiba.money.utils.Custom.getSplitWord;
 import static net.yaiba.money.utils.Custom.transDate2Date2;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements  AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
     private static final int MENU_ABOUT = 0;
     private static final int MENU_SUPPORT = 1;
@@ -145,10 +151,10 @@ public class MainActivity extends Activity {
             String remark = mCursor.getString(mCursor.getColumnIndex("remark"));
             String create_time = mCursor.getString(mCursor.getColumnIndex("create_time"));
 
-
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("id", id);
             map.put("category_child_name", category_name);
+            map.put("pay_name", getSplitWord(pay_name,2) );
             map.put("create_time",transDate2Date2(create_time) );
             map.put("type_id",type_id );
             map.put("remark", remark);
@@ -159,10 +165,11 @@ public class MainActivity extends Activity {
         }
 
         SpecialAdapter listItemAdapter = new SpecialAdapter(this,listItem,R.layout.main_record_list_items,
-                new String[] {"category_child_name","create_time","remark","amounts","type_id"},
-                new int[] {R.id.category_child_name, R.id.create_time, R.id.remark, R.id.amounts, R.id.type_id}
+                new String[] {"category_child_name","pay_name","create_time","remark","amounts","type_id"},
+                new int[] {R.id.category_child_name, R.id.pay_name,R.id.create_time, R.id.remark, R.id.amounts, R.id.type_id}
         );
         RecordList.setAdapter(listItemAdapter);
+        RecordList.setOnItemClickListener(this);
 
 
 
@@ -339,6 +346,81 @@ public class MainActivity extends Activity {
         builder.setMessage(msg);
         builder.setPositiveButton("确定", null);
         builder.create().show();
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //保存当前一览位置
+        saveListViewPositionAndTop();
+        //迁移到详细页面
+
+        Intent mainIntent = new Intent(MainActivity.this,RecordDetailActivity.class);
+        mCursor.moveToPosition(position);
+        RECORD_ID = mCursor.getInt(0);
+
+        Log.v("v_debug","RECORD_ID:"+RECORD_ID);
+        mainIntent.putExtra("INT", RECORD_ID);
+        startActivity(mainIntent);
+        setResult(RESULT_OK, mainIntent);
+        finish();
+    }
+
+
+    public class RecordListAdapter extends BaseAdapter {
+        private Context mContext;
+        private Cursor mCursor;
+        public RecordListAdapter(Context context,Cursor cursor) {
+
+            mContext = context;
+            mCursor = cursor;
+        }
+
+        @Override
+        public int getCount() {
+            return mCursor.getCount();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView mTextView = new TextView(mContext);
+            mCursor.moveToPosition(position);
+            mTextView.setText(mCursor.getString(1) + "___" + mCursor.getString(2)+ "___" + mCursor.getString(3)+ "___" + mCursor.getString(4));
+            return mTextView;
+        }
+    }
+
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        mCursor.moveToPosition(position);
+        RECORD_ID = mCursor.getInt(0);
+        return false;
+    }
+
+
+
+
+    /**
+     * 保存当前页签listView的第一个可见的位置和top
+     */
+    private void saveListViewPositionAndTop() {
+
+        final ListViewData app = (ListViewData)getApplication();
+
+        app.setFirstVisiblePosition(RecordList.getFirstVisiblePosition());
+        View item = RecordList.getChildAt(0);
+        app.setFirstVisiblePositionTop((item == null) ? 0 : item.getTop());
     }
 
 

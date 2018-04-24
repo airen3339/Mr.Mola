@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="2dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="记录类型："
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/record_type"
+                android:layout_width="170sp"
+                android:layout_height="wrap_content"
+                android:text="支出"
+                android:textSize="22sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="金额："
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/amounts_text"
+                android:layout_width="170sp"
+                android:layout_height="wrap_content"
+                android:text="99999.99"
+                android:textSize="22sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="分类："
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/category_name"
+                android:layout_width="170sp"
+                android:layout_height="wrap_content"
+                android:text="餐饮-水果"
+                android:textSize="22sp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="支付方式："
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/pay_name"
+                android:layout_width="170sp"
+                android:layout_height="wrap_content"
+                android:text="支付宝"
+                android:textSize="22sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="备注："
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/remark_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="xxxxxxxxxxxx"
+                android:textSize="22sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="消费时间："
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/create_time_text"
+                android:layout_width="270sp"
+                android:layout_height="wrap_content"
+                android:text="2017/12/15 15:23:27"
+                android:textSize="22sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="成员："
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/member_name_text"
+                android:layout_width="270sp"
+                android:layout_height="wrap_content"
+                android:text="自己"
+                android:textSize="22sp"/>
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/go_edit"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="5dip"
+            android:layout_marginTop="2dip"
+            android:background="@drawable/btn_nor_down"
+            android:text="我要编辑" />
+
+        <Button
+            android:id="@+id/go_del"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="5dip"
+            android:layout_marginTop="2dip"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/btn_nor_down_grey"
+            android:text="我要删除" />
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</LinearLayout>

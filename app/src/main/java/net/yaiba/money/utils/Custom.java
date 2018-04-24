@@ -9,6 +9,7 @@ import android.widget.SpinnerAdapter;
 
 import net.yaiba.money.R;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -494,6 +495,26 @@ public class Custom {
     //to 02-03 16:40
         String[] aa= d.split("-");
         return aa[1]+"-"+aa[2];
+    }
+
+    public static String getSplitWord(String str,int len) {
+        try {
+            int counterOfDoubleByte = 0;
+            byte b[] = str.getBytes("GBK");
+            if (b.length <= len)
+                return str;
+            for (int i = 0; i < len; i++) {
+                if (b[i] < 0)
+                    counterOfDoubleByte++;
+            }
+            if (counterOfDoubleByte % 2 == 0)
+                return new String(b, 0, len, "GBK") ;
+            else
+                return new String(b, 0, len - 1, "GBK") ;
+
+        } catch (UnsupportedEncodingException e) {
+            return "";
+        }
     }
 
 }
