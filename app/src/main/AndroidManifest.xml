@@ -30,6 +30,7 @@
         <activity android:name="net.yaiba.money.MemberActivity"  android:label="成员名称设置" ></activity>
         <activity android:name="net.yaiba.money.RecordAddActivity"  android:label="记一笔" ></activity>
         <activity android:name="net.yaiba.money.RecordListActivity"  android:label="数据一览" ></activity>
+        <activity android:name="net.yaiba.money.PasswordEditActivity"  android:label="修改密码" ></activity>
     </application>
 
 </manifest>

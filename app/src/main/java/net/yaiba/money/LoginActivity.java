@@ -109,6 +109,7 @@ public class LoginActivity extends Activity {
                 // 不使用密码，加载logo页面后直接登陆
                 // LOGIN_TYPE + "='none_password'"
             } else {
+                loginPassword.setVisibility(View.INVISIBLE);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

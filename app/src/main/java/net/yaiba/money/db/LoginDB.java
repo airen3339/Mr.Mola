@@ -374,7 +374,7 @@ public class LoginDB extends SQLiteOpenHelper{
 		String[] whereValue = { Integer.toString(id) };
 		ContentValues cv = new ContentValues();
 		cv.put(PASSWORD, newPassword);
-		cv.put(LOGIN_TYPE, "normal");
+		//cv.put(LOGIN_TYPE, "normal");
 		db.update(TABLE_NAME_LOGIN, cv, where, whereValue);
 	}
 	
