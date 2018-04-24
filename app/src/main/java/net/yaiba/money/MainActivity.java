@@ -277,21 +277,23 @@ public class MainActivity extends Activity {
                 setResult(RESULT_OK, mainIntent);
                 finish();
                 break;
+            case MENU_CHANGE_LOGIN_PASSWORD://修改登录密码
+                mainIntent = new Intent(MainActivity.this, PasswordEditActivity.class);
+                startActivity(mainIntent);
+                setResult(RESULT_OK, mainIntent);
+                finish();
+                break;
 
             case MENU_CHANGE_LOGIN_TYPE://设置登录方式
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("设置登录方式");
 
-                String login_type_before = "";
                 String login_type_after = "";
-                String login_type_after_db = "";
                 LoginDB = new LoginDB(MainActivity.this);
                 if (LoginDB.isLoginUsePassword() < 0){
-                    login_type_before = "凭密码登录";
                     login_type_after = "免密码登录";
                 } else {
-                    login_type_before = "免密码登录";
                     login_type_after = "凭密码登录";
                 }
 
