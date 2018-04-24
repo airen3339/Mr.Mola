@@ -88,6 +88,9 @@ public class MainActivity extends Activity implements  AdapterView.OnItemClickLi
 
         setUpViews();
 
+        //返回前设置前次的位置值
+        setRecordListPosition();
+
         bn_record_add = (Button)findViewById(R.id.record_add);
         bn_record_add.setOnClickListener(new View.OnClickListener(){
             public void  onClick(View v)
@@ -411,16 +414,19 @@ public class MainActivity extends Activity implements  AdapterView.OnItemClickLi
 
 
 
-    /**
-     * 保存当前页签listView的第一个可见的位置和top
-     */
-    private void saveListViewPositionAndTop() {
-
+    //保存当前页签listView的第一个可见的位置和top
+    public void saveListViewPositionAndTop() {
         final ListViewData app = (ListViewData)getApplication();
-
         app.setFirstVisiblePosition(RecordList.getFirstVisiblePosition());
         View item = RecordList.getChildAt(0);
         app.setFirstVisiblePositionTop((item == null) ? 0 : item.getTop());
+    }
+
+
+    //返回前设置前次的位置值
+    public void setRecordListPosition(){
+        ListViewData app = (ListViewData)getApplication();
+        RecordList.setSelectionFromTop(app.getFirstVisiblePosition(), app.getFirstVisiblePositionTop());
     }
 
 
