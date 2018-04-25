@@ -222,25 +222,35 @@ public class MoneyDB extends SQLiteOpenHelper {
                 TABLE_NAME_CATEGORY,
                 new String[] {CATEGORY_NAME},
                 PID+"='0' and " + CATEGORY_ID+"='"+pid+"'", null, null, null, null, null);
-        if (cursor.moveToNext()) {
-            return cursor.getString(0);
-        } else {
-            return "";
+        try {
+            if (cursor.moveToNext()) {
+                return cursor.getString(0);
+            } else {
+                return "";
+            }
+        } finally {
+            db.close();
+            cursor.close();
         }
 
     }
 
     public String getCategoryCID (String Cname){
-
+        Cursor cursor;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(true,
+        cursor = db.query(true,
                 TABLE_NAME_CATEGORY,
                 null,
-                CATEGORY_NAME+"='"+Cname+"'", null, null, null, null, null);
-        if (cursor.moveToNext()) {
-            return cursor.getString(0);
-        } else {
-            return "137";
+                CATEGORY_NAME + "='" + Cname + "'", null, null, null, null, null);
+        try {
+            if (cursor.moveToNext()) {
+                return cursor.getString(0);
+            } else {
+                return "137";
+            }
+        } finally {
+            db.close();
+            cursor.close();
         }
 
     }
@@ -367,11 +377,18 @@ public class MoneyDB extends SQLiteOpenHelper {
     public boolean isHaveValidRecordByMemberName(String id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(true, TABLE_NAME_RECORD, new String[] {RECORD_ID}, RECORD_MEMBER_ID + "=" + id+"", null, null, null, null, null);
-        if(cursor.getCount() != 0) {
-            return true;
-        } else {
-            return false;
+
+        try{
+            if(cursor.getCount() != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } finally {
+            cursor.close();
+            db.close();
         }
+
     }
 
     public boolean isMenberExist(String input){
@@ -448,11 +465,14 @@ public class MoneyDB extends SQLiteOpenHelper {
         cv.put(REMARK, remark);
         cv.put(RECORD_CREATE_TIME, recordTime);
 
+        try{
+            long row = db.replace(TABLE_NAME_RECORD, null, cv);
+            Log.v("v_insertDB",TABLE_NAME_RECORD+"/row/"+row+"/categoryId/"+categoryId+"/payType_id/"+payType_id+"/member_id/"+member_id+"/recordType/"+recordType+"/amount/"+amount+"/remark/"+remark+"/recordTime/"+recordTime);
+            return row;
+        } finally {
+            db.close();
+        }
 
-
-        long row = db.insert(TABLE_NAME_RECORD, null, cv);
-        Log.v("v_insertDB",TABLE_NAME_RECORD+"/row/"+row+"/categoryId/"+categoryId+"/payType_id/"+payType_id+"/member_id/"+member_id+"/recordType/"+recordType+"/amount/"+amount+"/remark/"+remark+"/recordTime/"+recordTime);
-        return row;
     }
 
     public double getCostThisMonth(){
@@ -549,9 +569,15 @@ public class MoneyDB extends SQLiteOpenHelper {
         cv.put(REMARK, remark);
         cv.put(RECORD_CREATE_TIME, create_time);
 
-        long row = db.insert(TABLE_NAME_RECORD, null, cv);
-        Log.v("v_insertDB",category_id +"/"+pay_id+"/"+member_id+"/"+ type_id+"/"+ amounts+"/"+ remark+"/"+ create_time);
-        return row;
+        try{
+            long row = db.replace(TABLE_NAME_RECORD, null, cv);
+            Log.v("v_insertDB",category_id +"/"+pay_id+"/"+member_id+"/"+ type_id+"/"+ amounts+"/"+ remark+"/"+ create_time);
+            return row;
+        } finally {
+            db.close();
+        }
+
+
     }
 
 }

@@ -419,17 +419,18 @@ public class DataManagementActivity extends Activity {
 			Uri uri = data.getData();
 			if ("file".equalsIgnoreCase(uri.getScheme())) { //使用第三方应用打开
 				path = uri.getPath();
-				Toast.makeText(this,path+"11111",Toast.LENGTH_SHORT).show();
-			} else {
-				if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {//4.4以后
-					path = getPath(this, uri);
-
-					Toast.makeText(this,path,Toast.LENGTH_SHORT).show();
-				} else {//4.4以下下系统调用方法
-					path = getRealPathFromURI(uri);
-					Toast.makeText(DataManagementActivity.this, path+"222222", Toast.LENGTH_SHORT).show();
-				}
+				//Toast.makeText(this,path+"11111",Toast.LENGTH_SHORT).show();
+				return;
 			}
+
+			if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {//4.4以后
+				path = getPath(this, uri);
+				//Toast.makeText(this,path+"333333",Toast.LENGTH_SHORT).show();
+			} else {//4.4以下下系统调用方法
+				path = getRealPathFromURI(uri);
+				//Toast.makeText(DataManagementActivity.this, path+"222222", Toast.LENGTH_SHORT).show();
+			}
+
 
 			AlertDialog.Builder builder= new AlertDialog.Builder(DataManagementActivity.this);
 			builder.setIcon(android.R.drawable.ic_dialog_info);
@@ -451,9 +452,6 @@ public class DataManagementActivity extends Activity {
 					} else {
 						Toast.makeText(getApplicationContext(), "文件读取中，请稍后...", Toast.LENGTH_LONG).show();
 
-
-
-
 						try {
 							/**
 							 * 读取xls数据
@@ -465,82 +463,113 @@ public class DataManagementActivity extends Activity {
 							int num = book.getNumberOfSheets();
 
 
-							//读取第一个列表，支出
-							Sheet sheet = book.getSheet(0);
-							int Rows = sheet.getRows();
-							int Cols = sheet.getColumns();
-							Log.v("v_xls","sheet总数：" + num);
-							Log.v("v_xls","当前sheet名：" + sheet.getName());
-							Log.v("v_xls","行数：" + Rows);
-							Log.v("v_xls","列数：" + Cols);
+							int totleCounts = 0;
 
-							for (int i = 1; i < Rows; ++i) {
-								ArrayList<String>  strArray = new ArrayList<String> ();
-								for (int j = 0; j < Cols; ++j) {
+							for (int h =0;h<2;h++){
+
+								//读取第一个列表，支出
+								Sheet sheet = book.getSheet(h);
+								int Rows = sheet.getRows();
+								int Cols = sheet.getColumns();
+								Log.v("v_xls","sheet总数：" + num);
+								Log.v("v_xls","当前sheet名：" + sheet.getName());
+								Log.v("v_xls","行数：" + Rows);
+								Log.v("v_xls","列数：" + Cols);
+
+								totleCounts = totleCounts+Rows;
+								for (int i = 1; i < Rows; ++i) {
+									ArrayList<String>  strArray = new ArrayList<String> ();
+									for (int j = 0; j < Cols; ++j) {
 
 
 
-									if(sheet.getCell(j,i).getType() == CellType.DATE){
-										String cellcon="";
-										DateCell dc = (DateCell)sheet.getCell(j,i);
-										Date date = dc.getDate();
+										if(sheet.getCell(j,i).getType() == CellType.DATE){
+											String cellcon="";
+											DateCell dc = (DateCell)sheet.getCell(j,i);
+											Date date = dc.getDate();
 
-										TimeZone zone = TimeZone.getTimeZone("GMT");
+											TimeZone zone = TimeZone.getTimeZone("GMT");
 
-										SimpleDateFormat ds = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-										ds.setTimeZone(zone);
-										cellcon = ds.format(date);
-										strArray.add(cellcon);
-										Log.v("v_xls","是DATE");
-									} else {
-										// getCell(Col,Row)获得单元格的值
-										strArray.add(sheet.getCell(j,i).getContents());
-										Log.v("v_xls","不是DATE");
+											SimpleDateFormat ds = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+											ds.setTimeZone(zone);
+											cellcon = ds.format(date);
+											strArray.add(cellcon);
+											//Log.v("v_xls","是DATE");
+										} else {
+											// getCell(Col,Row)获得单元格的值
+											strArray.add(sheet.getCell(j,i).getContents());
+											//Log.v("v_xls","不是DATE");
+										}
+
+										//Log.v("v_xls_contents",sheet.getCell(j,i).getContents());
+									}
+//todo
+									String type_id = "" ;
+									String amounts = "";
+									String remark = "";
+									String create_time = "";
+
+
+									String category_p_name = "";
+									String category_c_name = "";
+									String category_id = "";//没有分类的数据为-1
+									String pay_name = "";
+									String pay_id = "";
+									String member_id = "";
+
+									if(h == 0){
+										type_id = "0";
+										amounts = strArray.get(8);
+										remark = strArray.get(10);
+										create_time = strArray.get(7);
+										String[] crtimes = create_time.split(":");
+										create_time = crtimes[0]+":"+crtimes[1];
+
+										category_c_name = strArray.get(1);
+										category_id = MoneyDB.getCategoryCID(category_c_name);//没有分类的数据为-1
+										pay_name = strArray.get(2);
+										pay_id = MoneyDB.getPayID(pay_name);
+										member_id = strArray.get(9);
+										String[] member_name_amounts = member_id.split(":");
+										member_id = MoneyDB.memberName2Id(member_name_amounts[0]);
+									} else if (h == 1){
+										type_id = "1";
+										amounts = strArray.get(6);
+										remark = strArray.get(8);
+										create_time = strArray.get(5);
+										String[] crtimes = create_time.split(":");
+										create_time = crtimes[0]+":"+crtimes[1];
+
+										category_c_name = strArray.get(0);
+										category_id = MoneyDB.getCategoryCID(category_c_name);//没有分类的数据为-1
+										pay_name = strArray.get(0);
+										pay_id = MoneyDB.getPayID(pay_name);
+										member_id = strArray.get(7);
+										String[] member_name_amounts = member_id.split(":");
+										member_id = MoneyDB.memberName2Id(member_name_amounts[0]);
 									}
 
-									Log.v("v_xls_contents",sheet.getCell(j,i).getContents());
+									if(remark.equals(null)){
+										remark="";
+									}
+
+									//行数据不为空时，登录数据库
+									if(!pay_name.isEmpty() && !amounts.isEmpty() && !create_time.isEmpty() && !strArray.get(9).isEmpty() ){
+										//Log.v("v_xls_split",strArray.get(7));
+										//Log.v("v_xls_split",strArray.get(7).split(":")[0]);
+										MoneyDB.insert(category_id, pay_id,member_id, type_id, amounts, remark,create_time);
+										//Log.v("v_xls_insert",category_id+"//"+pay_id+"//"+member_id+"//"+type_id+"//"+ amounts+"//"+ remark+"//"+create_time);
+									}
+
+									strArray.clear();
+
+
 								}
-//todo
-
-
-
-								String type_id = "0";
-								String amounts = strArray.get(8);
-								String remark = strArray.get(10);
-								String create_time = strArray.get(7);
-
-
-								String category_p_name = strArray.get(0);
-								String category_c_name = strArray.get(1);
-								String category_id = MoneyDB.getCategoryCID(category_c_name);//没有分类的数据为-1
-								String pay_name = strArray.get(2);
-								String pay_id = MoneyDB.getPayID(pay_name);
-								String member_id = strArray.get(9);
-
-								if(remark.equals(null)){
-									remark="";
-								}
-
-								//行数据不为空时，登录数据库
-								if(!pay_name.isEmpty() && !amounts.isEmpty() && !create_time.isEmpty() && !strArray.get(9).isEmpty() ){
-
-									Log.v("v_xls_split",strArray.get(7));
-									Log.v("v_xls_split",strArray.get(7).split(":")[0]);
-									String[] crtimes = strArray.get(7).split(":");
-									create_time = crtimes[0]+":"+crtimes[1];
-
-									String[] member_name_amounts = strArray.get(9).split(":");
-									member_id = MoneyDB.memberName2Id(member_name_amounts[0]);
-
-									MoneyDB.insert(category_id, pay_id,member_id, type_id, amounts, remark,create_time);
-									Log.v("v_xls_insert",category_id+"//"+pay_id+"//"+member_id+"//"+type_id+"//"+ amounts+"//"+ remark+"//"+create_time);
-								}
-
-								strArray.clear();
-
-
 							}
+
 							book.close();
+
+							showAboutDialog("完成","导入记录数："+(totleCounts-2)+"，相同记录已被覆盖");
 						}catch (IOException e) {
 							e.printStackTrace();
 						} catch (BiffException e) {
@@ -572,12 +601,8 @@ public class DataManagementActivity extends Activity {
 	 * 专为Android4.4设计的从Uri获取文件绝对路径，以前的方法已不好使
 	 */
 	@SuppressLint("NewApi")
-	public String getPath(final Context context, final Uri uri) {
-
-
+	public String  getPath(final Context context, final Uri uri) {
 		final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-
-
 		// DocumentProvider
 		if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
 			// ExternalStorageProvider
@@ -585,21 +610,14 @@ public class DataManagementActivity extends Activity {
 				final String docId = DocumentsContract.getDocumentId(uri);
 				final String[] split = docId.split(":");
 				final String type = split[0];
-
-
 				if ("primary".equalsIgnoreCase(type)) {
-					return Environment.getExternalStorageDirectory() + "/" + split[1];
+					return Environment.getExternalStorageDirectory() + "//" + split[1];
 				}
 			}
 			// DownloadsProvider
 			else if (isDownloadsDocument(uri)) {
-
-
 				final String id = DocumentsContract.getDocumentId(uri);
-				final Uri contentUri = ContentUris.withAppendedId(
-						Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-
-
+				final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 				return getDataColumn(context, contentUri, null, null);
 			}
 			// MediaProvider
@@ -607,7 +625,6 @@ public class DataManagementActivity extends Activity {
 				final String docId = DocumentsContract.getDocumentId(uri);
 				final String[] split = docId.split(":");
 				final String type = split[0];
-
 
 				Uri contentUri = null;
 				if ("image".equals(type)) {
@@ -618,10 +635,8 @@ public class DataManagementActivity extends Activity {
 					contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
 				}
 
-
 				final String selection = "_id=?";
 				final String[] selectionArgs = new String[]{split[1]};
-
 
 				return getDataColumn(context, contentUri, selection, selectionArgs);
 			}

@@ -46,7 +46,14 @@ public class LoginDB extends SQLiteOpenHelper{
 				+ AMOUNTS +" NVARCHAR(50), "
 				+ REMARK +" TEXT NULL, "
 				+ RECORD_CREATE_TIME +" NVARCHAR(100) "
-				+");";
+				+" , UNIQUE("
+				+RECORD_CATEGORY_ID +","
+				+RECORD_PAY_ID +","
+				+RECORD_MEMBER_ID +","
+				+RECORD_TYPE +","
+				+AMOUNTS +","
+				+REMARK +","
+				+RECORD_CREATE_TIME +"));";
 		db.execSQL(sql_record_master);
 
 		//DB:category_master
