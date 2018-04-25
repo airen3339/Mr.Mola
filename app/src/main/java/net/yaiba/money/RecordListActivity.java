@@ -3,6 +3,7 @@ package net.yaiba.money;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,8 +14,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -23,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.yaiba.money.data.ListViewData;
 import net.yaiba.money.data.SpinnerData;
 import net.yaiba.money.db.MoneyDB;
 import net.yaiba.money.utils.SpecialAdapter;
@@ -39,7 +43,7 @@ import static net.yaiba.money.utils.Custom.getSplitWord;
 import static net.yaiba.money.utils.Custom.transDate2Date2;
 
 
-public class RecordListActivity extends Activity {
+public class RecordListActivity extends Activity implements  AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
 	private MoneyDB MoneyDB;
 	private Cursor mCursor;
@@ -60,9 +64,16 @@ public class RecordListActivity extends Activity {
     private ArrayAdapter<SpinnerData> AdapterCateIncome;
     private ArrayAdapter<SpinnerData> PaySpinnerAdapter;
 
-    private Spinner record_type_spinner,category_child_spinner,category_parent_spinner,category_income_spinner,pay_type_spinner,create_time_spinner;
-    private EditText amounts_text, remark_text;
-    private TextView create_time_text,member_name_text;
+    private Spinner record_type_spinner,
+            category_child_spinner,
+            category_parent_spinner,
+            category_income_spinner,
+            pay_type_spinner,
+            create_time_spinner;
+    private EditText amounts_text,
+            remark_text;
+    private TextView create_time_text,
+            member_name_text;
 	 
 	private int RECORD_ID = 0;
 	//private UpdateTask updateTask;
@@ -89,6 +100,9 @@ public class RecordListActivity extends Activity {
         member_name_text=(TextView)findViewById(R.id.member_name_text);
 
         setUpViews("listInit",null);
+
+        //返回前设置前次的位置值
+        setRecordListPosition();
 
         //设置一览数据过滤区域 开和隐藏
         bn_filters = (Button)findViewById(R.id.filters);
@@ -164,7 +178,9 @@ public class RecordListActivity extends Activity {
                     }
                 }
 
-                builder.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {//第二个参数是设置默认选中哪一项-1代表默认都不选
+                builder.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
+
+                    //第二个参数是设置默认选中哪一项-1代表默认都不选
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         member_name_text.setText(items[which]);
@@ -227,7 +243,7 @@ public class RecordListActivity extends Activity {
                 new int[] {R.id.category_child_name, R.id.pay_name,R.id.create_time, R.id.remark, R.id.amounts, R.id.type_id}
         );
         RecordList.setAdapter(listItemAdapter);
-
+        RecordList.setOnItemClickListener(this);
 
         setCategoryCostSpinnerDate();
         setCategoryIncomeSpinnerDate();
@@ -356,9 +372,84 @@ public class RecordListActivity extends Activity {
             member_name_text.setText(strArray.get(0));
         }
 
-
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //保存当前一览位置
+        saveListViewPositionAndTop();
+        //迁移到详细页面
+
+        Intent mainIntent = new Intent(RecordListActivity.this,RecordDetailActivity.class);
+        mCursor.moveToPosition(position);
+        RECORD_ID = mCursor.getInt(0);
+
+        Log.v("v_debug","RECORD_ID:"+RECORD_ID);
+        mainIntent.putExtra("INT", RECORD_ID);
+        startActivity(mainIntent);
+        setResult(RESULT_OK, mainIntent);
+        finish();
+    }
+
+
+    public class RecordListAdapter extends BaseAdapter {
+        private Context mContext;
+        private Cursor mCursor;
+        public RecordListAdapter(Context context,Cursor cursor) {
+
+            mContext = context;
+            mCursor = cursor;
+        }
+
+        @Override
+        public int getCount() {
+            return mCursor.getCount();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView mTextView = new TextView(mContext);
+            mCursor.moveToPosition(position);
+            mTextView.setText(mCursor.getString(1) + "___" + mCursor.getString(2)+ "___" + mCursor.getString(3)+ "___" + mCursor.getString(4));
+            return mTextView;
+        }
+    }
+
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        mCursor.moveToPosition(position);
+        RECORD_ID = mCursor.getInt(0);
+        return false;
+    }
+
+
+
+
+    //保存当前页签listView的第一个可见的位置和top
+    public void saveListViewPositionAndTop() {
+        final ListViewData app = (ListViewData)getApplication();
+        app.setFirstVisiblePosition(RecordList.getFirstVisiblePosition());
+        View item = RecordList.getChildAt(0);
+        app.setFirstVisiblePositionTop((item == null) ? 0 : item.getTop());
+    }
+
+
+    //返回前设置前次的位置值
+    public void setRecordListPosition(){
+        ListViewData app = (ListViewData)getApplication();
+        RecordList.setSelectionFromTop(app.getFirstVisiblePosition(), app.getFirstVisiblePositionTop());
+    }
 		
 }
