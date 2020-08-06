@@ -284,7 +284,7 @@ public class LoginDB extends SQLiteOpenHelper{
 				+");";
 		db.execSQL(sql_member_master);
 
-		String sql_init = "INSERT INTO "	+TABLE_NAME_MEMBER+ " ( "+ MEMBER_NAME + ")"	+ "VALUES ('自己'),('宝贝'),('孩子'),('父母'),('朋友'),('同事'),('其他');";
+		String sql_init = "INSERT INTO "	+TABLE_NAME_MEMBER+ " ( "+ MEMBER_NAME + ")"	+ "VALUES ('全部'),('本人'),('配偶'),('子女'),('父母'),('亲戚'),('朋友'),('同事'),('其他');";
 		db.execSQL(sql_init);
 
 

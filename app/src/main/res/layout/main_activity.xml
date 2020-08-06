@@ -66,24 +66,41 @@
 
 
 
-
-
-
-        <Button
-            android:id="@+id/record_add"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:textSize="17dp"
-            android:background="@drawable/btn_nor_down_green"
-            android:layout_marginRight="20dp"
-            android:text="记一笔" />
+            android:layout_marginTop="1dp"
+            android:padding="0dp">
+
+            <Button
+                android:id="@+id/record_add"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:textSize="17dp"
+                android:background="@drawable/btn_nor_down_green"
+                android:layout_marginRight="20dp"
+                android:text="记一笔" />
+
+            <Button
+                android:id="@+id/more_info"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:textSize="17dp"
+                android:background="@drawable/btn_nor_down_green"
+                android:layout_marginRight="20dp"
+                android:text="全部记录" />
+        </LinearLayout>
+
+
+
 
     </LinearLayout>
 
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,7 +118,7 @@
 
         </LinearLayout>
     </FrameLayout>
-    <TextView
+<!--    <TextView
         android:id="@+id/more_info"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
@@ -111,6 +128,6 @@
         android:background="@color/item_background"
         android:gravity="center"
         android:text="更 多 信 息"
-        android:textSize="12sp"/>
+        android:textSize="12sp"/>-->
 
 </LinearLayout>

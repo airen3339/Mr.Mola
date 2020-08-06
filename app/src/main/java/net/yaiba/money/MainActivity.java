@@ -59,9 +59,9 @@ public class MainActivity extends Activity implements  AdapterView.OnItemClickLi
 	private Long costBeforeMonth;
 	private Long income;
 
-    private TextView cost_this_month_text,cost_before_month_text,income_this_month_text,Text_more_info;
+    private TextView cost_this_month_text,cost_before_month_text,income_this_month_text;
 	private ListView RecordList;
-    private Button bn_record_add;
+    private Button bn_record_add, bn_more_info;
 
     private Intent mainIntent;
 
@@ -84,7 +84,7 @@ public class MainActivity extends Activity implements  AdapterView.OnItemClickLi
         cost_this_month_text = (TextView)findViewById(R.id.cost_this_month);
         cost_before_month_text = (TextView)findViewById(R.id.cost_before_month);
         income_this_month_text = (TextView)findViewById(R.id.income_this_month);
-        Text_more_info = (TextView)findViewById(R.id.more_info);
+
 
         setUpViews();
 
@@ -102,8 +102,8 @@ public class MainActivity extends Activity implements  AdapterView.OnItemClickLi
             }
         });
 
-        Text_more_info = (TextView)findViewById(R.id.more_info);
-        Text_more_info.setOnClickListener(new View.OnClickListener(){
+        bn_more_info = (Button)findViewById(R.id.more_info);
+        bn_more_info.setOnClickListener(new View.OnClickListener(){
             public void  onClick(View v)
             {
                 mainIntent = new Intent(MainActivity.this,RecordListActivity.class);

@@ -71,7 +71,7 @@
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/filter_record_type"
-                android:entries="@array/filter_record_type" />
+                android:entries="@array/filter_record_type_search" />
         </LinearLayout>
 
         <LinearLayout
@@ -166,10 +166,10 @@
                 android:textSize="14sp"/>
 
             <Button
-                android:id="@+id/filter_now"
+                android:id="@+id/search"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
-                android:text="刷新"
+                android:text="查找"
                 android:layout_marginLeft="80dp"
                 android:background="@drawable/btn_nor_down_green"
                 android:textSize="17dp" />

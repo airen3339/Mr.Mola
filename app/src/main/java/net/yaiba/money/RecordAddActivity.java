@@ -44,9 +44,7 @@ public class RecordAddActivity extends Activity {
 	private ArrayAdapter<SpinnerData> AdapterCateC;
 	private ArrayAdapter<SpinnerData> AdapterCateIncome;
 	private ArrayAdapter<SpinnerData> PaySpinnerAdapter;
-	private RadioGroup radiogroup;
-	private RadioButton radio1,radio2;
-	private Spinner category_child_spinner,category_parent_spinner,category_income_spinner,pay_type_spinner;
+	private Spinner redord_type_spinner,category_child_spinner,category_parent_spinner,category_income_spinner,pay_type_spinner;
 	private EditText amounts_text, remark_text;
 	private TextView create_time_text,member_name_text;
 
@@ -67,16 +65,12 @@ public class RecordAddActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.record_add_activity);
 
-		radiogroup=(RadioGroup)findViewById(R.id.radiogroup);
-		radio1=(RadioButton)findViewById(R.id.radiobutton1);
-		radio2=(RadioButton)findViewById(R.id.radiobutton2);
-
 		amounts_text=(EditText)findViewById(R.id.amounts_text);
-		amounts_text.requestFocus();
-		RecordAddActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		//amounts_text.requestFocus();
+		//RecordAddActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
 		setPoint(amounts_text);
-
+		redord_type_spinner = (Spinner) findViewById(R.id.redord_type_spinner);
 		category_parent_spinner = (Spinner) findViewById(R.id.category_parent_spinner);
 		category_child_spinner = (Spinner) findViewById(R.id.category_child_spinner);
 		category_income_spinner = (Spinner) findViewById(R.id.category_income_spinner);
@@ -104,24 +98,30 @@ public class RecordAddActivity extends Activity {
 			}
 		});
 
-		//单选按钮切换时 事件响应
-		radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-		    @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-					if(checkedId==radio1.getId()) {
-						Toast.makeText(getApplicationContext(), "记录类型："+radio1.getText(), Toast.LENGTH_LONG).show();
-						category_parent_spinner.setVisibility(View.VISIBLE);
-						category_child_spinner.setVisibility(View.VISIBLE);
-						category_income_spinner.setVisibility(View.GONE);
-						amounts_text.setTextColor(Color.parseColor("#EE2428"));
-					} else {
-						Toast.makeText(getApplicationContext(), "记录类型："+radio2.getText(), Toast.LENGTH_LONG).show();
-						category_parent_spinner.setVisibility(View.GONE);
-						category_child_spinner.setVisibility(View.GONE);
-						category_income_spinner.setVisibility(View.VISIBLE);
-						amounts_text.setTextColor(Color.parseColor("#228B22"));
-					}
+		//选择记录类型下拉列表时，item的选择点击监听事件
+		redord_type_spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()  {
+			@Override
+			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+				if("支出".equals(redord_type_spinner.getSelectedItem().toString())) {
+					Toast.makeText(getApplicationContext(), "记录类型："+redord_type_spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+					category_parent_spinner.setVisibility(View.VISIBLE);
+					category_child_spinner.setVisibility(View.VISIBLE);
+					category_income_spinner.setVisibility(View.GONE);
+					amounts_text.setTextColor(Color.parseColor("#EE2428"));
+				} else {
+					Toast.makeText(getApplicationContext(), "记录类型："+redord_type_spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+					category_parent_spinner.setVisibility(View.GONE);
+					category_child_spinner.setVisibility(View.GONE);
+					category_income_spinner.setVisibility(View.VISIBLE);
+					amounts_text.setTextColor(Color.parseColor("#228B22"));
 				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> adapterView) {
+
+			}
+
         });
 
 
@@ -230,7 +230,7 @@ public class RecordAddActivity extends Activity {
 
 
 	public static void setPoint(final EditText editText) {
-		editText.setText("");
+		//editText.setText("");
 		editText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,int count) {
@@ -395,8 +395,7 @@ public class RecordAddActivity extends Activity {
 		String remark = "";
 		String recordTime = "";
 
-		RadioButton rb = (RadioButton)RecordAddActivity.this.findViewById(radiogroup.getCheckedRadioButtonId());
-		if("支出".equals(rb.getText().toString())){
+		if("支出".equals(redord_type_spinner.getSelectedItem().toString())){
 			recordType = "0";//支出
 			if(category_parent_spinner.getAdapter().getCount() != 0){
 				if(category_child_spinner.getAdapter().getCount() == 0){

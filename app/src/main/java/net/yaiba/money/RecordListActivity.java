@@ -55,7 +55,7 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
     private LinearLayout filtersOption;
     private Button bn_filters;
     private boolean isButton = true;
-    private Button bn_filter_now;
+    private Button bn_search;
 
     private Intent mainIntent;
 
@@ -161,6 +161,7 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
 
                 final ArrayList<String>  strArray = new ArrayList<String> ();
                 for(menberNameListCursor.moveToFirst();!menberNameListCursor.isAfterLast();menberNameListCursor.moveToNext()) {
+
                     String id = menberNameListCursor.getString(menberNameListCursor.getColumnIndex("id"));
                     String member_name = menberNameListCursor.getString(menberNameListCursor.getColumnIndex("member_name"));
 

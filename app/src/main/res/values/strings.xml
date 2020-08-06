@@ -41,13 +41,19 @@
     <string name="data_recover_description">程序会读取指定目录中的备份文件</string>
 
     <string name="what_updated">
-        持续更新中\n
+        0.0.5.0\n
+        1.对最新Android9.0的支持。\n
+        2.更新wacai数据的导入。
     </string>
+
     <string name="partners">\@石头大风吹</string>
+
     <string name="about_app">
-        一个记账软件，开销、收入流水。
-        \n\n问题反馈可访问以下地址
-        \nYaiba.net</string>
+        一个记账软件，开销、收入流水。\n\n
+        问题反馈可访问以下地址\n
+        yaiba.net
+        </string>
+    <string name="minOS">Android 7.0 (Nougat)</string>
 
     <string name="version_unknown">未知版本</string>
 
