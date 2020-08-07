@@ -163,10 +163,9 @@
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:textSize="24dp"
-            android:background="@drawable/btn_nor_down_green"
+            android:background="@drawable/btn_nor_down_yellow"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            android:textColor="@color/ghostwhite"
             android:text="保存" />
 
     </LinearLayout>

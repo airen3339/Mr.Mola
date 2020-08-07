@@ -25,10 +25,10 @@
 
         <Button
             android:id="@+id/filters"
-            android:layout_width="80dp"
+            android:layout_width="100dp"
             android:layout_height="40dp"
-            android:background="@drawable/btn_nor_down_grey"
-            android:text="高级" />
+            android:background="@drawable/btn_nor_down_yellow"
+            android:text="更多条件" />
 
 
     </LinearLayout>
@@ -41,15 +41,15 @@
         android:layout_width="fill_parent"
         android:layout_height="240dp"
         android:background="@color/khaki"
-        android:orientation="vertical"
         android:visibility="gone"
+        android:orientation="vertical"
         android:paddingLeft="10dp"
         android:weightSum="1">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="筛选您要显示的信息"
+            android:text="根据选择的条件查找"
             android:paddingTop="10dp"
             android:textStyle="normal|italic" />
 
@@ -62,7 +62,7 @@
             android:weightSum="1">
 
             <TextView
-                android:layout_width="70sp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="记录类型"
                 android:textSize="14sp"/>
@@ -81,24 +81,24 @@
             android:gravity="bottom|left"
             android:weightSum="1">
             <TextView
-                android:layout_width="70sp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="分类"
                 android:textSize="14sp"/>
             <Spinner
                 android:id="@+id/category_parent_spinner"
                 android:layout_width="120dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:textSize="14sp"  />
             <Spinner
                 android:id="@+id/category_child_spinner"
                 android:layout_width="120dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:textSize="14sp"  />
             <Spinner
                 android:id="@+id/category_income_spinner"
                 android:layout_width="120dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:textSize="14sp"  />
 
@@ -111,14 +111,14 @@
             android:gravity="bottom|left"
             android:weightSum="1">
             <TextView
-                android:layout_width="70sp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="支付方式"
                 android:textSize="14sp"/>
             <Spinner
                 android:id="@+id/pay_type_spinner"
-                android:layout_width="240dp"
-                android:layout_height="40dp"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
                 android:textSize="14sp"  />
 
         </LinearLayout>
@@ -130,7 +130,7 @@
             android:gravity="bottom|left"
             android:weightSum="1">
             <TextView
-                android:layout_width="70sp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="交易时间"
                 android:textSize="14sp"/>
@@ -149,7 +149,7 @@
             android:gravity="bottom|left"
             android:weightSum="1">
             <TextView
-                android:layout_width="70sp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="成员"
                 android:textSize="14sp"/>
@@ -171,7 +171,7 @@
                 android:layout_height="40dp"
                 android:text="查找"
                 android:layout_marginLeft="80dp"
-                android:background="@drawable/btn_nor_down_green"
+                android:background="@drawable/btn_nor_down_yellow"
                 android:textSize="17dp" />
 
         </LinearLayout>

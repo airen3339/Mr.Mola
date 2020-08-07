@@ -29,6 +29,7 @@ import net.yaiba.money.db.MoneyDB;
 import net.yaiba.money.utils.SpecialAdapter;
 import net.yaiba.money.utils.UpdateTask;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
@@ -37,6 +38,7 @@ import java.util.TimerTask;
 import static net.yaiba.money.utils.Custom.getAppVersion;
 import static net.yaiba.money.utils.Custom.getSplitWord;
 import static net.yaiba.money.utils.Custom.transDate2Date2;
+import static net.yaiba.money.utils.Custom.transDate2todayormore;
 
 
 public class MainActivity extends Activity implements  AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
@@ -86,7 +88,11 @@ public class MainActivity extends Activity implements  AdapterView.OnItemClickLi
         income_this_month_text = (TextView)findViewById(R.id.income_this_month);
 
 
-        setUpViews();
+        try {
+            setUpViews();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         //返回前设置前次的位置值
         setRecordListPosition();
@@ -133,7 +139,7 @@ public class MainActivity extends Activity implements  AdapterView.OnItemClickLi
 
     }
 
-    public void setUpViews(){
+    public void setUpViews() throws ParseException {
 
         mCursor  = MoneyDB.getRecordForList("create_time desc","0,8");
         RecordList = (ListView)findViewById(R.id.recordslist);
@@ -153,23 +159,28 @@ public class MainActivity extends Activity implements  AdapterView.OnItemClickLi
             String amounts = mCursor.getString(mCursor.getColumnIndex("amounts"));
             String remark = mCursor.getString(mCursor.getColumnIndex("remark"));
             String create_time = mCursor.getString(mCursor.getColumnIndex("create_time"));
+            String record_info = transDate2todayormore(create_time) + " " + remark;
 
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("id", id);
+            map.put("type_id",type_id );
             map.put("category_child_name", category_name);
             map.put("pay_name", getSplitWord(pay_name,2) );
-            map.put("create_time",transDate2Date2(create_time) );
-            map.put("type_id",type_id );
-            map.put("remark", remark);
+            //map.put("create_time",transDate2todayormore(create_time) );
+            //map.put("remark", remark);
+            map.put("record_info", record_info);
             map.put("amounts", "￥"+ amounts);
 
             listItem.add(map);
             Log.v("v_mainlist",id+"/"+category_name+"/"+create_time+"/"+remark+"/"+amounts+"/"+type_id);
+            Log.v("v_mainlist_info",id+"/"+category_name+"/"+record_info+"/"+amounts+"/"+type_id);
+
         }
 
+        // SpecialAdapter 中可以设置字段的颜色
         SpecialAdapter listItemAdapter = new SpecialAdapter(this,listItem,R.layout.main_record_list_items,
-                new String[] {"category_child_name","pay_name","create_time","remark","amounts","type_id"},
-                new int[] {R.id.category_child_name, R.id.pay_name,R.id.create_time, R.id.remark, R.id.amounts, R.id.type_id}
+                new String[] {"category_child_name","pay_name","record_info","amounts","type_id"},
+                new int[] {R.id.category_child_name, R.id.pay_name,R.id.record_info, R.id.amounts, R.id.type_id}
         );
         RecordList.setAdapter(listItemAdapter);
         RecordList.setOnItemClickListener(this);

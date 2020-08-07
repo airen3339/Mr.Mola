@@ -33,17 +33,18 @@ public class SpecialAdapter extends SimpleAdapter {
 
         TextView t_category_child_name=(TextView) view.findViewById(R.id.category_child_name);
         TextView t_amounts=(TextView) view.findViewById(R.id.amounts);
-        TextView t_create_time=(TextView) view.findViewById(R.id.create_time);
-        TextView t_remark=(TextView) view.findViewById(R.id.remark);
+        //TextView t_create_time=(TextView) view.findViewById(R.id.create_time);
+        //TextView t_remark=(TextView) view.findViewById(R.id.remark);
+        TextView t_record_info=(TextView) view.findViewById(R.id.record_info);
         TextView t_type_id=(TextView) view.findViewById(R.id.type_id);
 
 
 
         if("0".equals(t_type_id.getText().toString())){////支出 0,收入1
-            t_amounts.setTextColor(Color.parseColor("#EE2428"));
+            /*t_amounts.setTextColor(Color.parseColor("#EE2428"));//EE2428*/
             t_amounts.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         } else if("1".equals(t_type_id.getText().toString())) {
-            t_amounts.setTextColor(Color.parseColor("#228B22"));
+            t_amounts.setTextColor(Color.parseColor("#EE2428"));//228B22
             t_amounts.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         }
 

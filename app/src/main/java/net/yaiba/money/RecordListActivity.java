@@ -41,6 +41,7 @@ import java.util.TimerTask;
 import static net.yaiba.money.utils.Custom.getAppVersion;
 import static net.yaiba.money.utils.Custom.getSplitWord;
 import static net.yaiba.money.utils.Custom.transDate2Date2;
+import static net.yaiba.money.utils.Custom.transDate2todayormore;
 
 
 public class RecordListActivity extends Activity implements  AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
@@ -98,7 +99,6 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
         create_time_spinner = (Spinner) findViewById(R.id.filter_create_time);
 
         member_name_text=(TextView)findViewById(R.id.member_name_text);
-
         setUpViews("listInit",null);
 
         //返回前设置前次的位置值
@@ -140,7 +140,6 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
                     category_child_spinner.setVisibility(View.GONE);
                     category_income_spinner.setVisibility(View.VISIBLE);
                 }
-
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
@@ -153,49 +152,45 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
         member_name_text.setOnClickListener(new View.OnClickListener() {
             @SuppressWarnings("deprecation")
             public void onClick(View v) {
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(RecordListActivity.this);
                 builder.setTitle("成员选择");
 
                 Cursor menberNameListCursor  = MoneyDB.getMemberNameList("id asc");
 
-                final ArrayList<String>  strArray = new ArrayList<String> ();
+                final ArrayList<String>  memberNameListItem = new ArrayList<String> ();
                 for(menberNameListCursor.moveToFirst();!menberNameListCursor.isAfterLast();menberNameListCursor.moveToNext()) {
-
                     String id = menberNameListCursor.getString(menberNameListCursor.getColumnIndex("id"));
                     String member_name = menberNameListCursor.getString(menberNameListCursor.getColumnIndex("member_name"));
-
-                    strArray.add(member_name);
+                    memberNameListItem.add(member_name);
                 }
 
-                final String[] items = (String[]) strArray.toArray(new String[0]);
+                // 增加初期化时“全部”选项
+                String all_item = "全部";
+                memberNameListItem.add(all_item);
+                final String[] items = (String[]) memberNameListItem.toArray(new String[0]);
 
                 String newMember = member_name_text.getText().toString();
                 int checkedItem = 0;
-                for (int i=0;i<strArray.size();i++){
-                    if(newMember.equals(strArray.get(i))){
+                for (int i=0;i<memberNameListItem.size();i++){
+                    if(newMember.equals(memberNameListItem.get(i))){
                         checkedItem = i;
                         break;
                     }
                 }
 
                 builder.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
-
                     //第二个参数是设置默认选中哪一项-1代表默认都不选
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         member_name_text.setText(items[which]);
-
                     }
                 });
 
                 builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 });
-
                 builder.create().show();;
             }
         });
@@ -205,7 +200,6 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
     }
 
     public void setUpViews(String type, String value){
-
         mCursor  = MoneyDB.getRecordForList("create_time desc","0,180");
         RecordList = (ListView)findViewById(R.id.recordslist);
         ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
@@ -224,24 +218,26 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
             String amounts = mCursor.getString(mCursor.getColumnIndex("amounts"));
             String remark = mCursor.getString(mCursor.getColumnIndex("remark"));
             String create_time = mCursor.getString(mCursor.getColumnIndex("create_time"));
-
+            String record_info = transDate2Date2(create_time) + " " + remark;
 
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("id", id);
+            map.put("type_id",type_id );
             map.put("category_child_name", category_name);
             map.put("pay_name", getSplitWord(pay_name,2) );
-            map.put("create_time",transDate2Date2(create_time) );
-            map.put("type_id",type_id );
+            map.put("create_time",create_time );//transDate2Date2(create_time)
             map.put("remark", remark);
+            map.put("record_info", record_info);
             map.put("amounts", "￥"+ amounts);
 
             listItem.add(map);
-            Log.v("v_mainlist",id+"/"+category_name+"/"+create_time+"/"+remark+"/"+amounts+"/"+type_id);
+            Log.v("v_recordlist",id+"/"+category_name+"/"+create_time+"/"+remark+"/"+amounts+"/"+type_id);
+            Log.v("v_recordlist_record_info",id+"/"+category_name+"/"+record_info+"/"+amounts+"/"+type_id);
         }
 
         SpecialAdapter listItemAdapter = new SpecialAdapter(this,listItem,R.layout.main_record_list_items,
-                new String[] {"category_child_name","pay_name","create_time","remark","amounts","type_id"},
-                new int[] {R.id.category_child_name, R.id.pay_name,R.id.create_time, R.id.remark, R.id.amounts, R.id.type_id}
+                new String[] {"category_child_name","pay_name","record_info","amounts","type_id"},
+                new int[] {R.id.category_child_name, R.id.pay_name,R.id.record_info, R.id.amounts, R.id.type_id}
         );
         RecordList.setAdapter(listItemAdapter);
         RecordList.setOnItemClickListener(this);
@@ -251,7 +247,6 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
         setPayTypeSpinnerDate();
         setMemberSpinnerDate();
     }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -264,10 +259,6 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
-
-
 
     public void showAboutDialog(String title,String msg){
         AlertDialog.Builder builder= new AlertDialog.Builder(this);
@@ -293,9 +284,15 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
             SpinnerData c = new SpinnerData(id, category_name);
             categoryPListItem.add(c);
         }
+        // 增加初期化时“全部”选项
+        SpinnerData all_item = new SpinnerData("9999", "全部");
+        categoryPListItem.add(all_item);
+
         AdapterCateP = new ArrayAdapter<SpinnerData>(this, android.R.layout.simple_spinner_item, categoryPListItem);
         AdapterCateP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category_parent_spinner.setAdapter(AdapterCateP);
+        // 设置默认值，最后增加的那个“全部”
+        category_parent_spinner.setSelection(AdapterCateP.getCount()-1);
 
         // 支出，小分类下拉列表，初期化
         if (category_parent_spinner.getAdapter().getCount() != 0){
@@ -314,9 +311,14 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
                 SpinnerData c = new SpinnerData(id, category_name);
                 categoryCListItem.add(c);
             }
+            // 增加初期化时“全部”选项
+            categoryCListItem.add(all_item);
+
             AdapterCateC = new ArrayAdapter<SpinnerData>(this, android.R.layout.simple_spinner_item, categoryCListItem);
             AdapterCateC.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             category_child_spinner.setAdapter(AdapterCateC);
+            // 设置默认值，最后增加的那个“全部”
+            category_child_spinner.setSelection(AdapterCateC.getCount()-1);
         }
     }
 
@@ -333,9 +335,16 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
             SpinnerData c = new SpinnerData(id, category_name);
             categoryIncomeListItem.add(c);
         }
+
+        // 增加初期化时“全部”选项
+        SpinnerData all_item = new SpinnerData("9999", "全部");
+        categoryIncomeListItem.add(all_item);
+
         AdapterCateIncome = new ArrayAdapter<SpinnerData>(this, android.R.layout.simple_spinner_item, categoryIncomeListItem);
         AdapterCateIncome.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category_income_spinner.setAdapter(AdapterCateIncome);
+        // 设置默认值，最后增加的那个“全部”
+        category_income_spinner.setSelection(AdapterCateIncome.getCount()-1);
     }
 
     public void setPayTypeSpinnerDate(){
@@ -349,30 +358,37 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
             SpinnerData c = new SpinnerData(id, pay_name);
             payTypeListItem.add(c);
         }
+
+        // 增加初期化时“全部”选项
+        SpinnerData all_item = new SpinnerData("9999", "全部");
+        payTypeListItem.add(all_item);
+
         PaySpinnerAdapter = new ArrayAdapter<SpinnerData>(this, android.R.layout.simple_spinner_item, payTypeListItem);
         PaySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pay_type_spinner.setAdapter(PaySpinnerAdapter);
+        Log.v("PaySpinnerAdapter.getCount()",PaySpinnerAdapter.getCount()+"");
+        // 设置默认值，最后增加的那个“全部”
+        pay_type_spinner.setSelection(PaySpinnerAdapter.getCount()-1);
+
     }
 
     public void setMemberSpinnerDate(){
 
         Cursor menberNameListCursor  = MoneyDB.getMemberNameList("id asc");
-
-        final ArrayList<String>  strArray = new ArrayList<String> ();
+        final ArrayList<String>  memberNameListItem = new ArrayList<String> ();
         for(menberNameListCursor.moveToFirst();!menberNameListCursor.isAfterLast();menberNameListCursor.moveToNext()) {
-
             String id = menberNameListCursor.getString(menberNameListCursor.getColumnIndex("id"));
             String member_name = menberNameListCursor.getString(menberNameListCursor.getColumnIndex("member_name"));
-
-            strArray.add(member_name);
+            memberNameListItem.add(member_name);
             break;
         }
-        if(strArray.isEmpty()){
+
+        if(memberNameListItem.isEmpty()){
             member_name_text.setText("-");
         } else {
-            member_name_text.setText(strArray.get(0));
+            //member_name_text.setText(memberNameListItem.get(0));
+            member_name_text.setText("全部");
         }
-
     }
 
 
@@ -381,7 +397,6 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
         //保存当前一览位置
         saveListViewPositionAndTop();
         //迁移到详细页面
-
         Intent mainIntent = new Intent(RecordListActivity.this,RecordDetailActivity.class);
         mCursor.moveToPosition(position);
         RECORD_ID = mCursor.getInt(0);
@@ -398,7 +413,6 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
         private Context mContext;
         private Cursor mCursor;
         public RecordListAdapter(Context context,Cursor cursor) {
-
             mContext = context;
             mCursor = cursor;
         }

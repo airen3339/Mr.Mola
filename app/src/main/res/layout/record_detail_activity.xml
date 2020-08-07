@@ -125,7 +125,7 @@
             <TextView
                 android:layout_width="80sp"
                 android:layout_height="wrap_content"
-                android:text="消费时间："
+                android:text="日期："
                 android:textSize="14sp"/>
             <TextView
                 android:id="@+id/create_time_text"
@@ -162,7 +162,7 @@
             android:layout_height="40dp"
             android:layout_margin="5dip"
             android:layout_marginTop="2dip"
-            android:background="@drawable/btn_nor_down"
+            android:background="@drawable/btn_nor_down_yellow"
             android:text="我要编辑" />
 
         <Button

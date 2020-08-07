@@ -4,6 +4,7 @@ package net.yaiba.money.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.util.Log;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -490,12 +491,54 @@ public class Custom {
         return  b;
     }
 
-    public static String transDate2Date2(String d){
-    //form 2018-02-03 16:40
-    //to 02-03 16:40
-        String[] aa= d.split("-");
-        return aa[1]+"-"+aa[2];
+    public static String getSysYear() {
+        Calendar date = Calendar.getInstance();
+        String year = String.valueOf(date.get(Calendar.YEAR));
+        return year;
     }
+
+    public static String transDate2Date2(String d){
+        //form 2018-02-03 16:40
+        //to 02-03 16:40
+        // 判断如果 日期 d 是今年，则不显示年份
+        String[] aa= d.split("-");
+        String nowYear = getSysYear();
+        if (nowYear.equals(aa[0])){
+            return aa[1]+"-"+aa[2];
+        } else {
+            return d;
+        }
+    }
+
+    public static String transDate2todayormore(String d) throws ParseException {
+        //form 2018-02-03 16:40
+        //to 02-03 16:40
+        // 判断 日期 d 是今天还是昨天还是前天。
+        long addtime =getStringToDate(d).getTime();
+        Log.v("v_addtime_d",getStringToDate(d).toString());
+        long today = getStringToDate(getNowStringDate()).getTime();//当前日期的毫秒数
+        Log.v("v_today",getNowStringDate());
+        long l=today-addtime;//当前时间与给定时间差的毫秒数
+        Log.v("v_l", String.valueOf(l));
+        long days=l/(24*60*60*1000);//这个时间相差的天数整数，大于1天为前天的时间了，小于24小时则为昨天和今天的时间
+        Log.v("v_days", String.valueOf(days));
+        String dayStr = "";
+        if( days >=0  ){
+            if( days < 1 ){
+                dayStr =  "今天";
+            } else if( days < 2 ) {
+                dayStr =  "昨天";
+            } else if( days < 3 ) {
+                dayStr =  "前天";
+            }
+        } else {
+            //String[] aa= d.split("-");
+            //dayStr =  aa[1]+"-"+aa[2];
+            dayStr =  transDate2Date2(d);
+        }
+        return dayStr;
+    }
+
 
     public static String getSplitWord(String str,int len) {
         try {

@@ -103,18 +103,17 @@ public class RecordAddActivity extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 				if("支出".equals(redord_type_spinner.getSelectedItem().toString())) {
-					Toast.makeText(getApplicationContext(), "记录类型："+redord_type_spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
 					category_parent_spinner.setVisibility(View.VISIBLE);
 					category_child_spinner.setVisibility(View.VISIBLE);
 					category_income_spinner.setVisibility(View.GONE);
 					amounts_text.setTextColor(Color.parseColor("#EE2428"));
 				} else {
-					Toast.makeText(getApplicationContext(), "记录类型："+redord_type_spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
 					category_parent_spinner.setVisibility(View.GONE);
 					category_child_spinner.setVisibility(View.GONE);
 					category_income_spinner.setVisibility(View.VISIBLE);
 					amounts_text.setTextColor(Color.parseColor("#228B22"));
 				}
+				Log.v("v_记录类型：",redord_type_spinner.getSelectedItem().toString());
 			}
 
 			@Override

@@ -64,8 +64,6 @@
                 android:id="@+id/income_this_month"/>
         </LinearLayout>
 
-
-
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
@@ -75,19 +73,21 @@
 
             <Button
                 android:id="@+id/record_add"
-                android:layout_width="200dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
                 android:layout_height="50dp"
                 android:textSize="17dp"
-                android:background="@drawable/btn_nor_down_green"
+                android:background="@drawable/btn_nor_down_yellow"
                 android:layout_marginRight="20dp"
                 android:text="记一笔" />
 
             <Button
                 android:id="@+id/more_info"
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
                 android:layout_height="50dp"
                 android:textSize="17dp"
-                android:background="@drawable/btn_nor_down_green"
+                android:background="@drawable/btn_nor_down_yellow"
                 android:layout_marginRight="20dp"
                 android:text="全部记录" />
         </LinearLayout>
