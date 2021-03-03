@@ -19,16 +19,44 @@
 
         <EditText
             android:id="@+id/searchInput"
-            android:layout_width="260dp"
+            android:layout_width="300dp"
             android:layout_height="50dp"
             android:hint="@string/record_list_search" />
 
         <Button
             android:id="@+id/filters"
-            android:layout_width="100dp"
+            android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/btn_nor_down_yellow"
-            android:text="更多条件" />
+            android:text="..." />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <!-- 收入纪录总数 -->
+            <TextView
+                android:id="@+id/sum_num_type1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="642"
+                android:textColor="@color/alert_01"
+                android:paddingTop="5dp"
+                android:gravity="bottom|right"
+                android:textStyle="normal|italic" />
+            <!-- 支出纪录总数 -->
+            <TextView
+                android:id="@+id/sum_num_type0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="12350"
+                android:textColor="@color/alert_03"
+                android:paddingTop="0dp"
+                android:gravity="bottom|right"
+                android:textStyle="normal|italic" />
+        </LinearLayout>
 
 
     </LinearLayout>

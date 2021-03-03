@@ -57,9 +57,41 @@ public class MoneyDB extends SQLiteOpenHelper {
                 TABLE_NAME_RECORD+"."+RECORD_PAY_ID +" = "+TABLE_NAME_PAY+"."+PAY_ID + " and " +
                 TABLE_NAME_RECORD+"."+RECORD_MEMBER_ID +" = "+TABLE_NAME_MEMBER+"."+MEMBER_ID +
                 " order by " + orderBy + " ";
-        if (!limit.isEmpty()){
+        if (!"none".equals(limit)){
             sql = sql + " limit "+ limit;
         }
+        Cursor cursor = db.rawQuery(sql, null);
+        Log.v("v_sql",sql);
+        return cursor;
+    }
+
+    public Cursor getRecordForListByRemarks(String searchWord) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "select "+
+                TABLE_NAME_RECORD+"."+RECORD_ID +" as "+RECORD_ID +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_CATEGORY_ID +" as "+RECORD_CATEGORY_ID +" , "+
+                TABLE_NAME_CATEGORY+"."+CATEGORY_NAME +" as "+CATEGORY_NAME +" , "+
+                TABLE_NAME_CATEGORY+"."+PID +" as "+PID +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_PAY_ID +" as "+RECORD_PAY_ID +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_TYPE +" as "+RECORD_TYPE +" , "+
+                TABLE_NAME_PAY+"."+PAY_NAME +" as "+PAY_NAME +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_MEMBER_ID +" as "+RECORD_MEMBER_ID +" , "+
+                TABLE_NAME_MEMBER+"."+MEMBER_NAME +" as "+MEMBER_NAME +" , "+
+                TABLE_NAME_RECORD+"."+AMOUNTS +" as "+AMOUNTS +" , "+
+                TABLE_NAME_RECORD+"."+REMARK +" as "+REMARK +" , "+
+                TABLE_NAME_RECORD+"."+RECORD_CREATE_TIME +" as "+RECORD_CREATE_TIME +"  "+
+                " from " +
+                TABLE_NAME_RECORD +"," +
+                TABLE_NAME_CATEGORY +"," +
+                TABLE_NAME_PAY +"," +
+                TABLE_NAME_MEMBER  +
+                " where " +
+                TABLE_NAME_RECORD+"."+RECORD_CATEGORY_ID +" = "+TABLE_NAME_CATEGORY+"."+CATEGORY_ID + " and " +
+                TABLE_NAME_RECORD+"."+RECORD_PAY_ID +" = "+TABLE_NAME_PAY+"."+PAY_ID + " and " +
+                TABLE_NAME_RECORD+"."+RECORD_MEMBER_ID +" = "+TABLE_NAME_MEMBER+"."+MEMBER_ID + " and " +
+                TABLE_NAME_RECORD+"."+REMARK +" LIKE  '%"+ searchWord +"%' " +
+                " order by create_time desc ";
+
         Cursor cursor = db.rawQuery(sql, null);
         Log.v("v_sql",sql);
         return cursor;
@@ -527,6 +559,15 @@ public class MoneyDB extends SQLiteOpenHelper {
         return 0;
     }
 
+    public long getAllCountByRecordType(String recordType){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select count(*) from " + TABLE_NAME_RECORD +" where  "+RECORD_TYPE +" = '"+recordType+"'", null);
+        if (cursor.moveToNext()) {
+            return cursor.getLong(0);
+        }
+        return 0;
+    }
+
     public Cursor getAllForBakup(String orderBy) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME_RECORD, null, null, null, null, null, orderBy);
@@ -570,8 +611,8 @@ public class MoneyDB extends SQLiteOpenHelper {
         cv.put(RECORD_CREATE_TIME, create_time);
 
         try{
-            long row = db.replace(TABLE_NAME_RECORD, null, cv);
-            Log.v("v_insertDB",category_id +"/"+pay_id+"/"+member_id+"/"+ type_id+"/"+ amounts+"/"+ remark+"/"+ create_time);
+            long row = db.insert(TABLE_NAME_RECORD, null, cv);
+            //Log.v("v_insertDB",category_id +"/"+pay_id+"/"+member_id+"/"+ type_id+"/"+ amounts+"/"+ remark+"/"+ create_time);
             return row;
         } finally {
             db.close();

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import net.yaiba.money.R;
@@ -16,8 +17,16 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 
 /**
  * Util for app update task.
@@ -36,10 +45,11 @@ public class UpdateTask extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... uri) {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpResponse response;
+        //HttpClient httpclient = new DefaultHttpClient();
+        //HttpResponse response;
         String responseString = null;
         try {
+            /*-------------------------------------------------
             response = httpclient.execute(new HttpGet(uri[0]));
             StatusLine statusLine = response.getStatusLine();
             if (statusLine.getStatusCode() == 200) {
@@ -52,6 +62,21 @@ public class UpdateTask extends AsyncTask<String, String, String> {
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
             }
+            ------------------------------*/
+            Log.d("updateUrl",updateUrl);
+            java.net.URL url = new URL(updateUrl);
+            Log.d("url", String.valueOf(url));
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+            int responseCode = connection.getResponseCode();
+            Log.d("responseCode", String.valueOf(responseCode));
+            if(responseCode == HttpURLConnection.HTTP_OK){
+                InputStream inputStream = connection.getInputStream();
+                responseString = is2String(inputStream);
+                Log.d("responseString","responseString============="+responseString);
+            }
+
         } catch (Exception e) {
             return null;
         }
@@ -100,4 +125,34 @@ public class UpdateTask extends AsyncTask<String, String, String> {
     public void update() {
         super.execute(updateUrl);
     }
+
+
+
+    public String is2String(InputStream is) {
+
+        //连接后，创建一个输入流来读取response
+        BufferedReader bufferedReader = null;
+        try {
+            bufferedReader = new BufferedReader(new
+                    InputStreamReader(is, "utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String line = "";
+        StringBuilder stringBuilder = new StringBuilder();
+        String response = "";
+        //每次读取一行，若非空则添加至 stringBuilder
+        while (true) {
+            try {
+                if (!((line = bufferedReader.readLine()) != null)) break;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stringBuilder.append(line);
+        }
+        return stringBuilder.toString().trim();
+    }
+
+
+
 }

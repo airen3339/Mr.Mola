@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mr.Money</string>
+    <string name="app_name">Mr.Mola</string>
 
     <string name="login_title">财务多样性记录手册</string>
     <string name="input_login_password">请输入登陆密码</string>
@@ -41,9 +41,9 @@
     <string name="data_recover_description">程序会读取指定目录中的备份文件</string>
 
     <string name="what_updated">
-        0.0.5.0\n
-        1.对最新Android9.0的支持。\n
-        2.更新wacai数据的导入。
+        0.0.5.1\n
+        1.解决android10中无法更新的问题。\n
+        2.优化wacai数据的导入。
     </string>
 
     <string name="partners">\@石头大风吹</string>
@@ -53,7 +53,7 @@
         问题反馈可访问以下地址\n
         yaiba.net
         </string>
-    <string name="minOS">Android 7.0 (Nougat)</string>
+    <string name="minOS">Android 9.0</string>
 
     <string name="version_unknown">未知版本</string>
 

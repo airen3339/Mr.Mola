@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -52,6 +55,7 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
 	private ListView RecordList;
 
     private EditText SearchInput;
+    private TextView sum_num_type1,sum_num_type0;
 
     private LinearLayout filtersOption;
     private Button bn_filters;
@@ -84,6 +88,8 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
 
     private UpdateTask updateTask;
 
+    private Handler handler = new Handler();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -99,6 +105,7 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
         create_time_spinner = (Spinner) findViewById(R.id.filter_create_time);
 
         member_name_text=(TextView)findViewById(R.id.member_name_text);
+        SearchInput = (EditText)findViewById(R.id.searchInput);
         setUpViews("listInit",null);
 
         //返回前设置前次的位置值
@@ -116,7 +123,7 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
                 }else {
                     filtersOption.setVisibility(View.GONE);
                     isButton = true;
-                    SearchInput = (EditText)findViewById(R.id.searchInput);
+
                     if(SearchInput.getText().toString().trim().isEmpty()){
                         setUpViews("listInit",null);
                     } else{
@@ -125,6 +132,11 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
                 }
             }
         });
+
+
+
+
+
 
         //选择item的选择点击监听事件
         record_type_spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
@@ -195,14 +207,46 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
             }
         });
 
+        //用于监听检索框录入的文字，实时查询
+        SearchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.v("v_beforeTextChanged",charSequence.toString().trim());
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.v("v_onTextChanged",charSequence.toString().trim());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.v("v_afterTextChanged",editable.toString().trim());
+                //tv_show.setText(editable.toString().trim());
+                setUpViews("search",editable.toString().trim());
+            }
+        });
+
+
 
 
     }
 
+
+
     public void setUpViews(String type, String value){
-        mCursor  = MoneyDB.getRecordForList("create_time desc","0,180");
+	    if (type == "search"){
+            mCursor  = MoneyDB.getRecordForListByRemarks(value);
+        } else {
+            mCursor  = MoneyDB.getRecordForList("create_time desc","0,90");
+            //mCursor  = MoneyDB.getRecordForList("create_time desc","none");
+        }
+
         RecordList = (ListView)findViewById(R.id.recordslist);
         ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
+
+        int code_cost_record_num = 0;
+        int code_income_record_num = 0;
 
         for(mCursor.moveToFirst();!mCursor.isAfterLast();mCursor.moveToNext()) {
             /*String resNo = "["+mCursor.getString(resNoColumn)+"]"; */
@@ -228,11 +272,18 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
             map.put("create_time",create_time );//transDate2Date2(create_time)
             map.put("remark", remark);
             map.put("record_info", record_info);
-            map.put("amounts", "￥"+ amounts);
+            if ("0".equals(type_id)){
+                map.put("amounts", "-"+ amounts);
+                code_cost_record_num ++;
+            } else {
+                map.put("amounts", "+"+ amounts);
+                code_income_record_num ++;
+            }
+
 
             listItem.add(map);
-            Log.v("v_recordlist",id+"/"+category_name+"/"+create_time+"/"+remark+"/"+amounts+"/"+type_id);
-            Log.v("v_recordlist_record_info",id+"/"+category_name+"/"+record_info+"/"+amounts+"/"+type_id);
+            //Log.v("v_recordlist",id+"/"+category_name+"/"+create_time+"/"+remark+"/"+amounts+"/"+type_id);
+            //Log.v("v_recordlist_record_info",id+"/"+category_name+"/"+record_info+"/"+amounts+"/"+type_id);
         }
 
         SpecialAdapter listItemAdapter = new SpecialAdapter(this,listItem,R.layout.main_record_list_items,
@@ -246,6 +297,13 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
         setCategoryIncomeSpinnerDate();
         setPayTypeSpinnerDate();
         setMemberSpinnerDate();
+
+        sum_num_type0 = (TextView)findViewById(R.id.sum_num_type0);
+        //sum_num_type0.setText(MoneyDB.getAllCountByRecordType("0")+"");
+        sum_num_type0.setText(code_cost_record_num+"");
+        sum_num_type1 = (TextView)findViewById(R.id.sum_num_type1);
+        //sum_num_type1.setText(MoneyDB.getAllCountByRecordType("1")+"");
+        sum_num_type1.setText(code_income_record_num+"");
     }
 
     @Override

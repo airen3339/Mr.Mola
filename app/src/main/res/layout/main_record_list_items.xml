@@ -89,7 +89,7 @@
                 android:paddingTop="6dp"
                 android:gravity="right"
                 android:text="￥88888.88"
-                android:textSize="23sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 

@@ -498,16 +498,18 @@ public class Custom {
     }
 
     public static String transDate2Date2(String d){
-        //form 2018-02-03 16:40
+        //form 2018-02-03 16:40:20
         //to 02-03 16:40
         // 判断如果 日期 d 是今年，则不显示年份
         String[] aa= d.split("-");
         String nowYear = getSysYear();
+        String days = "";
         if (nowYear.equals(aa[0])){
-            return aa[1]+"-"+aa[2];
+            days =  aa[1]+"-"+aa[2];
         } else {
-            return d;
+            days = d;
         }
+        return getDataWithNoSecond(days);
     }
 
     public static String transDate2todayormore(String d) throws ParseException {
@@ -537,6 +539,16 @@ public class Custom {
             dayStr =  transDate2Date2(d);
         }
         return dayStr;
+    }
+
+    // 2021-03-03 12:13:14 -> 2021-03-03 12:13
+    public static String getDataWithNoSecond(String d){
+        String dataWithNoSecond ="";
+        if(!"".equals(d)){
+            String[] dayandhhmmss= d.split(":");
+            dataWithNoSecond = dayandhhmmss[0] + ":" +dayandhhmmss[1];
+        }
+        return dataWithNoSecond;
     }
 
 

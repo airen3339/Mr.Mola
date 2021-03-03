@@ -41,10 +41,10 @@ public class SpecialAdapter extends SimpleAdapter {
 
 
         if("0".equals(t_type_id.getText().toString())){////支出 0,收入1
-            /*t_amounts.setTextColor(Color.parseColor("#EE2428"));//EE2428*/
+            t_amounts.setTextColor(Color.parseColor("#EE2428"));//EE2428*/
             t_amounts.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         } else if("1".equals(t_type_id.getText().toString())) {
-            t_amounts.setTextColor(Color.parseColor("#EE2428"));//228B22
+            t_amounts.setTextColor(Color.parseColor("#5FC052"));//5FC052
             t_amounts.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         }
 

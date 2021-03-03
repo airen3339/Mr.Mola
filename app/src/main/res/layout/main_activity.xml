@@ -89,7 +89,7 @@
                 android:textSize="17dp"
                 android:background="@drawable/btn_nor_down_yellow"
                 android:layout_marginRight="20dp"
-                android:text="全部记录" />
+                android:text="近期数据" />
         </LinearLayout>
 
 

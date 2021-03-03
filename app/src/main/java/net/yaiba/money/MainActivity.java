@@ -159,7 +159,8 @@ public class MainActivity extends Activity implements  AdapterView.OnItemClickLi
             String amounts = mCursor.getString(mCursor.getColumnIndex("amounts"));
             String remark = mCursor.getString(mCursor.getColumnIndex("remark"));
             String create_time = mCursor.getString(mCursor.getColumnIndex("create_time"));
-            String record_info = transDate2todayormore(create_time) + " " + remark;
+            //String record_info = transDate2todayormore(create_time) + " " + remark;
+            String record_info = transDate2Date2(create_time) + " " + remark;
 
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("id", id);
@@ -169,7 +170,11 @@ public class MainActivity extends Activity implements  AdapterView.OnItemClickLi
             //map.put("create_time",transDate2todayormore(create_time) );
             //map.put("remark", remark);
             map.put("record_info", record_info);
-            map.put("amounts", "￥"+ amounts);
+            if ("0".equals(type_id)){
+                map.put("amounts", "-"+ amounts);
+            } else {
+                map.put("amounts", "+"+ amounts);
+            }
 
             listItem.add(map);
             Log.v("v_mainlist",id+"/"+category_name+"/"+create_time+"/"+remark+"/"+amounts+"/"+type_id);
@@ -441,5 +446,8 @@ public class MainActivity extends Activity implements  AdapterView.OnItemClickLi
     }
 
 
-		
+
+
+
+
 }
