@@ -32,6 +32,7 @@ import android.widget.Toast;
 import net.yaiba.money.data.ListViewData;
 import net.yaiba.money.data.SpinnerData;
 import net.yaiba.money.db.MoneyDB;
+import net.yaiba.money.utils.RecordDetailDialog;
 import net.yaiba.money.utils.SpecialAdapter;
 import net.yaiba.money.utils.UpdateTask;
 
@@ -455,15 +456,81 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
         //保存当前一览位置
         saveListViewPositionAndTop();
         //迁移到详细页面
-        Intent mainIntent = new Intent(RecordListActivity.this,RecordDetailActivity.class);
+//        Intent mainIntent = new Intent(RecordListActivity.this,RecordDetailActivity.class);
+//        mCursor.moveToPosition(position);
+//        RECORD_ID = mCursor.getInt(0);
+//
+//        Log.v("v_debug","RECORD_ID:"+RECORD_ID);
+//        mainIntent.putExtra("INT", RECORD_ID);
+//        startActivity(mainIntent);
+//        setResult(RESULT_OK, mainIntent);
+//        finish();
+
         mCursor.moveToPosition(position);
         RECORD_ID = mCursor.getInt(0);
+        Log.v("v_10", String.valueOf(mCursor.getInt(10)));
+        Log.v("v_category_name", mCursor.getString(mCursor.getColumnIndex("category_name")));
 
-        Log.v("v_debug","RECORD_ID:"+RECORD_ID);
-        mainIntent.putExtra("INT", RECORD_ID);
-        startActivity(mainIntent);
-        setResult(RESULT_OK, mainIntent);
-        finish();
+
+        String category_name = mCursor.getString(mCursor.getColumnIndex("category_name"));
+        String category_id = mCursor.getString(mCursor.getColumnIndex("category_id"));
+        String pid = mCursor.getString(mCursor.getColumnIndex("pid"));// !=a 时，收入，，=a时，支出
+        String type_id = mCursor.getString(mCursor.getColumnIndex("type_id"));//支出 0,收入1
+        String pay_id = mCursor.getString(mCursor.getColumnIndex("pay_id"));
+        String pay_name = mCursor.getString(mCursor.getColumnIndex("pay_name"));
+        String member_id = mCursor.getString(mCursor.getColumnIndex("member_id"));
+        String member_name = mCursor.getString(mCursor.getColumnIndex("member_name"));
+        String amounts = mCursor.getString(mCursor.getColumnIndex("amounts"));
+        String remark = mCursor.getString(mCursor.getColumnIndex("remark"));
+        String create_time = mCursor.getString(mCursor.getColumnIndex("create_time"));
+
+
+        if ("0".equals(type_id)){
+            amounts =  "-"+ amounts;
+        } else {
+            amounts =  "+"+ amounts;
+        }
+
+
+
+        RecordDetailDialog recordDetailDialog = new RecordDetailDialog(RecordListActivity.this);
+//        recordDetailDialog.setTitle("提醒");
+//        recordDetailDialog.setMessage("你确定要删除吗?");
+//        recordDetailDialog.setRecordId(String.valueOf(RECORD_ID));
+        recordDetailDialog.setAmounts(amounts);
+        recordDetailDialog.setCategoryName(category_name);
+        recordDetailDialog.setCreateTime(create_time);
+        recordDetailDialog.setRemark(remark);
+        recordDetailDialog.setTitle("账单详情");
+
+
+
+
+        recordDetailDialog.setCancel("cancel", new RecordDetailDialog.IOnCancelListener() {
+            @Override
+            public void onCancel(RecordDetailDialog dialog) {
+                Toast.makeText(RecordListActivity.this, "取消成功！",Toast.LENGTH_SHORT).show();
+            }
+        });
+        recordDetailDialog.setConfirm("confirm", new RecordDetailDialog.IOnConfirmListener(){
+            @Override
+            public void onConfirm(RecordDetailDialog dialog) {
+                Toast.makeText(RecordListActivity.this, "确认成功！",Toast.LENGTH_SHORT).show();
+            }
+        });
+        recordDetailDialog.show();
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 

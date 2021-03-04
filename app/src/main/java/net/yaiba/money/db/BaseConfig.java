@@ -51,4 +51,9 @@ public class BaseConfig {
     public final static String MEMBER_NAME = "member_name";
     public final static String MEMBER_FAVORITE = "favorite";
     public final static String MEMBER_RANK = "rank";
+
+    //option_master
+    public final static String TABLE_NAME_OPTION = "option_master";
+    public final static String OPTION_ID = "id";
+    public final static String LOGIN_ABLE = "login_able";
 }

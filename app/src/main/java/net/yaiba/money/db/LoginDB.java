@@ -44,7 +44,7 @@ public class LoginDB extends SQLiteOpenHelper{
 				+ RECORD_MEMBER_ID +" INTEGER, "
 				+ RECORD_TYPE +" INTEGER, "
 				+ AMOUNTS +" NVARCHAR(50), "
-				+ REMARK +" TEXT NULL, "
+				+ REMARK +" TEXT, "
 				+ RECORD_CREATE_TIME +" NVARCHAR(100) "
 				+" , UNIQUE("
 				+RECORD_CATEGORY_ID +","
@@ -288,6 +288,7 @@ public class LoginDB extends SQLiteOpenHelper{
 		db.execSQL(sql_init);
 
 
+
 	}
 	
 	@Override
@@ -339,8 +340,6 @@ public class LoginDB extends SQLiteOpenHelper{
 		}
 		return -1;
 	}
-
-
 
 	public void updateLoginType(String type){
 		SQLiteDatabase db = this.getWritableDatabase();

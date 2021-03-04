@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/operation_area"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="账单详情"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/btn_record_edit"
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_gravity="clip_horizontal"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:paddingTop="0dp"
+            android:text="修改"
+            android:textSize="14dp" />
+
+        <Button
+            android:id="@+id/btn_record_del"
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_gravity="clip_horizontal"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:paddingTop="0dp"
+            android:text="删除"
+            android:textColor="@color/alert_03"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="金额" />
+
+        <TextView
+            android:id="@+id/tv_amounts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="-12345.67" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="分类" />
+
+        <TextView
+            android:id="@+id/tv_category_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="水电煤" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="时间" />
+
+        <TextView
+            android:id="@+id/tv_create_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="2021/03/04 15:16:17" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="备注" />
+
+        <TextView
+            android:id="@+id/tv_remark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="【期待！#中国已全面转入空间站在轨建造任务阶段#】据中国载人航天工程办公室，我国载人航天工程已全面转入空间站在轨建造任务阶段。今年将陆续实施空间站核心舱发射、货运补给、载人飞行等多次任务。根据安排，将于202" />
+    </LinearLayout>
+
+
+</LinearLayout>
