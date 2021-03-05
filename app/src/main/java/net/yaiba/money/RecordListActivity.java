@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -229,7 +230,55 @@ public class RecordListActivity extends Activity implements  AdapterView.OnItemC
         });
 
 
-
+        //右滑 切换到mainactive页面,,
+        //这个功能和列表滚动显示数据冲突，暂时注释了。
+//        final float[] mPosX = new float[1];
+//        final float[] mPosY = new float[1];
+//        final float[] mCurPosX = new float[1];
+//        final float[] mCurPosY = new float[1];
+//        RecordList = (ListView)findViewById(R.id.recordslist);
+//        RecordList.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//
+//                switch (event.getAction()) {
+//
+//                    case MotionEvent.ACTION_DOWN:
+//                        mPosX[0] = event.getX();
+//                        mPosY[0] = event.getY();
+//                        break;
+//                    case MotionEvent.ACTION_MOVE:
+//                        mCurPosX[0] = event.getX();
+//                        mCurPosY[0] = event.getY();
+//
+//                        break;
+//                    case MotionEvent.ACTION_UP:
+//                        float Y= mCurPosY[0] - mPosY[0];
+//                        float X= mCurPosX[0] - mPosX[0];
+//                        if(Math.abs(Y)>Math.abs(X)){
+//                            if(Y>0){
+//                                //slideDown(); //改成自己想要执行的代码
+//                            }else{
+//                                //slideUp();//改成自己想要执行的代码
+//                            }
+//                        }else{
+//                            if(X>0){
+//                                mainIntent = new Intent(RecordListActivity.this,MainActivity.class);
+//                                startActivity(mainIntent);
+//                                setResult(RESULT_OK, mainIntent);
+//                                overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+//                                finish();
+//                                //slideRight();//改成自己想要执行的代码
+//                            }else{
+//
+//                                //slideLeft();//改成自己想要执行的代码
+//                            }
+//                        }
+//                        break;
+//                }
+//                return true;
+//            }
+//        });
 
     }
 
