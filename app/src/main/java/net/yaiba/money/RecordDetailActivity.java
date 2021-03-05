@@ -136,7 +136,7 @@ public class RecordDetailActivity extends Activity {
 		CreateTimeText=(TextView)findViewById(R.id.create_time_text);
 		MemberNameText=(TextView)findViewById(R.id.member_name_text);
 
-		save_bn=(Button)findViewById(R.id.save_bn);
+		//save_bn=(Button)findViewById(R.id.save_bn);
 
 		mCursor = MoneyDB.getRecordInfo(RECORD_ID);
 

@@ -1,42 +1,38 @@
 package net.yaiba.money;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import net.yaiba.money.data.SpinnerData;
 import net.yaiba.money.db.MoneyDB;
-import net.yaiba.money.utils.DateTimePickDialog;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v7.widget.Toolbar;
 
 import static net.yaiba.money.utils.Custom.getNowDateWithTimes2;
 
 
-public class RecordAddActivity extends Activity {
+public class RecordAddActivity extends AppCompatActivity {
 	private MoneyDB MoneyDB;
 	private Cursor mCursor;
 	private ListView RecordList;
@@ -56,6 +52,10 @@ public class RecordAddActivity extends Activity {
 	private String initDateTime = getNowDateWithTimes2(); // 初始化开始时间
 
 	private static final int DECIMAL_DIGITS = 2;//小数的位数
+
+	private Toolbar toolbar;
+	private TabLayout tabLayout;
+	private ViewPager viewPager;
 	
 	
 	@Override
@@ -65,160 +65,169 @@ public class RecordAddActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.record_add_activity);
 
-		amounts_text=(EditText)findViewById(R.id.amounts_text);
-		//amounts_text.requestFocus();
-		//RecordAddActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
 
-		setPoint(amounts_text);
-		redord_type_spinner = (Spinner) findViewById(R.id.redord_type_spinner);
-		category_parent_spinner = (Spinner) findViewById(R.id.category_parent_spinner);
-		category_child_spinner = (Spinner) findViewById(R.id.category_child_spinner);
-		category_income_spinner = (Spinner) findViewById(R.id.category_income_spinner);
-		pay_type_spinner = (Spinner) findViewById(R.id.pay_type_spinner);
+		viewPager = (ViewPager) findViewById(R.id.viewpager);
+		setupViewPager(viewPager);
 
-		remark_text=(EditText)findViewById(R.id.remark_text);
-
-		create_time_text=(TextView)findViewById(R.id.create_time_text);
-		member_name_text=(TextView)findViewById(R.id.member_name_text);
-
-		save_bn=(Button)findViewById(R.id.save_bn);
+		tabLayout = (TabLayout) findViewById(R.id.tabs);
+		tabLayout.setupWithViewPager(viewPager);
+//
+//		amounts_text=(EditText)findViewById(R.id.amounts_text);
+//		//amounts_text.requestFocus();
+//		//RecordAddActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+//
+//		setPoint(amounts_text);
+//		redord_type_spinner = (Spinner) findViewById(R.id.redord_type_spinner);
+//		category_parent_spinner = (Spinner) findViewById(R.id.category_parent_spinner);
+//		category_child_spinner = (Spinner) findViewById(R.id.category_child_spinner);
+//		category_income_spinner = (Spinner) findViewById(R.id.category_income_spinner);
+//		pay_type_spinner = (Spinner) findViewById(R.id.pay_type_spinner);
+//
+//		remark_text=(EditText)findViewById(R.id.remark_text);
+//
+//		create_time_text=(TextView)findViewById(R.id.create_time_text);
+//		member_name_text=(TextView)findViewById(R.id.member_name_text);
+//
+//		save_bn=(Button)findViewById(R.id.save_bn);
 
 		setUpViews();
 
-		save_bn.setOnClickListener(new View.OnClickListener(){
-			public void  onClick(View v)
-			{
-				if(addRecord()){
-					Intent mainIntent = new Intent(RecordAddActivity.this,MainActivity.class);
-					startActivity(mainIntent);
-					overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
-					setResult(RESULT_OK, mainIntent);
-					finish();
-				}
-			}
-		});
+//		save_bn.setOnClickListener(new View.OnClickListener(){
+//			public void  onClick(View v)
+//			{
+//				if(addRecord()){
+//					Intent mainIntent = new Intent(RecordAddActivity.this,MainActivity.class);
+//					startActivity(mainIntent);
+//					overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+//					setResult(RESULT_OK, mainIntent);
+//					finish();
+//				}
+//			}
+//		});
 
 		//选择记录类型下拉列表时，item的选择点击监听事件
-		redord_type_spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()  {
-			@Override
-			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-				if("支出".equals(redord_type_spinner.getSelectedItem().toString())) {
-					category_parent_spinner.setVisibility(View.VISIBLE);
-					category_child_spinner.setVisibility(View.VISIBLE);
-					category_income_spinner.setVisibility(View.GONE);
-					amounts_text.setTextColor(Color.parseColor("#EE2428"));
-				} else {
-					category_parent_spinner.setVisibility(View.GONE);
-					category_child_spinner.setVisibility(View.GONE);
-					category_income_spinner.setVisibility(View.VISIBLE);
-					amounts_text.setTextColor(Color.parseColor("#228B22"));
-				}
-				Log.v("v_记录类型：",redord_type_spinner.getSelectedItem().toString());
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> adapterView) {
-
-			}
-
-        });
+//		redord_type_spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()  {
+//			@Override
+//			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//				if("支出".equals(redord_type_spinner.getSelectedItem().toString())) {
+//					category_parent_spinner.setVisibility(View.VISIBLE);
+//					category_child_spinner.setVisibility(View.VISIBLE);
+//					category_income_spinner.setVisibility(View.GONE);
+//					amounts_text.setTextColor(Color.parseColor("#EE2428"));
+//				} else {
+//					category_parent_spinner.setVisibility(View.GONE);
+//					category_child_spinner.setVisibility(View.GONE);
+//					category_income_spinner.setVisibility(View.VISIBLE);
+//					amounts_text.setTextColor(Color.parseColor("#228B22"));
+//				}
+//				Log.v("v_记录类型：",redord_type_spinner.getSelectedItem().toString());
+//			}
+//
+//			@Override
+//			public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//			}
+//
+//        });
 
 
 		//对于切换大类下拉列表，设置监听器，动态更新小分类下拉列表
-		category_parent_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-				Spinner cateS = (Spinner)findViewById(R.id.category_parent_spinner);
-				Cursor categoryCListCursor = MoneyDB.getCategoryCList(((SpinnerData)cateS.getSelectedItem()).getValue(),"id asc");
-				category_child_spinner = (Spinner) findViewById(R.id.category_child_spinner);
-				List<SpinnerData> categoryCListItem = new ArrayList<SpinnerData>();
-
-				for(categoryCListCursor.moveToFirst();!categoryCListCursor.isAfterLast();categoryCListCursor.moveToNext()) {
-					String cid = categoryCListCursor.getString(categoryCListCursor.getColumnIndex("id"));
-					String category_name = categoryCListCursor.getString(categoryCListCursor.getColumnIndex("category_name"));
-					HashMap<String, Object> map = new HashMap<String, Object>();
-					map.put("id", id);
-					map.put("category_name", category_name);
-					SpinnerData c = new SpinnerData(cid, category_name);
-					categoryCListItem.add(c);
-				}
-				ArrayAdapter<SpinnerData> AdapterCateC = new ArrayAdapter<SpinnerData>(RecordAddActivity.this, android.R.layout.simple_spinner_item, categoryCListItem);
-				AdapterCateC.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				category_child_spinner.setAdapter(AdapterCateC);
-
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+//		category_parent_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//			@Override
+//			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//				Spinner cateS = (Spinner)findViewById(R.id.category_parent_spinner);
+//				Cursor categoryCListCursor = MoneyDB.getCategoryCList(((SpinnerData)cateS.getSelectedItem()).getValue(),"id asc");
+//				category_child_spinner = (Spinner) findViewById(R.id.category_child_spinner);
+//				List<SpinnerData> categoryCListItem = new ArrayList<SpinnerData>();
+//
+//				for(categoryCListCursor.moveToFirst();!categoryCListCursor.isAfterLast();categoryCListCursor.moveToNext()) {
+//					String cid = categoryCListCursor.getString(categoryCListCursor.getColumnIndex("id"));
+//					String category_name = categoryCListCursor.getString(categoryCListCursor.getColumnIndex("category_name"));
+//					HashMap<String, Object> map = new HashMap<String, Object>();
+//					map.put("id", id);
+//					map.put("category_name", category_name);
+//					SpinnerData c = new SpinnerData(cid, category_name);
+//					categoryCListItem.add(c);
+//				}
+//				ArrayAdapter<SpinnerData> AdapterCateC = new ArrayAdapter<SpinnerData>(RecordAddActivity.this, android.R.layout.simple_spinner_item, categoryCListItem);
+//				AdapterCateC.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//				category_child_spinner.setAdapter(AdapterCateC);
+//
+//			}
+//
+//			@Override
+//			public void onNothingSelected(AdapterView<?> parent) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//		});
 
 
 
 		//日期时间初期值及点击的事件响应
-		create_time_text.setText(initDateTime);
-		create_time_text.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				DateTimePickDialog dateTimePicKDialog = new DateTimePickDialog(	RecordAddActivity.this, initDateTime);
-				dateTimePicKDialog.dateTimePicKDialog(create_time_text);
-
-			}
-		});
+//		create_time_text.setText(initDateTime);
+//		create_time_text.setOnClickListener(new View.OnClickListener() {
+//			public void onClick(View v) {
+//				DateTimePickDialog dateTimePicKDialog = new DateTimePickDialog(	RecordAddActivity.this, initDateTime);
+//				dateTimePicKDialog.dateTimePicKDialog(create_time_text);
+//
+//			}
+//		});
 
 
 		// 点击设置成员功能事件响应
-		member_name_text.setOnClickListener(new View.OnClickListener() {
-			@SuppressWarnings("deprecation")
-			public void onClick(View v) {
-
-				AlertDialog.Builder builder = new AlertDialog.Builder(RecordAddActivity.this);
-				builder.setTitle("成员选择");
-
-
-				Cursor menberNameListCursor  = MoneyDB.getMemberNameList("id asc");
-
-				final ArrayList<String>  strArray = new ArrayList<String> ();
-				for(menberNameListCursor.moveToFirst();!menberNameListCursor.isAfterLast();menberNameListCursor.moveToNext()) {
-
-					String id = menberNameListCursor.getString(menberNameListCursor.getColumnIndex("id"));
-					String member_name = menberNameListCursor.getString(menberNameListCursor.getColumnIndex("member_name"));
-
-					strArray.add(member_name);
-				}
-
-				final String[] items = (String[]) strArray.toArray(new String[0]);
-
-				String newMember = member_name_text.getText().toString();
-				int checkedItem = 0;
-				for (int i=0;i<strArray.size();i++){
-					if(newMember.equals(strArray.get(i))){
-						checkedItem = i;
-						break;
-					}
-				}
-
-				builder.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {//第二个参数是设置默认选中哪一项-1代表默认都不选
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-
-						member_name_text.setText(items[which]);
-
-					}
-				});
-
-				builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-
-					}
-				});
-
-				builder.create().show();;
-			}
-		});
+//		member_name_text.setOnClickListener(new View.OnClickListener() {
+//			@SuppressWarnings("deprecation")
+//			public void onClick(View v) {
+//
+//				AlertDialog.Builder builder = new AlertDialog.Builder(RecordAddActivity.this);
+//				builder.setTitle("成员选择");
+//
+//
+//				Cursor menberNameListCursor  = MoneyDB.getMemberNameList("id asc");
+//
+//				final ArrayList<String>  strArray = new ArrayList<String> ();
+//				for(menberNameListCursor.moveToFirst();!menberNameListCursor.isAfterLast();menberNameListCursor.moveToNext()) {
+//
+//					String id = menberNameListCursor.getString(menberNameListCursor.getColumnIndex("id"));
+//					String member_name = menberNameListCursor.getString(menberNameListCursor.getColumnIndex("member_name"));
+//
+//					strArray.add(member_name);
+//				}
+//
+//				final String[] items = (String[]) strArray.toArray(new String[0]);
+//
+//				String newMember = member_name_text.getText().toString();
+//				int checkedItem = 0;
+//				for (int i=0;i<strArray.size();i++){
+//					if(newMember.equals(strArray.get(i))){
+//						checkedItem = i;
+//						break;
+//					}
+//				}
+//
+//				builder.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {//第二个参数是设置默认选中哪一项-1代表默认都不选
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//
+//						member_name_text.setText(items[which]);
+//
+//					}
+//				});
+//
+//				builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//
+//					}
+//				});
+//
+//				builder.create().show();;
+//			}
+//		});
 
 
 
@@ -278,10 +287,10 @@ public class RecordAddActivity extends Activity {
 	
  	public void setUpViews(){
 
-		setCategoryCostSpinnerDate();
-		setCategoryIncomeSpinnerDate();
-		setPayTypeSpinnerDate();
-		setMemberSpinnerDate();
+//		setCategoryCostSpinnerDate();
+//		setCategoryIncomeSpinnerDate();
+//		setPayTypeSpinnerDate();
+//		setMemberSpinnerDate();
 	}
 
 
@@ -470,6 +479,40 @@ public class RecordAddActivity extends Activity {
 	}
 
 
+	private void setupViewPager(ViewPager viewPager) {
+		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+		adapter.addFragment(new RecordAddCostActivity(), "支出");
+		adapter.addFragment(new RecordAddIncomeActivity(), "收入");
+		viewPager.setAdapter(adapter);
+	}
 
+	class ViewPagerAdapter extends FragmentPagerAdapter {
+		private final List<Fragment> mFragmentList = new ArrayList<>();
+		private final List<String> mFragmentTitleList = new ArrayList<>();
+
+		public ViewPagerAdapter(FragmentManager manager) {
+			super(manager);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			return mFragmentList.get(position);
+		}
+
+		@Override
+		public int getCount() {
+			return mFragmentList.size();
+		}
+
+		public void addFragment(Fragment fragment, String title) {
+			mFragmentList.add(fragment);
+			mFragmentTitleList.add(title);
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			return mFragmentTitleList.get(position);
+		}
+	}
 
 }
